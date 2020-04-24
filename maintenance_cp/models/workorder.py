@@ -30,6 +30,11 @@ class WorkOrder(models.Model):
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
     end_hours = fields.Float(string="End Hours",  required=False, )
 
+    time_effectiveness = fields.Selection(string="Time Effectiveness",
+                                          selection=[('mild', 'Mild'), ('normal', 'Normal'), ('optimum', 'Optimum'),
+                                                     ], required=False, )
+    effectiveness = fields.Integer(string="Effectiveness %", required=False, )
+
     # El encargado de la orden de trabajo
     # Este campo sera llenado con el tecnico que tenga menos horas planeadas en sus ordenes de trabajo.
     # Si existe mas de un tecnico que cumple con la primera condicion se elige quien tenga mayor efectividad
@@ -107,6 +112,16 @@ class WorkOrder(models.Model):
         day = datetime.today()
 
         self.end_date = day.strftime('%Y-%m-%d')
+
+        if self.end_date > self.planned_end_date:
+            self.time_effectiveness = 'mild'
+            self.effectiveness = 25
+        elif self.end_date < self.planned_end_date:
+            self.time_effectiveness = 'optimum'
+            self.effectiveness = 100
+        else:
+            self.time_effectiveness = 'normal'
+            self.effectiveness = 150
 
         self.state = 'ended'
 
@@ -204,6 +219,10 @@ class DescriptionMaintenance(models.Model):
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
     end_hours = fields.Float(string="End Hours", required=False, )
 
+    time_effectiveness = fields.Selection(string="Time Effectiveness", selection=[('mild', 'Mild'), ('normal', 'Normal'), ('optimum', 'Optimum'),
+                                                   ], required=False, )
+    effectiveness = fields.Integer(string="Effectiveness %", required=False, )
+
     team_id = fields.Many2one(comodel_name="maintenance.cp.team",
                               string="Equipment Team", required=False, )
     specialist_id = fields.Many2one(comodel_name="hr.employee", string="Specialist",
@@ -260,6 +279,21 @@ class DescriptionMaintenance(models.Model):
         day = datetime.today()
 
         self.end_date = day.strftime('%Y-%m-%d')
+
+        if self.end_date > self.planned_end_date:
+            self.time_effectiveness = 'mild'
+            self.effectiveness = 25
+        elif self.end_date < self.planned_end_date:
+            self.time_effectiveness = 'optimum'
+            self.effectiveness = 150
+        else:
+            self.time_effectiveness = 'normal'
+            self.effectiveness = 100
+
+        task = self.workorder_id.description_ids.filtered(lambda r: r.state == 'prepared' or r.state == 'started')
+
+        if not task:
+            self.workorder_id.end_working()
 
         self.state = 'ended'
 
