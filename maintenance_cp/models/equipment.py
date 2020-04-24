@@ -54,7 +54,7 @@ class Equipment(models.Model):
 
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
                                    string="Category", required=False, )
-    location_id = fields.Many2one(comodel_name="stock.location", string="Location", required=False, )
+    location_id = fields.Many2one(comodel_name="stock.warehouse", string="Location", required=False, )
     importance = fields.Selection(string="Importance",
                              selection=[('0', 'General'),
                                         ('1', 'Important'),
