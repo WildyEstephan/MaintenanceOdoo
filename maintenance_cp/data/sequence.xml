@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="workorder_sequence_maintenance_cp" model="ir.sequence">
+
+        <field name="name">Work Order Sequence</field>
+
+        <field name="code">workorder.maintenance.cp</field>
+
+        <field name="prefix">WO</field>
+
+        <field name="suffix"></field>
+
+        <field name="padding">5</field>
+
+        <field name="number_increment">1</field>
+
+        </record>
+
+    </data>
+</odoo>

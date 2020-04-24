@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Inherit Form View to Modify it -->
+       <record id="view_account_asset_asset_form_inherit_maintenance_cp" model="ir.ui.view">
+           <field name="name">view_account_asset_asset_form_inherit_maintenance_cp</field>
+           <field name="model">account.asset.asset</field>
+           <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+           <field name="arch" type="xml">
+
+               <xpath expr="//field[@name='category_id']" position="after">
+                   <!-- Add your fields or attributes here -->
+                   <field name="equipment_id" readonly="1"/>
+               </xpath>
+
+           </field>
+       </record>
+
+    </data>
+</odoo>

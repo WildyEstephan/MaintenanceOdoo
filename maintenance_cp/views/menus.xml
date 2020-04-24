@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
+       <menuitem id="maintenance_equipment_cp_root"
+                 name="Maintenance" sequence="25"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="maintenance_corrective_categ"
+                  name="Requests"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="1"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="workorder_categ"
+                  name="Work Order"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="2"
+                  groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="maintenance_task_categ" name="Task"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="3"
+                  groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="equipment_cp_categ"
+                  name="Equipment"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="40"
+                  groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+        <!-- This Menu Item Must have a parent -->
+        <menuitem id="maintenance_equipment_cp_setting"
+                  name="Setting"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="50"
+                  groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+
+    </data>
+</odoo>

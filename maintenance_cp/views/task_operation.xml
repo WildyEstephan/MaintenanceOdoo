@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="maintenance_cp_type_workforce_form_view" model="ir.ui.view">
+           <field name="name">maintenance_cp_type_workforce_form_view</field>
+           <field name="model">maintenance.cp.type.workforce</field>
+           <field name="arch" type="xml">
+               <form string="Type of Workforce">
+                   <sheet>
+                       <h1><field name="name" placeholder="Type of Workforce"/></h1>
+                       <strong>Description</strong>
+                       <field name="description"/>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="maintenance_cp_type_workforce_tree_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_type_workforce_tree_view</field>
+            <field name="model">maintenance.cp.type.workforce</field>
+            <field name="arch" type="xml">
+                <tree string="Types of Workforce">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_type_workforce_action_view" model="ir.actions.act_window">
+            <field name="name">Type of Workforce</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.type.workforce</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_cp_type_workforce_categ" name="Type of Workforce" parent="maintenance_equipment_cp_setting" action="maintenance_cp_type_workforce_action_view" sequence="3"/>
+
+
+        <record id="maintenance_cp_tool_form_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_tool_form_view</field>
+            <field name="model">maintenance.cp.tool</field>
+            <field name="arch" type="xml">
+                <form string="Tool">
+
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="image_medium" widget="image" class="oe_avatar"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_tool_tree_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_tool_tree_view</field>
+            <field name="model">maintenance.cp.tool</field>
+            <field name="arch" type="xml">
+                <tree string="Tools">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_tool_action_view" model="ir.actions.act_window">
+            <field name="name">Tool</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.tool</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_cp_tool_categ" name="Tools" parent="equipment_cp_categ" action="maintenance_cp_tool_action_view" sequence="5"/>
+
+
+        <record id="maintenance_cp_task_form_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_task_form_view</field>
+            <field name="model">maintenance.cp.task</field>
+            <field name="arch" type="xml">
+                <form string="Task">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Name of Task"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="planned_end_hours"/>
+                            </group>
+                            <group>
+                                <field name="type_workforce_id"/>
+                            </group>
+                        </group>
+                        <separator string="Operations"/>
+                        <field name="operation_ids">
+                            <tree editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="name"/>
+                                <field name="tool_id"/>
+                                <field name="documentation_file" widget="binary" filename="name_file"/>
+                                <field name="file_name" invisible="1"/>
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_task_tree_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_task_tree_view</field>
+            <field name="model">maintenance.cp.task</field>
+            <field name="arch" type="xml">
+                <tree string="Tasks">
+                    <field name="name"/>
+                    <field name="type_workforce_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_task_action_view" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.task</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_cp_task_categ" name="Task" parent="maintenance_task_categ" action="maintenance_cp_task_action_view" sequence="1"/>
+
+
+
+    </data>
+</odoo>

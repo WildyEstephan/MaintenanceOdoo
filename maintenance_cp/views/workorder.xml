@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="workorder_form_view" model="ir.ui.view">
+           <field name="name">workorder_form_view</field>
+           <field name="model">maintenance.cp.workorder</field>
+           <field name="arch" type="xml">
+               <form string="Workorder">
+                   <header>
+                       <button name="send_request" string="Send" class="oe_highlight" states="request" type="object"/>
+                       <button name="approve_this" string="Approve" class="oe_highlight" states="send" type="object"/>
+                       <button name="start_working" string="Star Working" class="oe_highlight" states="approved" type="object"/>
+                       <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
+                       <button name="cancel_work" string="Cancel" states="send,approved,started,ended" type="object"/>
+                       <field name="state" widget="statusbar" statusbar_visible="request,send,approved,started,ended"/>
+                   </header>
+                   <sheet>
+                       <div class="oe_title">
+                           <h1>
+                               <field name="name" readonly="1" nolabel="1"/>
+                           </h1>
+                       </div>
+
+                       <group>
+
+                           <group string="Planning">
+                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="type_maintenance" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="planned_end_hours" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="planned_end_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
+                               <field name="section_ids" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
+                           </group>
+                           <group string="Management">
+                               <field name="need_breakdown" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="team_id" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="start_date" readonly="1" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="end_date" readonly="1" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                           </group>
+
+                       </group>
+
+                       <field name="description_problem" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
+                       <notebook groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                           <page string="Parts/Services Needed">
+                               <field name="parts_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
+                                   <tree editable="top">
+                                       <field name="product_id"/>
+                                       <field name="name"/>
+                                       <field name="product_qty"/>
+                                       <field name="state" readonly="1"/>
+                                   </tree>
+                               </field>
+
+                               <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
+                                   <tree editable="top">
+                                       <field name="product_id"/>
+                                       <field name="name"/>
+                                       <field name="estimated_cost"/>
+                                   </tree>
+                               </field>
+                           </page>
+                           <page string="Description Maintenance">
+                               <field name="description_ids">
+                                   <tree editable="bottom">
+                                       <field name="sequence" widget="handle"/>
+                                       <field name="type_workforce_id"/>
+                                       <field name="specialist_id"/>
+                                       <field name="task_id" colspan="2"/>
+                                       <button
+                                            name="view_operations" type="object" class="oe_stat_button" icon="fa-list-alt">
+                                            <span name="Operations">Operations</span>
+                                        </button>
+                                       <field name="planned_end_hours"/>
+                                       <field name="state" readonly="1"/>
+                                       <field name="user_id" invisible="1"/>
+                                       <field name="team_id" invisible="1"/>
+                                   </tree>
+                               </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+                   <div class="oe_chatter">
+                       <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="message_ids" widget="mail_thread"/>
+                   </div>
+               </form>
+           </field>
+       </record>
+
+        <record id="workorder_tree_view" model="ir.ui.view">
+            <field name="name">workorder_tree_view</field>
+            <field name="model">maintenance.cp.workorder</field>
+            <field name="arch" type="xml">
+                <tree string="Work Orders">
+                    <field name="name"/>
+                    <field name="create_uid" string="Requester"/>
+                    <field name="equipment_id"/>
+                    <field name="type_maintenance"/>
+                    <field name="planned_end_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="workorder_action_view" model="ir.actions.act_window">
+            <field name="name">Request of Maintenance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.workorder</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="workorder_action_categ" name="Request of Maintenance"
+                  parent="maintenance_corrective_categ"
+                  action="workorder_action_view" sequence="0"/>
+
+        <record id="workorder_action_view2" model="ir.actions.act_window">
+            <field name="name">Request of Maintenance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.workorder</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="workorder_categ2" name="Work Order"
+                  parent="workorder_categ"
+                  action="workorder_action_view2" sequence="1"/>
+
+        <record id="maintenance_cp_task_specialist_action_view" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.task</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_description_task_form_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_description_task_form_view</field>
+            <field name="model">maintenance.cp.description.task</field>
+            <field name="arch" type="xml">
+                <form string="Task for Specialist" edit="false">
+                    <header>
+                        <button name="start_working" string="Star Working" class="oe_highlight" states="prepared" type="object"/>
+                        <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
+                        <field name="state" widget="statusbar" statusbar_visible="prepared,started,ended"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="expense_button_box">
+                                <button
+                                    name="view_operations" type="object" class="oe_stat_button" icon="fa-list-alt">
+                                    <span name="Operations" widget="statinfo" string="Operations">Operations</span>
+                                </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <field name="specialist_id" invisible="1"/>
+                        <field name="user_id" invisible="1"/>
+                        <group>
+                           <group>
+                               <field name="type_workforce_id" readonly="1"/>
+                               <field name="task_id" readonly="1"/>
+                               <field name="planned_end_hours" readonly="1"/>
+                               <field name="planned_end_date" readonly="1"/>
+                           </group>
+                           <group>
+                               <field name="workorder_id" readonly="1"/>
+                               <field name="start_date" readonly="1"/>
+                               <field name="end_date" readonly="1"/>
+                           </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_description_task_tree_view" model="ir.ui.view">
+            <field name="name">maintenance_cp_description_task_tree_view</field>
+            <field name="model">maintenance.cp.description.task</field>
+            <field name="arch" type="xml">
+                <tree string="Tasks for Specialist">
+                    <field name="name"/>
+                    <field name="specialist_id"/>
+                    <field name="state"/>
+                    <field name="type_workforce_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_description_task_action_byspecialist_view" model="ir.actions.act_window">
+            <field name="name">Description Task for Specialist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.description.task</field>
+            <field name="domain">[('user_id', '=', uid)]</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_description_task_action_all_view" model="ir.actions.act_window">
+            <field name="name">All Description Task</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.description.task</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="description_task_byspecialist_categ" name="Description Task for Specialist" parent="workorder_categ" action="maintenance_cp_description_task_action_byspecialist_view" sequence="2"/>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="description_task_all_categ" name="All Description Task" parent="workorder_categ" action="maintenance_cp_description_task_action_all_view" sequence="3"/>
+
+    </data>
+</odoo>
