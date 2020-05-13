@@ -23,10 +23,10 @@
 
     # always loaded
     'data': [
+        'data/groups_security.xml',
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/ir_cron.xml',
-        'data/groups_security.xml',
         'views/menus.xml',
         'views/asset.xml',
         'views/task_operation.xml',
