@@ -20,17 +20,31 @@
                   groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
         <!-- This Menu Item Must have a parent -->
+        <menuitem id="planning_categ"
+                  name="Planning"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="3"
+                  groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+        <!-- This Menu Item Must have a parent -->
         <menuitem id="maintenance_task_categ" name="Task"
                   parent="maintenance_equipment_cp_root"
                   sequence="3"
                   groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
         <!-- This Menu Item Must have a parent -->
+        <menuitem id="reporting_categ"
+                  name="Reporting"
+                  parent="maintenance_equipment_cp_root"
+                  sequence="10"
+                  groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+        <!-- This Menu Item Must have a parent -->
         <menuitem id="equipment_cp_categ"
                   name="Equipment"
                   parent="maintenance_equipment_cp_root"
                   sequence="40"
-                  groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                  groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
         <!-- This Menu Item Must have a parent -->
         <menuitem id="maintenance_equipment_cp_setting"

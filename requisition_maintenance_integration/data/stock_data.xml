@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="stock_location_maintenance_cp" model="stock.location">
+            <field name="name">Maintenance</field>
+            <field name="location_id" ref="stock.stock_location_locations_virtual"/>
+            <field name="usage">internal</field>
+            <field name="company_id"></field>
+        </record>
+
+    </data>
+</odoo>

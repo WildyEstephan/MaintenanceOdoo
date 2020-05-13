@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="requisition_aplication" name="Requisición"  web_icon="requisition,static/description/icon.png" sequence="1"/>
+    <menuitem id="menu_requisition1" name="Requisiciones" parent="requisition_aplication" sequence="2"/>
+    <menuitem id="menu_requisition2" name="Configuración" parent="requisition_aplication" sequence="3"/>
+    <!--<menuitem id="sub_menu_contrato4" name="Reporte" parent="contratos_menu" sequence="4"/>
+    <menuitem id="sub_menu_contrato5" name="Ayuda" parent="contratos_menu" sequence="5"/>  -->
+</odoo>

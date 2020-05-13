@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="maintenance_cp_reporting_pivot" model="ir.ui.view">
+             <field name="name">maintenance.cp.description.task</field>
+             <field name="model">maintenance.cp.description.task</field>
+             <field name="arch" type="xml">
+                 <pivot string="Tasks Reporting">
+                    <field name="specialist_id" type="row"/>
+                    <field name="task_id" type="row"/>
+                    <field name="team_id" type="row"/>
+                    <field name="workorder_id" type="row"/>
+                    <!--<field name="planned_end_date:day" type="row"/>-->
+                    <!--<field name="start_date:day" type="row"/>-->
+                    <!--<field name="end_date:day" type="row"/>-->
+                    <field name="name" type="col"/>
+                     <!--<field name="equipment_id" type="col"/>-->
+                    <!--<field name="type_maintenance" type="col"/>-->
+                    <field name="type_workforce_id" type="col"/>
+                     <field name="time_effectiveness" type="col"/>
+                     <field name="effectiveness" type="col"/>
+                     <field name="end_hours" type="col"/>
+                     <field name="workforce_cost" type="col"/>
+                     <field name="workforce_cost_total" type="col"/>
+                     <!--<field name="planned_end_hours" type="end_hours"/>-->
+                     <field name="state" type="col"/>
+                 </pivot>
+             </field>
+        </record>
+
+        <record id="maintenance_cp_reporting_action" model="ir.actions.act_window">
+            <field name="name">Tasks Reporting</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.description.task</field>
+            <field name="view_mode">pivot</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_cp_reporting_categ" name="Tasks reporting" parent="reporting_categ"
+                  action="maintenance_cp_reporting_action" sequence="1" />
+
+    </data>
+</odoo>

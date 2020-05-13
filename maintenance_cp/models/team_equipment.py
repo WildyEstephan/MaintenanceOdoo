@@ -11,6 +11,8 @@ class Employee(models.Model):
     # For Add this employee to a team by domain.
     # If It's checked It will appear in list for teams
     is_specialist = fields.Boolean(string="Specialist", )
+    task_ids = fields.One2many(comodel_name="maintenance.cp.description.task", inverse_name="specialist_id",
+                                    string="Tasks", required=False, )
 
 
 # This model will help to management the employees

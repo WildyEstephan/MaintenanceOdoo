@@ -30,6 +30,26 @@ class EquipmentCategory(models.Model):
     team_id = fields.Many2one(comodel_name="maintenance.cp.team",
                               string="Equipment Team", required=True, )
 
+class Location(models.Model):
+    _name = 'maintenance.cp.equipment.location'
+    _rec_name = 'name'
+    _description = 'Location Of Equipment'
+
+    name = fields.Char(string="Name", required=True, index=True)
+    ref = fields.Char(string='Internal Reference', index=True)
+    active = fields.Boolean(default=True)
+    street = fields.Char(string="Street", required=False, )
+    street2 = fields.Char(string="Street 2", required=False, )
+    zip = fields.Char(string="Zip", required=False, )
+    city = fields.Char(string="City", required=False, )
+    state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict')
+    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 string="Company",
+                                 required=False,
+                                 default=lambda self: self.env.user.company_id.id)
+
+
 # Crear equipos conectados con activos
 class Equipment(models.Model):
     _name = 'maintenance.cp.equipment'
@@ -54,7 +74,7 @@ class Equipment(models.Model):
 
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
                                    string="Category", required=False, )
-    location_id = fields.Many2one(comodel_name="stock.warehouse", string="Location", required=False, )
+    location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location", string="Location", required=False, )
     importance = fields.Selection(string="Importance",
                              selection=[('0', 'General'),
                                         ('1', 'Important'),
@@ -94,6 +114,29 @@ class Equipment(models.Model):
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+    workorder_ids = fields.One2many(comodel_name="maintenance.cp.workorder",
+                                    inverse_name="equipment_id", string="Work Orders", required=False, )
+    workorder_count = fields.Integer(string="Receptions Count", compute='_compute_workorder_count', )
+
+    planning_ids = fields.One2many(comodel_name="maintenance.planning",
+                                    inverse_name="equipment_id", string="Maintenances", required=False, )
+    planning_count = fields.Integer(string="Receptions Count", compute='_compute_planning_count', )
+
+    @api.one
+    @api.depends('workorder_count')
+    def _compute_workorder_count(self):
+        """
+        @api.depends() should contain all fields that will be used in the calculations.
+        """
+        self.workorder_count = len(self.workorder_ids)
+
+    @api.one
+    @api.depends('planning_count')
+    def _compute_planning_count(self):
+        """
+        @api.depends() should contain all fields that will be used in the calculations.
+        """
+        self.planning_count = len(self.planning_ids)
 
 
     @api.onchange('asset_id')

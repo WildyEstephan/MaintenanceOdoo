@@ -1,11 +1,11 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
 from datetime import datetime, timedelta
+from odoo import exceptions, _
 
 class WorkOrder(models.Model):
     _name = 'maintenance.cp.workorder'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'name'
     _description = 'Equipment Work Order'
 
     name = fields.Char(string="Sequence", required=False, )
@@ -39,7 +39,7 @@ class WorkOrder(models.Model):
     # Este campo sera llenado con el tecnico que tenga menos horas planeadas en sus ordenes de trabajo.
     # Si existe mas de un tecnico que cumple con la primera condicion se elige quien tenga mayor efectividad
     # de entrega a tiempo
-    specialist_id = fields.Many2one(comodel_name="hr.employee", string="Specialist", required=False, )
+    specialist_id = fields.Many2one(comodel_name="hr.employee", string="Responsable", required=False, )
 
     # Especificar la seccion o secciones a dar mantenimiento
     # Esto ayudar a identificar las partes a trabajar
@@ -73,6 +73,8 @@ class WorkOrder(models.Model):
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
 
+    # planning_id = fields.Many2one(comodel_name="maintenance.planning", string="Planning", required=False, )
+
     def add_followers(self):
 
         list_followers = [self.specialist_id.id, self.team_id.supervisor_id.id, self.team_id.manager_id.id]
@@ -97,6 +99,9 @@ class WorkOrder(models.Model):
         self.state = 'approved'
 
     def start_working(self):
+
+        if not self.description_ids:
+            raise exceptions.UserError(_('You Has Not Description Of Maintenance'))
 
         day = datetime.today()
 
@@ -166,6 +171,8 @@ class PlannedParts(models.Model):
                                         ('available', 'Available'),
                                         ],
                              required=False, )
+    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True,
+                                domain=[('supplier', '=', True)])
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
@@ -182,6 +189,7 @@ class Service(models.Model):
                                  required=True, domain="[('is_workforce', '=', 'True')]")
     estimated_cost = fields.Float(string='Estimated Cost', required=True,
                                   digits=dp.get_precision('Product Price'))
+    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True, domain=[('supplier', '=', True)])
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
@@ -195,11 +203,11 @@ class DescriptionMaintenance(models.Model):
 
     sequence = fields.Integer(string="Sequence", required=False, )
 
-    name = fields.Char(string="Name", required=False, related='task_id.name')
+    name = fields.Char(string="Name", required=False, related='task_id.name', store=True)
     description = fields.Char(string="Description", required=False, )
 
     type_workforce_id = fields.Many2one(comodel_name="maintenance.cp.type.workforce",
-                                        string="Type of Workforce", required=True, )
+                                        string="Type of Workforce", required=True, store=True)
     state = fields.Selection(string="Status",
                              selection=[
                                         ('prepared', 'Prepared'),
@@ -209,9 +217,9 @@ class DescriptionMaintenance(models.Model):
                                         ],
                              required=False, default="prepared")
     task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True,
-                              domain="[('type_workforce_id', '=', type_workforce_id)]")
+                              domain="[('type_workforce_id', '=', type_workforce_id)]", store=True)
 
-    workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder", string="Work Order", required=False, )
+    workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder", string="Work Order", required=False, store=True)
 
     start_date = fields.Datetime(string="Start Date", required=False, )
     end_date = fields.Datetime(string="End Date", required=False, )
@@ -224,15 +232,37 @@ class DescriptionMaintenance(models.Model):
     effectiveness = fields.Integer(string="Effectiveness %", required=False, )
 
     team_id = fields.Many2one(comodel_name="maintenance.cp.team",
-                              string="Equipment Team", required=False, )
+                              string="Equipment Team", required=False, store=True)
     specialist_id = fields.Many2one(comodel_name="hr.employee", string="Specialist",
-                                    required=True, domain="[('type_workforce_id', '=', type_workforce_id)]")
-    user_id = fields.Many2one(comodel_name="res.users", string="User", required=False,)
+                                    required=False, domain="[('type_workforce_id', '=', type_workforce_id)]", store=True)
+    user_id = fields.Many2one(comodel_name="res.users", string="User", required=False, )
 
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+    workforce_cost = fields.Float(string="Workforce Cost",  required=False, compute='', store=True)
+    workforce_cost_total = fields.Float(string="Workforce Cost Total",  required=False,
+                                        compute='_compute_workforce_cost_total', store=True)
+
+    @api.one
+    @api.depends('specialist_id')
+    def _compute_workforce_cost(self):
+        """
+        @api.depends() should contain all fields that will be used in the calculations.
+        """
+        contract = self.specialist_id.contract_id
+
+        horas = 30 * 60
+        self.workforce_cost = contract.wage/horas
+
+    @api.one
+    @api.depends('workforce_cost', 'end_hours')
+    def _compute_workforce_cost_total(self):
+        """
+        @api.depends() should contain all fields that will be used in the calculations.
+        """
+        self.workforce_cost_total = self.workforce_cost * self.end_hours
 
     @api.model
     def create(self, values):
@@ -241,8 +271,10 @@ class DescriptionMaintenance(models.Model):
 
         ID.add_followers()
 
-        ID.user_id = ID.specialist_id.user_id
-        ID.team_id = ID.specialist_id.team_id
+        if ID.specialist_id:
+
+            ID.user_id = ID.specialist_id.user_id
+            ID.team_id = ID.specialist_id.team_id
 
         return ID
 

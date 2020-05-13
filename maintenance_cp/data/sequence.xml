@@ -18,5 +18,22 @@
 
         </record>
 
+
+        <record id="planning_sequence_maintenance" model="ir.sequence">
+
+        <field name="name">Planning Sequence</field>
+
+        <field name="code">workorder.planning</field>
+
+        <field name="prefix">WP</field>
+
+        <field name="suffix"></field>
+
+        <field name="padding">5</field>
+
+        <field name="number_increment">1</field>
+
+        </record>
+
     </data>
 </odoo>

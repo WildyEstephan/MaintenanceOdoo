@@ -11,7 +11,7 @@ class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     # Check para saber si es una parte de equipo
-    is_part = fields.Boolean(string="Is a Part", )
+    is_part = fields.Boolean(string="Maintenance Consumable", )
 
     # Check para saber si es una mano de obra
     is_workforce = fields.Boolean(string="Is Workforce",  )

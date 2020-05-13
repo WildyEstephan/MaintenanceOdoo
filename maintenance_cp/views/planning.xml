@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <record id="planning_form_view" model="ir.ui.view">
+           <field name="name">planning_form_view</field>
+           <field name="model">maintenance.planning</field>
+           <field name="arch" type="xml">
+               <form string="Planning">
+                   <header>
+                       <button name="approve_this" string="Approve" class="oe_highlight" states="draft" type="object"/>
+                       <button name="execute_maintenance" string="Execute Planning" class="oe_highlight" states="approved,started,ended" type="object"/>
+                       <button name="cancel_work" string="Cancel" states="approved,started,ended" type="object"/>
+                       <field name="state" widget="statusbar" statusbar_visible="draft,approved,started,ended"/>
+                   </header>
+                   <sheet>
+                       <div class="oe_title">
+                           <h1>
+                               <field name="name" readonly="1" nolabel="1"/>
+                           </h1>
+                       </div>
+
+                       <group>
+
+                           <group string="Planning">
+                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                               <field name="planned_end_hours" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="frequency_exe" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="frequency_time" nolabel="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="section_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
+                           </group>
+                           <group string="Management">
+                               <field name="need_breakdown" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="team_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="start_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="end_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                           </group>
+
+                       </group>
+
+                       <field name="description_maintenance" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                       <notebook groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                           <page string="Parts/Services Needed">
+                               <field name="parts_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
+                                   <tree editable="top">
+                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="name"/>
+                                       <field name="product_qty"/>
+                                       <field name="vendor_id"/>
+                                   </tree>
+                               </field>
+
+                               <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
+                                   <tree editable="top">
+                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="name"/>
+                                       <field name="estimated_cost"/>
+                                       <field name="vendor_id"/>
+                                   </tree>
+                               </field>
+                           </page>
+                           <page string="Tasks" name="tasks">
+                                   <field name="task_ids">
+                                       <tree editable="top">
+                                           <field name="task_id"/>
+                                           <field name="description"/>
+                                           <field name="hours"/>
+                                       </tree>
+                                   </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+                   <div class="oe_chatter">
+                       <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="message_ids" widget="mail_thread"/>
+                   </div>
+               </form>
+           </field>
+       </record>
+
+        <record id="planning_tree_view" model="ir.ui.view">
+            <field name="name">planning_tree_view</field>
+            <field name="model">maintenance.planning</field>
+            <field name="arch" type="xml">
+                <tree string="Planning">
+                    <field name="name"/>
+                    <field name="create_uid" string="Responsable"/>
+                    <field name="equipment_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="planning_action_view" model="ir.actions.act_window">
+            <field name="name">Planning</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.planning</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="planning_action_categ" name="Planning"
+                  parent="planning_categ"
+                  action="planning_action_view" sequence="0"/>
+
+    </data>
+</odoo>

@@ -2,6 +2,81 @@
 <odoo>
     <data>
 
+        <record model="ir.actions.act_window" id="action_workorder_equipment_tree">
+            <field name="context">{"default_equipment_id_id":active_id}</field>
+            <field name="domain">[('equipment_id','=',active_id)]</field>
+            <field name="name">Work Order</field>
+            <field name="res_model">maintenance.cp.workorder</field>
+            <!--<field name="view_id" ref="purchase_order_line_tree"/>-->
+        </record>
+
+        <record model="ir.actions.act_window" id="action_planning_equipment_tree">
+            <field name="context">{"default_equipment_id_id":active_id}</field>
+            <field name="domain">[('equipment_id','=',active_id)]</field>
+            <field name="name">Planning</field>
+            <field name="res_model">maintenance.planning</field>
+            <!--<field name="view_id" ref="purchase_order_line_tree"/>-->
+        </record>
+
+
+        <record id="maintenance_cp_equipment_location_view_form" model="ir.ui.view">
+            <field name="name">maintenance_cp_equipment_location_view_form</field>
+            <field name="model">maintenance.cp.equipment.location</field>
+            <field name="arch" type="xml">
+                <form string="Location">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>
+                                </div>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_equipment_location_view_tree" model="ir.ui.view">
+            <field name="name">maintenance_cp_equipment_location_view_tree</field>
+            <field name="model">maintenance.cp.equipment.location</field>
+            <field name="arch" type="xml">
+                <tree string="Locations">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_equipment_location_view_action" model="ir.actions.act_window">
+            <field name="name">Location</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.equipment.location</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_cp_equipment_location_categ" name="Location" parent="maintenance_equipment_cp_setting"
+                  action="maintenance_cp_equipment_location_view_action" sequence="6"/>
+
+
        <record id="equipment_category_form_view" model="ir.ui.view">
            <field name="name">equipment_category_form_view</field>
            <field name="model">maintenance.cp.equipment.category</field>
@@ -56,6 +131,22 @@
             <field name="arch" type="xml">
                 <form string="Equipment">
                     <sheet>
+                        <div class="oe_button_box" name="equipment_button_box">
+                            <button name="%(maintenance_cp.action_workorder_equipment_tree)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                                    <field string="Work Order" name="workorder_count" widget="statinfo"/>
+                            </button>
+                            <button name="%(maintenance_cp.action_planning_equipment_tree)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-truck"
+                                    groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                                    <field string="Planning" name="planning_count" widget="statinfo" />
+                            </button>
+                        </div>
                         <field name="image_medium" widget="image" class="oe_avatar"/>
                         <div class="oe_title">
                             <label class="oe_edit_only" for="name" string="Equipment Name"/>

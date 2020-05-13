@@ -16,6 +16,9 @@
                        <field name="state" widget="statusbar" statusbar_visible="request,send,approved,started,ended"/>
                    </header>
                    <sheet>
+                       <div class="oe_button_box" name="workorder_button_box">
+
+                        </div>
                        <div class="oe_title">
                            <h1>
                                <field name="name" readonly="1" nolabel="1"/>
@@ -25,20 +28,22 @@
                        <group>
 
                            <group string="Planning">
-                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                <field name="type_maintenance" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_hours" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
                                <field name="time_effectiveness" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
-                               <field name="section_ids" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
+                               <field name="section_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
                            </group>
                            <group string="Management">
                                <field name="need_breakdown" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
-                               <field name="team_id" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
-                               <field name="start_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="team_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="start_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician"/>
+                               <field name="start_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="effectiveness" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
+                               <!--<field name="planning_id" attrs="{'readonly':[('type_maintenance', '=', 'preventive')]}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>-->
                            </group>
 
                        </group>
@@ -48,17 +53,19 @@
                            <page string="Parts/Services Needed">
                                <field name="parts_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
                                    <tree editable="top">
-                                       <field name="product_id"/>
+                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="name"/>
                                        <field name="product_qty"/>
+                                       <field name="vendor_id"/>
                                        <field name="state" readonly="1"/>
                                    </tree>
                                </field>
 
                                <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
                                    <tree editable="top">
-                                       <field name="product_id"/>
+                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="name"/>
+                                       <field name="vendor_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="estimated_cost"/>
                                    </tree>
                                </field>
@@ -67,9 +74,9 @@
                                <field name="description_ids">
                                    <tree editable="bottom">
                                        <field name="sequence" widget="handle"/>
-                                       <field name="type_workforce_id"/>
-                                       <field name="specialist_id"/>
-                                       <field name="task_id" colspan="2"/>
+                                       <field name="type_workforce_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="specialist_id" required="1" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="task_id" colspan="2" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <button
                                             name="view_operations" type="object" class="oe_stat_button" icon="fa-list-alt">
                                             <span name="Operations">Operations</span>
@@ -190,12 +197,14 @@
                                <field name="planned_end_hours" readonly="1"/>
                                <field name="planned_end_date" readonly="1"/>
                                <field name="time_effectiveness" readonly="1"/>
+                               <field name="workforce_cost" readonly="1"/>
                            </group>
                            <group>
                                <field name="workorder_id" readonly="1"/>
                                <field name="start_date" readonly="1"/>
                                <field name="end_date" readonly="1"/>
                                <field name="effectiveness" readonly="1"/>
+                               <field name="workforce_cost_total" readonly="1"/>
                            </group>
                         </group>
                     </sheet>
@@ -250,10 +259,14 @@
         </record>
 
         <!-- This Menu Item must have a parent and an action -->
-        <menuitem id="description_task_byspecialist_categ" name="Description Task for Specialist" parent="workorder_categ" action="maintenance_cp_description_task_action_byspecialist_view" sequence="2"/>
+        <menuitem id="description_task_byspecialist_categ" name="Description Task for Specialist"
+                  parent="workorder_categ" action="maintenance_cp_description_task_action_byspecialist_view"
+                  sequence="2" groups="maintenance_cp.maintenance_cp_technician"/>
 
         <!-- This Menu Item must have a parent and an action -->
-        <menuitem id="description_task_all_categ" name="All Description Task" parent="workorder_categ" action="maintenance_cp_description_task_action_all_view" sequence="3"/>
+        <menuitem id="description_task_all_categ" name="All Description Task"
+                  parent="workorder_categ" action="maintenance_cp_description_task_action_all_view"
+                  sequence="3" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
     </data>
 </odoo>

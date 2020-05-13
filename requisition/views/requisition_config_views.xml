@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="period_requisition_tree_view" >
+		<field name="name">period.requisition.tree</field>
+		<field name="model">period.requisition</field>
+		<field name="arch" type="xml">
+			<tree string="Periodos" import="false" >
+				<field name="name" />
+				<field name="time_days" />
+
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="period_requisition_form_view" >
+		<field name="name">period.requisition.form</field>
+		<field name="model">period.requisition</field>
+		<field name="arch" type="xml">
+			<form string="Periodos" >
+
+				<sheet>
+                    <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Nombre" required='1'/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="time_days" required="1"/>
+                    </group>
+                </sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="activity_ids" widget="mail_activity"/>
+					<field name="message_ids" widget="mail_thread"/>
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_period_requisition_view" model="ir.actions.act_window">
+		<field name="name">Periodos</field>
+		<field name="res_model">period.requisition</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="action_period_requisition_form" model="ir.actions.act_window.view">
+		<field eval="20" name="sequence"/>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="period_requisition_form_view"/>
+		<field name="act_window_id" ref="action_period_requisition_view"/>
+	</record>
+
+	<record id="action_period_requisition_tree" model="ir.actions.act_window.view">
+		<field eval="1" name="sequence"/>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="period_requisition_tree_view"/>
+		<field name="act_window_id" ref="action_period_requisition_view"/>
+	</record>
+
+	<menuitem id="menu_period_requisition" name="Periodos"  action ="action_period_requisition_view" parent="menu_requisition2" sequence="1"/>
+
+
+    <record model="ir.ui.view" id="types_requisition_tree_view" >
+		<field name="name">types.requisition.tree</field>
+		<field name="model">types.requisition</field>
+		<field name="arch" type="xml">
+			<tree string="Periodos" import="false" >
+				<field name="name" />
+				<field name="period_requisition_id" />
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="types_requisition_form_view" >
+		<field name="name">types.requisition.form</field>
+		<field name="model">types.requisition</field>
+		<field name="arch" type="xml">
+			<form string="Periodos" >
+				<sheet>
+                    <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Nombre" required='1'/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="period_requisition_id" required="1"/>
+                        <field name="company_ids" widget="many2many_tags"/>
+
+                    </group>
+                </sheet>
+				<div class="oe_chatter">
+					<field name="message_follower_ids" widget="mail_followers"/>
+					<field name="activity_ids" widget="mail_activity"/>
+					<field name="message_ids" widget="mail_thread"/>
+				</div>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_types_requisition_view" model="ir.actions.act_window">
+		<field name="name">Tipos</field>
+		<field name="res_model">types.requisition</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+
+	<record id="action_types_requisition_form" model="ir.actions.act_window.view">
+		<field eval="20" name="sequence"/>
+		<field name="view_mode">form</field>
+		<field name="view_id" ref="types_requisition_form_view"/>
+		<field name="act_window_id" ref="action_types_requisition_view"/>
+	</record>
+
+	<record id="action_types_requisition_tree" model="ir.actions.act_window.view">
+		<field eval="1" name="sequence"/>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="types_requisition_tree_view"/>
+		<field name="act_window_id" ref="action_types_requisition_view"/>
+	</record>
+
+	<menuitem id="menu_types_requisition" name="Tipos de Requisición"  action ="action_types_requisition_view" parent="menu_requisition2" sequence="2"/>
+
+
+	<record model="ir.ui.view" id="budget_requisition_tree_view" >
+		<field name="name">budget.requisition.tree</field>
+		<field name="model">budget.requisition</field>
+		<field name="arch" type="xml">
+			<tree string="Presupuestos" import="false" editable="bottom" create="false">
+				<field name="name" readonly="1"/>
+				<field name="budget"/>
+				<field name="company_id"/>
+				<field name="active" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="action_budget_requisition_view" model="ir.actions.act_window">
+		<field name="name">Presupuestos</field>
+		<field name="res_model">budget.requisition</field>
+		<field name="view_type">form</field>
+		<field name="view_mode">tree</field>
+		<field name="view_id" ref="budget_requisition_tree_view"/>
+	</record>
+
+	<menuitem id="menu_budget_requisition" name="Presupuestos"  action ="action_budget_requisition_view" parent="menu_requisition2" sequence="3"/>
+
+</odoo>
