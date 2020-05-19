@@ -9,6 +9,7 @@
                <form string="Workorder">
                    <header>
                        <button name="send_request" string="Send" class="oe_highlight" states="request" type="object"/>
+                       <button name="check_task_parts" string="Check Tasks" class="oe_highlight" states="send" type="object"/>
                        <button name="approve_this" string="Approve" class="oe_highlight" states="send" type="object"/>
                        <button name="start_working" string="Star Working" class="oe_highlight" states="approved" type="object"/>
                        <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
@@ -30,7 +31,7 @@
                            <group string="Planning">
                                <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                <field name="type_maintenance" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
-                               <field name="planned_end_hours" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="planned_end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
                                <field name="time_effectiveness" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="section_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
@@ -56,7 +57,7 @@
                                        <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="name"/>
                                        <field name="product_qty"/>
-                                       <field name="vendor_id"/>
+                                       <field name="vendor_id"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="state" readonly="1"/>
                                    </tree>
                                </field>
@@ -81,7 +82,7 @@
                                             name="view_operations" type="object" class="oe_stat_button" icon="fa-list-alt">
                                             <span name="Operations">Operations</span>
                                         </button>
-                                       <field name="planned_end_hours"/>
+                                       <field name="planned_end_hours" readonly="1"/>
                                        <field name="state" readonly="1"/>
                                        <field name="user_id" invisible="1"/>
                                        <field name="team_id" invisible="1"/>

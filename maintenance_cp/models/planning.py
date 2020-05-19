@@ -23,7 +23,7 @@ class Planning(models.Model):
     # Con este calculo se llena el campo end_hours
     start_date = fields.Datetime(string="Start Planning Date", required=True, )
     end_date = fields.Datetime(string="End Planning Date", required=False, )
-    planned_end_hours = fields.Float(string="Planned End Hours", required=True, )
+    planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
 
     frequency_exe = fields.Integer(string="Frequency Of Execution", required=True, )
     frequency_time = fields.Selection(string="Frequency Time",
@@ -66,6 +66,19 @@ class Planning(models.Model):
     task_ids = fields.One2many(comodel_name="maintenance.planning.task", inverse_name="planning_id", string="Tasks", required=False, )
 
     # workorder_ids = fields.One2many(comodel_name="maintenance.cp.workorder", inverse_name="planning_id", string="Work Orders", required=False, )
+
+    @api.one
+    @api.depends('task_ids')
+    def _compute_planned_end_hours(self):
+        """
+        @api.depends() should contain all fields that will be used in the calculations.
+        """
+        total = 0.0
+
+        for task in self.task_ids:
+            total = total + task.hours
+
+        self.planned_end_hours = total
 
     @api.model
     def update_maintenance_date(self):
@@ -165,7 +178,7 @@ class Planning(models.Model):
                 'type_maintenance': 'preventive',
                 'description_problem': "Maintenance Preventive",
                 'need_breakdown': self.need_breakdown,
-                'planned_end_hours': self.planned_end_hours,
+                # 'planned_end_hours': self.planned_end_hours,
                 'state': 'send',
                 'planning_id': self.id
             }
@@ -232,7 +245,7 @@ class Planning(models.Model):
         # state
         # description_ids
 
-            self.state = 'started'
+            self.sudo().write({'state': 'started'})
 
     @api.model
     def create(self, values):
@@ -257,8 +270,14 @@ class PlanningTask(models.Model):
                                    string="Planning", required=False, )
 
     task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True, )
-    hours = fields.Float(string="Hours Planned",  required=True, )
+    hours = fields.Float(string="Hours Planned",  required=False, )
     description = fields.Char(string="Description", required=False, )
+
+    @api.onchange('task_id')
+    def _onchange_task_id(self):
+        for record in self:
+            record.hours = self.task_id.planned_end_hours
+
 
 
 class PlannedParts(models.Model):

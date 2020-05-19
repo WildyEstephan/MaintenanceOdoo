@@ -44,6 +44,11 @@ class WorkOrder(models.Model):
 
         self.state ='approved'
 
+        if self.is_checked:
+            pass
+        else:
+            self.check_task_parts()
+
         self.parts_ids.sudo().check_qty_available()
 
         self.sudo().create_picking()
@@ -175,10 +180,13 @@ class PlannedParts(models.Model):
     move_ids = fields.One2many('stock.move', 'planned_part_id', string='Reservation', readonly=True,
                                ondelete='set null', copy=False)
 
+    @api.multi
     def check_qty_available(self):
 
-        self.state = 'stock'
-        self.qty_remaining = self.product_qty - self.product_id.qty_available
+        for record in self:
+
+            record.state = 'stock'
+            record.qty_remaining = record.product_qty - record.product_id.qty_available
 
 class Requisition(models.Model):
     _inherit = 'requisition'

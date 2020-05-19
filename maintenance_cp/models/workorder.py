@@ -27,7 +27,7 @@ class WorkOrder(models.Model):
     start_date = fields.Datetime(string="Start Date", required=False, )
     end_date = fields.Datetime(string="End Date", required=False, )
     planned_end_date = fields.Datetime(string="Planned End Date", required=False, )
-    planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
+    planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
     end_hours = fields.Float(string="End Hours",  required=False, )
 
     time_effectiveness = fields.Selection(string="Time Effectiveness",
@@ -72,8 +72,46 @@ class WorkOrder(models.Model):
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+    is_checked = fields.Boolean(string="Task checked", )
 
     # planning_id = fields.Many2one(comodel_name="maintenance.planning", string="Planning", required=False, )
+
+    def delete_task_parts(self):
+
+        parts = self.env['maintenance.cp.planned.parts'].search([('task_id', '=', True), ('workorder_id', '=', self.id)])
+        parts.unlink()
+
+    @api.multi
+    def check_task_parts(self):
+
+        for description in self.description_ids:
+            for part in description.task_id.parts_ids:
+                self.env['maintenance.cp.planned.parts'].create(
+                    {
+                        'product_id': part.product_id.id,
+                        'product_qty': part.product_qty,
+                        'name': part.name,
+                        'workorder_id': self.id,
+                        'vendor_id': part.vendor_id.id,
+                        'task_id': part.task_id.id
+                    }
+                )
+
+        self.is_checked = True
+
+    @api.one
+    @api.depends('description_ids')
+    def _compute_planned_end_hours(self):
+        """
+        @api.depends() should contain all fields that will be used in the calculations.
+        """
+        total = 0.0
+
+        for desc in self.description_ids:
+            total = total + desc.planned_end_hours
+
+        self.planned_end_hours = total
+
 
     def add_followers(self):
 
@@ -177,6 +215,7 @@ class PlannedParts(models.Model):
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+    task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=False, )
 
 class Service(models.Model):
     _name = 'maintenance.cp.service'
@@ -244,6 +283,11 @@ class DescriptionMaintenance(models.Model):
     workforce_cost = fields.Float(string="Workforce Cost",  required=False, compute='', store=True)
     workforce_cost_total = fields.Float(string="Workforce Cost Total",  required=False,
                                         compute='_compute_workforce_cost_total', store=True)
+
+    @api.onchange('task_id')
+    def _onchange_task_id(self):
+        for record in self:
+            record.planned_end_hours = self.task_id.planned_end_hours
 
     @api.one
     @api.depends('specialist_id')

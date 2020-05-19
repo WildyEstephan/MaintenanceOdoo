@@ -96,8 +96,28 @@ class Operation(models.Model):
     file_name = fields.Char(string="Description", required=False, )
     task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=False, )
     sequence = fields.Integer(string="Sequence", required=True, )
-    tool_id = fields.Many2one(comodel_name="maintenance.cp.tool", string="Tool", required=False, )
+    # tool_id = fields.Many2one(comodel_name="maintenance.cp.tool", string="Tool", required=False, )
+    
+    tool_ids = fields.Many2many(comodel_name="maintenance.cp.tool", string="Tool", )
 
+    company_id = fields.Many2one(comodel_name="res.company",
+                                 string="Company",
+                                 required=False,
+                                 default=lambda self: self.env.user.company_id.id)
+
+class PlannedPartsTask(models.Model):
+    _name = 'maintenance.task.planned.parts'
+    _description = 'Planned Parts'
+
+    name = fields.Char(string="Description", required=True, )
+    task_id = fields.Many2one(comodel_name="maintenance.cp.task",
+                                   string="Work Order", required=False, )
+    product_id = fields.Many2one(comodel_name="product.product", string="Product",
+                                 required=True, domain="[('is_part', '=', 'True')]")
+    product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
+                               required=True)
+    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True,
+                                domain=[('supplier', '=', True)])
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
@@ -116,9 +136,12 @@ class Task(models.Model):
     operation_ids = fields.One2many(comodel_name="maintenance.cp.operation",
                                     inverse_name="task_id",
                                     string="Operations", required=False, )
-    planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
+    planned_end_hours = fields.Float(string="Planned End Hours", required=True, )
 
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+
+    parts_ids = fields.One2many(comodel_name="maintenance.task.planned.parts",
+                                inverse_name="task_id", string="Planned Parts", required=False, )

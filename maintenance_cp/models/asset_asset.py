@@ -14,7 +14,8 @@ class Asset(models.Model):
 
         equipment_id = ID.env['maintenance.cp.equipment'].create({
             'name': ID.name,
-            'number_equipment': ID.code
+            'number_equipment': ID.code,
+            'standard_price': ID.value
         })
 
         ID.equipment_id = equipment_id

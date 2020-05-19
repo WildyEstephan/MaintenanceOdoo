@@ -27,8 +27,10 @@ class EquipmentCategory(models.Model):
 
     name = fields.Char(string="Name", required=True, )
     description = fields.Text(string="Description", required=False, )
-    team_id = fields.Many2one(comodel_name="maintenance.cp.team",
-                              string="Equipment Team", required=True, )
+    # team_id = fields.Many2one(comodel_name="maintenance.cp.team",
+    #                           string="Equipment Team", required=True, )
+
+    _sql_constraints = [('equipment_category_uniq', 'UNIQUE(name)', "You Can't Use This Name Because It's Exist")]
 
 class Location(models.Model):
     _name = 'maintenance.cp.equipment.location'
