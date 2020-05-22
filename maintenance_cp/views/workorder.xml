@@ -9,11 +9,11 @@
                <form string="Workorder">
                    <header>
                        <button name="send_request" string="Send" class="oe_highlight" states="request" type="object"/>
-                       <button name="check_task_parts" string="Check Tasks" class="oe_highlight" states="send" type="object"/>
-                       <button name="approve_this" string="Approve" class="oe_highlight" states="send" type="object"/>
-                       <button name="start_working" string="Star Working" class="oe_highlight" states="approved" type="object"/>
-                       <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
-                       <button name="cancel_work" string="Cancel" states="send,approved,started,ended" type="object"/>
+                       <button name="check_task_parts" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Check Tasks" class="oe_highlight" states="send" type="object"/>
+                       <button name="approve_this" string="Approve" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" class="oe_highlight" states="send" type="object"/>
+                       <button name="start_working" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Star Working" class="oe_highlight" states="approved" type="object"/>
+                       <button name="end_working" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="End Working" class="oe_highlight" states="started" type="object"/>
+                       <button name="cancel_work" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Cancel" states="send,approved,started,ended" type="object"/>
                        <field name="state" widget="statusbar" statusbar_visible="request,send,approved,started,ended"/>
                    </header>
                    <sheet>
@@ -29,7 +29,7 @@
                        <group>
 
                            <group string="Planning">
-                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="type_maintenance" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
@@ -38,7 +38,7 @@
                            </group>
                            <group string="Management">
                                <field name="need_breakdown" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
-                               <field name="team_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="team_id" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="start_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician"/>
                                <field name="start_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
@@ -54,19 +54,19 @@
                            <page string="Parts/Services Needed">
                                <field name="parts_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
                                    <tree editable="top">
-                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="product_id"/>
                                        <field name="name"/>
                                        <field name="product_qty"/>
-                                       <field name="vendor_id"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="vendor_id"/>
                                        <field name="state" readonly="1"/>
                                    </tree>
                                </field>
 
                                <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
                                    <tree editable="top">
-                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="product_id"/>
                                        <field name="name"/>
-                                       <field name="vendor_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="vendor_id"/>
                                        <field name="estimated_cost"/>
                                    </tree>
                                </field>
@@ -75,9 +75,9 @@
                                <field name="description_ids">
                                    <tree editable="bottom">
                                        <field name="sequence" widget="handle"/>
-                                       <field name="type_workforce_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                                       <field name="specialist_id" required="1" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                                       <field name="task_id" colspan="2" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                                       <field name="type_workforce_id" />
+                                       <field name="specialist_id" required="1"/>
+                                       <field name="task_id" colspan="2" />
                                        <button
                                             name="view_operations" type="object" class="oe_stat_button" icon="fa-list-alt">
                                             <span name="Operations">Operations</span>
