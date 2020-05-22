@@ -145,6 +145,11 @@ class WorkOrder(models.Model):
         if not self.description_ids:
             raise exceptions.UserError(_('You Has Not Description Of Maintenance'))
 
+        check_desc = self.description_ids.filtered(lambda r: r.specialist_id == False)
+
+        if check_desc:
+            raise exceptions.UserError(_('This Work Order In Task Has Not Specialist'))
+
         day = datetime.today()
 
         self.start_date = day.strftime('%Y-%m-%d')
@@ -340,6 +345,9 @@ class DescriptionMaintenance(models.Model):
         self.team_id = self.specialist_id.team_id
 
     def start_working(self):
+
+        if not self.specialist_id:
+            raise exceptions.UserError(_('This Task Has Not Specialist'))
 
         day = datetime.today()
 
