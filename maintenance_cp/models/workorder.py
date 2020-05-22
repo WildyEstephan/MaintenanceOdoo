@@ -315,6 +315,8 @@ class DescriptionMaintenance(models.Model):
 
         # ID.add_followers()
 
+        ID.planned_end_hours = ID.task_id.planned_end_hours
+
         if ID.specialist_id:
 
             ID.user_id = ID.specialist_id.user_id
