@@ -11,6 +11,10 @@ class WorkOrder(models.Model):
     name = fields.Char(string="Sequence", required=False, )
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    required=True, )
+    category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
+                                  string="Category", related="equipment_id.category_id", )
+    location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
+                                  string="Location", related="equipment_id.location_id", )
     type_maintenance = fields.Selection(string="Type of Maintenance", selection=[('corrective', 'Corrective'),
                                                    ('preventive', 'Preventive'), ],
                              required=False, default='corrective')
@@ -283,6 +287,12 @@ class DescriptionMaintenance(models.Model):
     workforce_cost = fields.Float(string="Workforce Cost",  required=False, compute='', store=True)
     workforce_cost_total = fields.Float(string="Workforce Cost Total",  required=False,
                                         compute='_compute_workforce_cost_total', store=True)
+    equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
+                                   store=True, related="workorder_id.equipment_id")
+    category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
+                                  string="Category", related="workorder_id.category_id", )
+    location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
+                                  string="Location", related="workorder_id.location_id", )
 
     @api.onchange('task_id')
     def _onchange_task_id(self):
