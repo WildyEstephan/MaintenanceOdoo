@@ -10,7 +10,7 @@
                    <header>
                        <button name="send_request" string="Send" class="oe_highlight" states="request" type="object"/>
                        <button name="check_task_parts" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Check Tasks" class="oe_highlight" states="send" type="object"/>
-                       <button name="approve_this" string="Approve" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" class="oe_highlight" states="send" type="object"/>
+                       <button name="approve_this" string="Approve" groups="maintenance_cp.maintenance_cp_manager" class="oe_highlight" states="send" type="object"/>
                        <button name="start_working" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Star Working" class="oe_highlight" states="approved" type="object"/>
                        <button name="end_working" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="End Working" class="oe_highlight" states="started" type="object"/>
                        <button name="cancel_work" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Cancel" states="send,approved,started,ended" type="object"/>
