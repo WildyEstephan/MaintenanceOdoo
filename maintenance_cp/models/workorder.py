@@ -313,7 +313,7 @@ class DescriptionMaintenance(models.Model):
         # Add code here
         ID = super(DescriptionMaintenance, self).create(values)
 
-        ID.add_followers()
+        # ID.add_followers()
 
         if ID.specialist_id:
 
