@@ -136,8 +136,8 @@ class WorkOrder(models.Model):
     def send_request(self):
         self.state = 'send'
 
-        # self.add_followers()
-        # self.send_message()
+        self.add_followers()
+        self.send_message()
 
 
     def approve_this(self):
