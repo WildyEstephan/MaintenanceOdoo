@@ -173,7 +173,14 @@
                     <header>
                         <button name="start_working" string="Star Working" class="oe_highlight" states="prepared" type="object"/>
                         <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
-                        <button name="check_task" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Check Working" class="oe_highlight" states="ended" type="object"/>
+                        <field name="is_checked" invisible="1"/>
+                        <button name="check_task"
+                                groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"
+                                string="Check Working"
+                                class="oe_highlight"
+                                states="ended"
+                                attrs="{'invisible': [('is_checked', '=', True)]}"
+                                type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="prepared,started,ended"/>
                     </header>
                     <sheet>
@@ -194,7 +201,7 @@
                         </div>
 
                         <field name="user_id" invisible="1"/>
-                        <field name="is_checked" invisible="1"/>
+
                         <group>
                            <group>
                                <field name="specialist_id" attrs="{'readonly': [('specialist_id', '=', True)]}"/>
