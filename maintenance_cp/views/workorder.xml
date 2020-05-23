@@ -173,7 +173,7 @@
                     <header>
                         <button name="start_working" string="Star Working" class="oe_highlight" states="prepared" type="object"/>
                         <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
-                        <button name="check_task" string="Check Working" class="oe_highlight" states="ended" type="object"/>
+                        <button name="check_task" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Check Working" class="oe_highlight" states="ended" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="prepared,started,ended"/>
                     </header>
                     <sheet>
@@ -192,11 +192,12 @@
                                 <field name="name" readonly="1"/>
                             </h1>
                         </div>
-                        <field name="specialist_id" attrs="{'readonly': [('specialist_id', '=', True)]}"/>
+
                         <field name="user_id" invisible="1"/>
                         <field name="is_checked" invisible="1"/>
                         <group>
                            <group>
+                               <field name="specialist_id" attrs="{'readonly': [('specialist_id', '=', True)]}"/>
                                <field name="type_workforce_id" readonly="1"/>
                                <field name="task_id" readonly="1"/>
                                <field name="planned_end_hours" readonly="1"/>
@@ -210,7 +211,7 @@
                                <field name="end_date" readonly="1"/>
                                <field name="end_hours" readonly="1"/>
                                <field name="end_hours_by_specialist" attrs="{'readonly': [('is_checked', '=', True)]}"/>
-                               <field name="end_hours_by_supervisor" attrs="{'readonly': [('is_checked', '=', True)]}"/>
+                               <field name="end_hours_by_supervisor" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="effectiveness" readonly="1"/>
                                <field name="workforce_cost_total" readonly="1"/>
                            </group>
