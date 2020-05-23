@@ -302,6 +302,14 @@ class DescriptionMaintenance(models.Model):
                                   string="Category", related="workorder_id.category_id", )
     location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
                                   string="Location", related="workorder_id.location_id", )
+    end_hours_by_specialist = fields.Float(string="End Hours", required=False, )
+    end_hours_by_supervisor = fields.Float(string="End Hours", required=False, )
+    is_checked = fields.Boolean(string="Checked By Supervisor", )
+
+    @api.multi
+    def check_task(self):
+        self.is_checked = True
+
 
     @api.onchange('task_id')
     def _onchange_task_id(self):
@@ -392,7 +400,7 @@ class DescriptionMaintenance(models.Model):
 
         task = self.workorder_id.description_ids.filtered(lambda r: r.state == 'prepared' or r.state == 'started')
 
-        star_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
 
         date_total = relativedelta(start_date, day)
 
