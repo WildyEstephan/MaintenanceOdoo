@@ -169,7 +169,7 @@
             <field name="name">maintenance_cp_description_task_form_view</field>
             <field name="model">maintenance.cp.description.task</field>
             <field name="arch" type="xml">
-                <form string="Task for Specialist" edit="false">
+                <form string="Task for Specialist" create="false">
                     <header>
                         <button name="start_working" string="Star Working" class="oe_highlight" states="prepared" type="object"/>
                         <button name="end_working" string="End Working" class="oe_highlight" states="started" type="object"/>
@@ -192,7 +192,7 @@
                                 <field name="name" readonly="1"/>
                             </h1>
                         </div>
-                        <field name="specialist_id" />
+                        <field name="specialist_id" attrs="{'readonly': [('specialist_id', '=', True)]}"/>
                         <field name="user_id" invisible="1"/>
                         <field name="is_checked" invisible="1"/>
                         <group>
