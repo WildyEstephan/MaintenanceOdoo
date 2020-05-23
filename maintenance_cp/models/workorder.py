@@ -136,7 +136,7 @@ class WorkOrder(models.Model):
     def send_request(self):
         self.state = 'send'
 
-        # self.sudo().add_followers()
+        self.sudo().add_followers()
         # self.sudo().send_message()
 
 
