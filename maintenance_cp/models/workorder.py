@@ -145,7 +145,7 @@ class WorkOrder(models.Model):
         if not self.description_ids:
             raise exceptions.UserError(_('You Has Not Description Of Maintenance'))
 
-        check_desc = self.description_ids.filtered(lambda r: r.specialist_id == False)
+        check_desc = self.description_ids.search([('specialist_id', '=', False), ('workorder_id', '=', self.id)])
 
         if check_desc:
             raise exceptions.UserError(_('This Work Order In Task Has Not Specialist'))
