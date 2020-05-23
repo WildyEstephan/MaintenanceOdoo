@@ -183,6 +183,8 @@
                                     <span name="Operations" widget="statinfo" string="Operations">Operations</span>
                                 </button>
                         </div>
+                        
+                        <field name="specialist_id" invisible="1"/>
 
                         <div class="oe_title">
                             <label for="name"/>
