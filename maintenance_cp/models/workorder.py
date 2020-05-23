@@ -310,8 +310,8 @@ class DescriptionMaintenance(models.Model):
                                   string="Category", related="workorder_id.category_id", store=True)
     location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
                                   string="Location", related="workorder_id.location_id", store=True)
-    end_hours_by_specialist = fields.Float(string="End Hours", required=False, )
-    end_hours_by_supervisor = fields.Float(string="End Hours", required=False, )
+    end_hours_by_specialist = fields.Float(string="End Hours By Specialist", required=False, )
+    end_hours_by_supervisor = fields.Float(string="End Hours By Supervisor", required=False, )
     is_checked = fields.Boolean(string="Checked By Supervisor", )
 
     @api.multi
