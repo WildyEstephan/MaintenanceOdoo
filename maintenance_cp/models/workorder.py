@@ -121,17 +121,17 @@ class WorkOrder(models.Model):
         self.planned_end_hours = total
 
 
-    # def add_followers(self):
-    #
-    #     list_followers = [self.specialist_id.id or 0, self.team_id.supervisor_id.id, self.team_id.manager_id.id]
-    #
-    #     self.message_subscribe_users(list_followers)
+    def add_followers(self):
 
-    # def send_message(self):
-    #     message = '''<div class="res.users"><a href="#" class="o_redirect" data-oe-id="%s">@%s</a>, <a href="#" class="o_redirect" data-oe-id="%s">@%s</a> and <a href="#" class="o_redirect" data-oe-id="%s">@%s</a>, you have a new request</div>''' \
-    #               % (self.specialist_id.user_id.id, self.specialist_id.user_id.name,self.team_id.supervisor_id.user_id.id, self.team_id.supervisor_id.user_id.name, self.team_id.manager_id.user_id.id, self.team_id.manager_id.user_id.name)
-    #
-    #     self.message_post(message, subtype='mail.mt_note')
+        list_followers = [self.team_id.supervisor_id.id, self.team_id.manager_id.id]
+
+        self.message_subscribe_users(list_followers)
+
+    def send_message(self):
+        message = '''<div class="res.users"><a href="#" class="o_redirect" data-oe-id="%s">@%s</a>, <a href="#" class="o_redirect" data-oe-id="%s">@%s</a> and <a href="#" class="o_redirect" data-oe-id="%s">@%s</a>, you have a new request</div>''' \
+                  % (self.specialist_id.user_id.id, self.specialist_id.user_id.name,self.team_id.supervisor_id.user_id.id, self.team_id.supervisor_id.user_id.name, self.team_id.manager_id.user_id.id, self.team_id.manager_id.user_id.name)
+
+        self.message_post(message, subtype='mail.mt_note')
 
     def send_request(self):
         self.state = 'send'
