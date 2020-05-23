@@ -1,6 +1,10 @@
 from odoo import api, fields, models
 from odoo.addons import decimal_precision as dp
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
+from dateutil.relativedelta import relativedelta
+
+
+
 from odoo import exceptions, _
 
 class WorkOrder(models.Model):
@@ -387,6 +391,14 @@ class DescriptionMaintenance(models.Model):
             self.effectiveness = 100
 
         task = self.workorder_id.description_ids.filtered(lambda r: r.state == 'prepared' or r.state == 'started')
+
+        star_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
+
+        date_total = relativedelta(start_date, day)
+
+        total_hours = date_total.hours
+
+        self.end_hours = total_hours
 
         if not task:
             self.workorder_id.end_working()
