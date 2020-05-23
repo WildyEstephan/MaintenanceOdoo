@@ -182,9 +182,9 @@ class WorkOrder(models.Model):
 
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
 
-        date_total = relativedelta(day, start_date)
+        date_total = relativedelta(start_date, day)
 
-        total_hours = date_total.hours
+        total_hours = abs(date_total.hours)
 
         self.end_hours = total_hours
 
@@ -411,9 +411,9 @@ class DescriptionMaintenance(models.Model):
 
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
 
-        date_total = relativedelta(day, start_date)
+        date_total = relativedelta(start_date, day)
 
-        total_hours = date_total.hours
+        total_hours = abs(date_total.hours)
 
         self.end_hours = total_hours
 
