@@ -179,6 +179,14 @@ class WorkOrder(models.Model):
             self.time_effectiveness = 'normal'
             self.effectiveness = 150
 
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
+
+        date_total = abs(relativedelta(start_date, day))
+
+        total_hours = date_total.hours
+
+        self.end_hours = total_hours
+
         self.state = 'ended'
 
     def cancel_work(self):
@@ -402,7 +410,7 @@ class DescriptionMaintenance(models.Model):
 
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
 
-        date_total = relativedelta(start_date, day)
+        date_total = abs(relativedelta(start_date, day))
 
         total_hours = date_total.hours
 
