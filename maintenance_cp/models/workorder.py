@@ -11,6 +11,7 @@ class WorkOrder(models.Model):
     _name = 'maintenance.cp.workorder'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Equipment Work Order'
+    _order = "name desc"
 
     name = fields.Char(string="Sequence", required=False, )
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
