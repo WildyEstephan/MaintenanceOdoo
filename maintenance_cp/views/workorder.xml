@@ -183,7 +183,7 @@
                                     <span name="Operations" widget="statinfo" string="Operations">Operations</span>
                                 </button>
                         </div>
-                        
+
                         <field name="specialist_id" invisible="1"/>
 
                         <div class="oe_title">
@@ -192,7 +192,7 @@
                                 <field name="name" readonly="1"/>
                             </h1>
                         </div>
-                        <field name="specialist_id" attrs="{'readonly': specialist_id}"/>
+                        <field name="specialist_id" attrs="{'readonly': [('specialist_id', '=', True)]}"/>
                         <field name="user_id" invisible="1"/>
                         <field name="is_checked" invisible="1"/>
                         <group>
