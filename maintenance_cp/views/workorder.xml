@@ -192,7 +192,7 @@
                                 <field name="name" readonly="1"/>
                             </h1>
                         </div>
-                        <field name="specialist_id" attrs="{'readonly': [('specialist_id', '=', True)]}"/>
+                        <field name="specialist_id" />
                         <field name="user_id" invisible="1"/>
                         <field name="is_checked" invisible="1"/>
                         <group>
