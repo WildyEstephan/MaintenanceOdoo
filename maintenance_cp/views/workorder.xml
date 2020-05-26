@@ -117,6 +117,7 @@
             <field name="name">Request of Maintenance</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">maintenance.cp.workorder</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
