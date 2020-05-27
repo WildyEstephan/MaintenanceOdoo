@@ -266,7 +266,7 @@
             <field name="name">description_view_gantt</field>
             <field name="model">maintenance.cp.description.task</field>
             <field name="arch" type="xml">
-                <gantt color="user_id" type="gantt" date_delay="planned_hours"
+                <gantt color="user_id" date_delay="planned_hours"
                        date_start="start_date"
                        date_stop="end_start" string="Tasks">
                     <level object="maintenance.cp.workorder" link="workorder_id" domain="[]">
