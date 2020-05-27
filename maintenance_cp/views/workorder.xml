@@ -255,7 +255,7 @@
             <field name="arch" type="xml">
                 <calendar color="user_id" date_delay="planned_end_hours"
                           date_start="planned_end_date" date_stop="end_date"
-                          string="Tasks">
+                          string="Tasks" create="false">
                     <field name="name"/>
                     <field name="state"/>
                 </calendar>
