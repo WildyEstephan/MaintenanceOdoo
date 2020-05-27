@@ -215,9 +215,9 @@ class ReminderTask(models.Model):
     def execute_reminder(self, task_ids):
         message = ''''''
 
-        message_post_with_view('purchase.track_po_line_template',
-                               values={'line': line, 'product_qty': values['product_qty']},
-                               subtype_id=self.env.ref('mail.mt_note').id)
+        # message_post_with_view('purchase.track_po_line_template',
+        #                        values={'line': line, 'product_qty': values['product_qty']},
+        #                        subtype_id=self.env.ref('mail.mt_note').id)
 
         for task in task_ids:
             if task.state == 'prepared':
