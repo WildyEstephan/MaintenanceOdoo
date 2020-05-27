@@ -262,13 +262,26 @@
             </field>
         </record>
 
+        <record id="description_view_gantt" model="ir.ui.view">
+            <field name="name">_view_form</field>
+            <field name="model">maintenance.cp.description.task</field>
+            <field name="arch" type="xml">
+                <gantt color="user_id" type="gantt" date_delay="planned_hours"
+                       date_start="start_date"
+                       date_stop="end_start" string="Tasks">
+                    <level object="maintenance.cp.workorder" link="workorder_id" domain="[]">
+                        <field name="name"/>
+                    </level>
+                </gantt>
+            </field>
+        </record>
 
         <record id="maintenance_cp_description_task_action_byspecialist_view" model="ir.actions.act_window">
             <field name="name">Description Task for Specialist</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">maintenance.cp.description.task</field>
             <field name="domain">[('user_id', '=', uid)]</field>
-            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_mode">tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->
@@ -282,7 +295,21 @@
             <field name="name">All Description Task</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">maintenance.cp.description.task</field>
-            <field name="view_mode">tree,form,calendar</field>
+            <field name="view_mode">tree,form,gantt</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <record id="maintenance_cp_description_task_action_calendar_view" model="ir.actions.act_window">
+            <field name="name">Calendar Description Task</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.cp.description.task</field>
+            <field name="view_mode">calendar</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->
@@ -300,6 +327,10 @@
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="description_task_all_categ" name="All Description Task"
                   parent="workorder_categ" action="maintenance_cp_description_task_action_all_view"
+                  sequence="3" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+<!-- This Menu Item must have a parent and an action -->
+        <menuitem id="description_task_calendar_categ" name="All Description Task"
+                  parent="workorder_categ" action="maintenance_cp_description_task_action_calendar_view"
                   sequence="3" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
     </data>
