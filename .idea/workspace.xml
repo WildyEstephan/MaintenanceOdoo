@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef32120d-ddc9-4195-8a5a-816402a3146b" name="Default" comment="" />
+    <list default="true" id="ef32120d-ddc9-4195-8a5a-816402a3146b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintenance_cp/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintenance_cp/models/task_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/models/task_operation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintenance_cp/models/workorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/models/workorder.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintenance_cp/views/task_operation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/views/task_operation.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintenance_cp/views/workorder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/views/workorder.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +21,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="OdooModel" />
+        <option value="OdooViewAdvanced" />
       </list>
     </option>
   </component>
@@ -26,7 +35,9 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="DefaultOdooModelFileTemplate" value="OdooModel" />
+    <property name="DefaultOdooViewFileTemplate" value="OdooViewAdvanced" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../helpdeskOdoo" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -68,6 +79,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="463" y="119" key="FileChooserDialogImpl" timestamp="1590331711190">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="463" y="119" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1590331711190" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup" timestamp="1590193876120">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
