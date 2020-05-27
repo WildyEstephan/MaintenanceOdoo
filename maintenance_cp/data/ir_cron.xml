@@ -43,9 +43,8 @@
             <field name="code">
                 today = datetime.datetime.now()
 
-                reminders = model.search(
-            [('nextcall', '=', fields.Datetime.to_string(today))]
-        )
+                reminders = model.search( [('nextcall', '=', fields.Datetime.to_string(today))] )
+                
                 for reminder in reminders:
                     reminder.execute_notification()
             </field>
