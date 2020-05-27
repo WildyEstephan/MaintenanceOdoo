@@ -86,27 +86,27 @@ class ReminderTask(models.Model):
 
         if self.execute_type == 'minutes':
             # next_date = datetime.strptime(reminder.nexcall, "%Y-%m-%d %H:%M:%S")
-            to_date = today + relativedelta(minutes=execute_every)
+            to_date = today + relativedelta(minutes=self.execute_every)
             self.nexcall = fields.Datetime.to_string(to_date)
 
         if self.execute_type == 'hours':
             # next_date = datetime.strptime(reminder.nexcall, "%Y-%m-%d %H:%M:%S")
-            to_date = today + relativedelta(hours=execute_every)
+            to_date = today + relativedelta(hours=self.execute_every)
             self.nexcall = fields.Datetime.to_string(to_date)
 
         if self.execute_type == 'days':
             # next_date = datetime.strptime(reminder.nexcall, "%Y-%m-%d %H:%M:%S")
-            to_date = today +  relativedelta(days=execute_every)
+            to_date = today +  relativedelta(days=self.execute_every)
             self.nexcall = fields.Datetime.to_string(to_date)
 
         if self.execute_type == 'weeks':
             # next_date = datetime.strptime(reminder.nexcall, "%Y-%m-%d %H:%M:%S")
-            to_date = today + relativedelta(weeks=execute_every)
+            to_date = today + relativedelta(weeks=self.execute_every)
             self.nexcall = fields.Datetime.to_string(to_date)
 
         if self.execute_type == 'months':
             # next_date = datetime.strptime(reminder.nexcall, "%Y-%m-%d %H:%M:%S")
-            to_date = today + relativedelta(months=execute_every)
+            to_date = today + relativedelta(months=self.execute_every)
             self.nexcall = fields.Datetime.to_string(to_date)
 
     @api.model
