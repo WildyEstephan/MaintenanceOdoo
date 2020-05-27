@@ -68,7 +68,7 @@ class ReminderTask(models.Model):
         # raise exceptions.UserError((today))
 
         reminders = self.search(
-            ('nextcall', '=', today.strptime('%Y-%m-%d %H:%M:%S'))
+            ('nextcall', '=', today.strftime('%Y-%m-%d %H:%M:%S'))
         )
 
         for reminder in reminders:
