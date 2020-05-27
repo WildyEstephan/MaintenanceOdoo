@@ -61,7 +61,7 @@ class ReminderTask(models.Model):
         string='Next Call',
         required=True)
 
-    @api.model
+    @api.multi
     def execute_notification(self):
         today = datetime.now()
 
