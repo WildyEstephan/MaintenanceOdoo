@@ -257,7 +257,6 @@
                           date_start="planned_end_date" date_stop="end_date"
                           string="Tasks">
                     <field name="name"/>
-                    <field name="task_id"/>
                     <field name="state"/>
                 </calendar>
             </field>
