@@ -263,7 +263,7 @@
         </record>
 
         <record id="description_view_gantt" model="ir.ui.view">
-            <field name="name">_view_form</field>
+            <field name="name">description_view_gantt</field>
             <field name="model">maintenance.cp.description.task</field>
             <field name="arch" type="xml">
                 <gantt color="user_id" type="gantt" date_delay="planned_hours"
