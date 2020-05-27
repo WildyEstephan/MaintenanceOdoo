@@ -41,11 +41,11 @@
             <field name="type">ir.actions.server</field>
             <field name="state">code</field>
             <field name="code">
-            today = datetime.datetime.now()
-            reminders = model.search([('nextcall', '=', fields.Datetime.to_string(today))] )
+today = datetime.datetime.now()
+reminders = model.search([('nextcall', '=', fields.Datetime.to_string(today))] )
 
-            for reminder in reminders:
-                reminder.execute_notification()
+for reminder in reminders:
+    reminder.execute_notification()
             </field>
             <field name="interval_number">1</field>
             <field name="interval_type">minutes</field>
