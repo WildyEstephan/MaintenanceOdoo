@@ -353,6 +353,7 @@ class DescriptionMaintenance(models.Model):
         @api.depends() should contain all fields that will be used in the calculations.
         """
         contract = self.specialist_id.contract_id
+        raise exceptions.UserError(_(contract.name))
 
         horas = 30 * 60
         self.workforce_cost = contract.wage/horas
