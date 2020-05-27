@@ -1,6 +1,7 @@
 from odoo import fields, models, api
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from odoo import exceptions
 
 class ReminderTask(models.Model):
     _name = 'maintenance.reminder.task'
@@ -67,6 +68,8 @@ class ReminderTask(models.Model):
         reminder_ids = self.search(
             ('nextcall', '=', today)
         )
+
+        raise exceptions.UserError(_(reminder_ids))
 
         for reminder in reminder_ids:
             if reminder.reminder_by == 'task':
