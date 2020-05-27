@@ -27,6 +27,7 @@
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/ir_cron.xml',
+        'data/template.xml',
         'views/menus.xml',
         'views/asset.xml',
         'views/task_operation.xml',
