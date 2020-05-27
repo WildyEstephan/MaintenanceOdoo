@@ -4,7 +4,7 @@
 
         <template id="message_user_notification_start">
             <p>
-            <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (object.user_id.sudo()._name, object.user_id.sudo().id)">
+            <a t-att-target="new" t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (object.user_id.sudo()._name, object.user_id.sudo().id)">
                     @<t t-esc="object.user_id.sudo().name"/>
                 </a>, you have this task pending for start to work order <t t-esc="object.workorder_id.sudo().name"/>
             </p>
