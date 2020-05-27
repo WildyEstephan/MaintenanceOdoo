@@ -243,6 +243,7 @@
                 <tree string="Tasks for Specialist">
                     <field name="name"/>
                     <field name="specialist_id"/>
+                    <field name="workorder_id"/>
                     <field name="state"/>
                     <field name="type_workforce_id"/>
                 </tree>
