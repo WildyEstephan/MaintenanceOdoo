@@ -145,3 +145,17 @@ class Task(models.Model):
 
     parts_ids = fields.One2many(comodel_name="maintenance.task.planned.parts",
                                 inverse_name="task_id", string="Planned Parts", required=False, )
+
+    reminder_start_id = fields.Many2one(
+        comodel_name='maintenance.reminder.task',
+        string='Reminder Start',
+        required=False, domain="[('reminder_for', '=', 'start'), ('reminder_by', '=', 'task')]")
+
+    reminder_end_id = fields.Many2one(
+        comodel_name='maintenance.reminder.task',
+        string='Reminder End',
+        required=False, domain="[('reminder_for', '=', 'start'), ('reminder_by', '=', 'task')]")
+    category_id = fields.Many2one(
+        comodel_name='maintenance.cp.equipment.category',
+        string='Category',
+        required=True)

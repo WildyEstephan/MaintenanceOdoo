@@ -107,9 +107,12 @@
                         <group>
                             <group>
                                 <field name="planned_end_hours"/>
+                                <field name="type_workforce_id"/>
                             </group>
                             <group>
-                                <field name="type_workforce_id"/>
+                                <field name="category_id"/>
+                                <field name="reminder_start_id"/>
+                                <field name="reminder_end_id"/>
                             </group>
                         </group>
                         <separator string="Operations"/>

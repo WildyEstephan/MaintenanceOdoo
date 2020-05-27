@@ -35,6 +35,7 @@
         'views/team_quipment.xml',
         'views/workorder.xml',
         'views/planning.xml',
+        'views/reminder.xml',
         'views/reporting.xml',
     ],
     # only loaded in demonstration mode

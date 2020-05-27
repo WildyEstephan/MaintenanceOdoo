@@ -278,7 +278,7 @@ class DescriptionMaintenance(models.Model):
                                         ],
                              required=False, default="prepared")
     task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True,
-                              domain="[('type_workforce_id', '=', type_workforce_id)]", store=True)
+                              domain="[('type_workforce_id', '=', type_workforce_id), ('category_id', '=', category_id)]", store=True)
 
     workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder", string="Work Order", required=False, store=True)
 
@@ -314,6 +314,19 @@ class DescriptionMaintenance(models.Model):
     end_hours_by_specialist = fields.Float(string="End Hours By Specialist", required=False, )
     end_hours_by_supervisor = fields.Float(string="End Hours By Supervisor", required=False, )
     is_checked = fields.Boolean(string="Checked By Supervisor", )
+
+    next_notification = fields.Datetime(
+        string='Next Notification',
+        required=False)
+    reminder_start_id = fields.Many2one(
+        comodel_name='maintenance.reminder.task',
+        string='Reminder Start',
+        related="task_id.reminder_start_id", store=True)
+
+    reminder_end_id = fields.Many2one(
+        comodel_name='maintenance.reminder.task',
+        string='Reminder End',
+        related="task_id.reminder_end_id", store=True)
 
     @api.multi
     def check_task(self):
