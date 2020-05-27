@@ -65,11 +65,11 @@ class ReminderTask(models.Model):
     def execute_notification(self):
         today = datetime.now()
 
+        raise exceptions.UserError((today))
+
         reminder_ids = self.search(
             ('nextcall', '=', today)
         )
-
-        raise exceptions.UserError(_(reminder_ids))
 
         for reminder in reminder_ids:
             if reminder.reminder_by == 'task':
