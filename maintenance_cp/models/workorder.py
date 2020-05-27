@@ -298,7 +298,7 @@ class DescriptionMaintenance(models.Model):
 
     time_effectiveness = fields.Selection(string="Time Effectiveness", selection=[('mild', 'Mild'), ('normal', 'Normal'), ('optimum', 'Optimum'),
                                                    ], required=False, )
-    effectiveness = fields.Integer(string="Effectiveness %", required=False, )
+    effectiveness = fields.Integer(string="Effectiveness %", required=False, group_operator="avg")
 
     team_id = fields.Many2one(comodel_name="maintenance.cp.team",
                               string="Equipment Team", required=False, store=True)
