@@ -13,7 +13,7 @@
                     </header>
                     <sheet>
                         <div class="oe_title">
-                            <label for="example_title"/>
+                            <label for="name" string="Name"/>
                             <h1>
                                 <field name="name"/>
                             </h1>
