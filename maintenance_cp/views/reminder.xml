@@ -7,6 +7,10 @@
             <field name="model">maintenance.reminder.task</field>
             <field name="arch" type="xml">
                 <form string="Reminder">
+                    <header>
+                        <button name="execute_notification" string="Execute Notification"
+                                class="oe_highlight" type="object"/>
+                    </header>
                     <sheet>
                         <div class="oe_title">
                             <label for="example_title"/>

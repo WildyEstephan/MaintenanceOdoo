@@ -35,5 +35,16 @@
             <field name="numbercall">-1</field>
         </record>
 
+       <record id="ir_cron_data_maintenance_reminder_task" model="ir.cron">
+            <field name="name">Maintenance Reminder</field>
+            <field name="model_id" ref="model_maintenance_reminder_task"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.execute_notification()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+        </record>
+
     </data>
 </odoo>
