@@ -276,6 +276,19 @@
             </field>
         </record>
 
+        <record id="description_view_gantt_timeline" model="ir.ui.view">
+        <field name="model">maintenance.cp.description.task</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline color="user_id" date_delay="planned_hours"
+                       date_start="start_date"
+                       date_stop="end_start" string="Tasks"
+                      default_group_by="specialist_id"
+                      event_open_popup="true"
+            />
+        </field>
+    </record>
+
         <record id="maintenance_cp_description_task_action_byspecialist_view" model="ir.actions.act_window">
             <field name="name">Description Task for Specialist</field>
             <field name="type">ir.actions.act_window</field>
@@ -295,7 +308,7 @@
             <field name="name">All Description Task</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">maintenance.cp.description.task</field>
-            <field name="view_mode">tree,form,gantt</field>
+            <field name="view_mode">tree,form,timeline</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->
