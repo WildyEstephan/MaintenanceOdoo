@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef32120d-ddc9-4195-8a5a-816402a3146b" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maintenance_cp/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/models/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maintenance_cp/models/task_operation.py" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/models/task_operation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maintenance_cp/models/workorder.py" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/models/workorder.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maintenance_cp/views/task_operation.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/views/task_operation.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maintenance_cp/views/workorder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/views/workorder.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/maintenance_cp/views/reminder.xml" beforeDir="false" afterPath="$PROJECT_DIR$/maintenance_cp/views/reminder.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
