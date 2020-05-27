@@ -129,10 +129,18 @@ class WorkOrder(models.Model):
     #     self.message_subscribe_users(list_followers)
 
     def send_message(self):
-        message = '''<div class="res.users"><a href="#" class="o_redirect" data-oe-id="%s">@%s</a> and <a href="#" class="o_redirect" data-oe-id="%s">@%s</a>, you have a new request</div>''' \
-                  % (self.team_id.supervisor_id.user_id.id, self.team_id.supervisor_id.user_id.name, self.team_id.manager_id.user_id.id, self.team_id.manager_id.user_id.name)
+        # message = '''<div class="res.users"><a href="#" class="o_redirect" data-oe-id="%s">@%s</a> and <a href="#" class="o_redirect" data-oe-id="%s">@%s</a>, you have a new request</div>''' \
+        #           % (self.team_id.supervisor_id.user_id.id, self.team_id.supervisor_id.user_id.name, self.team_id.manager_id.user_id.id, self.team_id.manager_id.user_id.name)
 
-        self.message_post(message, subtype='mail.mt_note')
+        partners = [self.team_id.supervisor_id.sudo().user_id.partner_id.id, self.team_id.manager_id.sudo().user_id.partner_id.id]
+
+        self.message_post_with_view('maintenance_cp.message_user_workorder_send',
+                                            composition_mode='mass_mail',
+                                            partner_ids=partners,
+                                            auto_delete=True,
+                                            auto_delete_message=True,
+                                            parent_id=False,  # override accidental context defaults
+                                            subtype_id=self.env.ref('mail.mt_note').id)
 
     def send_request(self):
         self.state = 'send'
