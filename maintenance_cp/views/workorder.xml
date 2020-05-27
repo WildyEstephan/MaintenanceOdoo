@@ -343,7 +343,7 @@
                   parent="workorder_categ" action="maintenance_cp_description_task_action_all_view"
                   sequence="3" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 <!-- This Menu Item must have a parent and an action -->
-        <menuitem id="description_task_calendar_categ" name="All Description Task"
+        <menuitem id="description_task_calendar_categ" name="Calendar Description Task"
                   parent="workorder_categ" action="maintenance_cp_description_task_action_calendar_view"
                   sequence="3" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
