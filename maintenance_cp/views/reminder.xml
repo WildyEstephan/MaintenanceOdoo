@@ -47,11 +47,8 @@
                     <field name="reminder_for"/>
                     <field name="reminder_by"/>
                     <field name="nextcall"/>
-                    <label for="execute_every" string="Execute Every"/>
-                    <div>
-                        <field name="execute_every" class="oe_inline"/>
-                        <field name="execute_type" class="oe_inline"/>
-                    </div>
+                    <field name="execute_every"/>
+                    <field name="execute_type"/>
                 </tree>
             </field>
         </record>
