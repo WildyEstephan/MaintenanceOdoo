@@ -184,6 +184,10 @@ class Planning(models.Model):
             }
         )
 
+        workorder.message_post_with_view('mail.message_origin_link',
+                    values={'self': workorder, 'origin': self},
+                    subtype_id=self.env['ir.model.data'].xmlid_to_res_id('mail.mt_note'))
+
         parts = []
 
         services = []
