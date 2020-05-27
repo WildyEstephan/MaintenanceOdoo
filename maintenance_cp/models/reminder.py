@@ -225,7 +225,7 @@ class ReminderTask(models.Model):
                 you have this task pending for start to work order %s</div>''' \
                           % (task.specialist_id.user_id.id, task.specialist_id.user_id.name, task.workorder_id.name)
 
-                task.message_post_with_view('mail.message_user_assigned',
+                task.message_post_with_view('maintenance_cp.message_user_notification_start',
                                             composition_mode='mass_mail',
                                             partner_ids=[task.specialist_id.user_id.partner_id.id],
                                             auto_delete=True,
