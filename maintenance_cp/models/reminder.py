@@ -215,15 +215,27 @@ class ReminderTask(models.Model):
     def execute_reminder(self, task_ids):
         message = ''''''
 
+        message_post_with_view('purchase.track_po_line_template',
+                               values={'line': line, 'product_qty': values['product_qty']},
+                               subtype_id=self.env.ref('mail.mt_note').id)
+
         for task in task_ids:
             if task.state == 'prepared':
                 message = '''<div class="res.users"><a href="#" class="o_redirect" data-oe-id="%s">@%s</a> 
                 you have this task pending for start to work order %s</div>''' \
                           % (task.specialist_id.user_id.id, task.specialist_id.user_id.name, task.workorder_id.name)
+
+                task.message_post_with_view('mail.message_user_assigned',
+                                            composition_mode='mass_mail',
+                                            partner_ids=[(4, task.specialist_id.user_id.partner_id.id)],
+                                            auto_delete=True,
+                                            auto_delete_message=True,
+                                            parent_id=False,  # override accidental context defaults
+                                            subtype_id=self.env.ref('mail.mt_note').id)
             elif task.state == 'started':
                 message = '''<div class="res.users"><a href="#" class="o_redirect" data-oe-id="%s">@%s</a> 
                                 you have this task pending for end to work order %s</div>''' \
                           % (task.specialist_id.user_id.id, task.specialist_id.user_id.name, task.workorder_id.name)
 
-            task.message_post(message, subtype='mail.mt_note')
+            # task.message_post(message, subtype='mail.mt_note')
 
