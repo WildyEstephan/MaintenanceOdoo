@@ -24,7 +24,7 @@
                     @<t t-esc="object.team_id.supervisor_id.user_id.sudo().name"/>
                 </a>, <a target="'new'" t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (object.team_id.manager_id.user_id.sudo()._name, object.team_id.manager_id.user_id.sudo().id)">
                     @<t t-esc="object.team_id.manager_id.user_id.sudo().name"/>
-                </a>, you have a new request <t t-esc="object.workorder_id.sudo().name"/>
+                </a>, you have a new request <t t-esc="object.name"/>
             </p>
         </template>
 
