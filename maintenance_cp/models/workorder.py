@@ -330,7 +330,7 @@ class DescriptionMaintenance(models.Model):
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    store=True, related="workorder_id.equipment_id")
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
-                                  string="Category", default=default_category)
+                                  string="Category", )
                                   # related="workorder_id.category_id", store=True)
     location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
                                   string="Location", related="workorder_id.location_id", store=True)
