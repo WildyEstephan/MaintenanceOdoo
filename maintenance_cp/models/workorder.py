@@ -449,7 +449,10 @@ class DescriptionMaintenance(models.Model):
 
         self.end_hours = total_hours
 
-        self.workforce_cost_total = self.workforce_cost * self.end_hours or 1
+        if total_hours == 0:
+            self.workforce_cost_total = self.workforce_cost
+        else:
+            self.workforce_cost_total = self.workforce_cost * self.end_hours
 
         if not task:
             self.workorder_id.end_working()
