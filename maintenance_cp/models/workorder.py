@@ -274,6 +274,10 @@ class DescriptionMaintenance(models.Model):
         currency = self.env.user.company_id.currency_id
         return currency.id
 
+    def default_category(self):
+        for record in self:
+            return record.category_id.id
+
     sequence = fields.Integer(string="Sequence", required=False, )
 
     name = fields.Char(string="Name", required=False, related='task_id.name', store=True)
@@ -326,7 +330,8 @@ class DescriptionMaintenance(models.Model):
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    store=True, related="workorder_id.equipment_id")
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
-                                  string="Category", related="workorder_id.category_id", store=True)
+                                  string="Category", default=default_category)
+                                  # related="workorder_id.category_id", store=True)
     location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
                                   string="Location", related="workorder_id.location_id", store=True)
     end_hours_by_specialist = fields.Float(string="End Hours By Specialist", required=False, )
