@@ -396,7 +396,7 @@ class DescriptionMaintenance(models.Model):
         ID.planned_end_date = date_planned.strftime('%Y-%m-%d')
 
         if ID.specialist_id:
-            ID.currency_id = ID.specialist_id.currency_id
+            ID.currency_id = ID.specialist_id.contract_id.currency_id
 
             ID.user_id = ID.specialist_id.user_id
             ID.team_id = ID.specialist_id.team_id

@@ -332,7 +332,11 @@ class PlanningTask(models.Model):
             for task in tasks:
                 cost = cost + task.workforce_cost
 
-            cost_ave = cost / len(tasks)
+            try:
+
+                cost_ave = cost / len(tasks)
+            except ZeroDivisionError:
+                cost_ave = 0
 
             record.workforce_cost = cost_ave
 
