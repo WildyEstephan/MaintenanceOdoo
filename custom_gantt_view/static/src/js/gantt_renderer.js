@@ -78,10 +78,10 @@ var GanttRenderer = BasicRenderer.extend({
             label: attrs.string ? attrs.string : "Gantt View",
             model: this.state.model,
             date_start: attrs.start_date ? attrs.start_date: null,
-            date_end: attrs.end_date ? attrs.end_date : null,
+            end_date: attrs.end_date ? attrs.end_date : null,
             col: attrs.group_by ? attrs.group_by : null
         };
-        if(!result['date_start'] || !result['date_end']
+        if(!result['date_start'] || !result['end_date']
             || !result['col'] || !result['model']){
             alert("Incorrect view configuration !")
         }
