@@ -98,6 +98,10 @@ class WorkOrder(models.Model):
         string='Total Cost',
         required=False, compute='_compute_total_cost')
 
+    cost_service = fields.Float(string='Estimated Cost Services', required=False, compute='_compute_total_cost')
+    cost_part = fields.Float(string='Estimated Cost Parts', required=False, compute='_compute_total_cost')
+    cost_task = fields.Float(string='Estimated Cost Tasks', required=False, compute='_compute_total_cost')
+
     @api.multi
     @api.depends('description_ids', 'parts_ids', 'service_ids')
     def _compute_total_cost(self):
@@ -113,6 +117,10 @@ class WorkOrder(models.Model):
 
         for service in self.service_ids:
             cost_service = cost_service + service.total
+
+        self.cost_service = cost_service
+        self.cost_part = cost_part
+        self.cost_task = cost_task
 
         self.total_cost = cost_part + cost_task + cost_service
 

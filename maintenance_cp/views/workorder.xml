@@ -48,6 +48,9 @@
                                 <field name="category_id" invisible="1"/>
                                 <field name="id" invisible="1"/>
                                <field name="currency_id" invisible="1"/>
+                               <field name="cost_service" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="cost_part" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="cost_task" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="total_cost" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                            </group>
 
