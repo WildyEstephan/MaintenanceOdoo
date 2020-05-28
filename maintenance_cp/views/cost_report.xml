@@ -8,9 +8,9 @@
             <field name="arch" type="xml">
                 <pivot string="Cost Report">
                     <field name="equipment_id" type="row"/>
-                    <field name="category_id" type="col"/>
-                    <field name="start_date" type="col"/>
-                    <field name="end_date" type="col"/>
+                    <field name="category_id" type="row"/>
+                    <field name="start_date" type="row"/>
+                    <field name="end_date" type="row"/>
                     <field name="cost_service" type="measure"/>
                     <field name="cost_part" type="measure"/>
                     <field name="cost_task" type="measure"/>
