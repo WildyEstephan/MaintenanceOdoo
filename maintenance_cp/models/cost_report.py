@@ -17,7 +17,7 @@ class ModelName (models.Model):
     start_date = fields.Datetime(string="Start Date", required=False, )
     end_date = fields.Datetime(string="End Date", required=False, )
     # task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=False, )
-    workforce_cost_total = fields.Float(string="Workforce Cost Total", required=False, )
+    # workforce_cost_total = fields.Float(string="Workforce Cost Total", required=False, )
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
@@ -45,7 +45,7 @@ class ModelName (models.Model):
         select_str = """
         wo.id as id, wo.id as name, wo.type_maintenance as type_maintenance, 
         wo.equipment_id as equipment_id, wo.category_id as category_id, 
-        wo.start_date as start_date, wo.end_date as end_date, wo.workforce_cost_total as workforce_cost_total, 
+        wo.start_date as start_date, wo.end_date as end_date, 
         wo.currency_id as currency_id, wo.planned_end_date as planned_end_date, 
         wo.planned_end_hours as planned_end_hours, wo.end_hours as end_hours, 
         wo.cost_service as cost_service, wo.cost_part as cost_part, wo.cost_task as cost_task, 
