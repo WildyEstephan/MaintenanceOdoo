@@ -77,7 +77,7 @@ class Planning(models.Model):
 
     total_cost = fields.Float(
         string='Total Cost',
-        required=False)
+        required=False, compute='_compute_total_cost')
 
     @api.multi
     @api.depends('task_ids', 'parts_ids', 'service_ids')
