@@ -16,6 +16,8 @@ class Planning(models.Model):
     name = fields.Char(string="Sequence", required=False, )
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    required=True, )
+    category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
+                                  string="Category", related="equipment_id.category_id", )
     description_maintenance = fields.Text(string="Description for Maintenance", required=False, )
 
     need_breakdown = fields.Boolean(string="Breakdown", )
@@ -308,7 +310,7 @@ class PlanningTask(models.Model):
     planning_id = fields.Many2one(comodel_name="maintenance.planning",
                                    string="Planning", required=False, )
 
-    task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True, )
+    task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True, domain="[('category_id', '=', category_id)]")
     hours = fields.Float(string="Hours Planned",  required=False, )
     description = fields.Char(string="Description", required=False, )
 
@@ -318,6 +320,11 @@ class PlanningTask(models.Model):
         comodel_name='res.currency',
         string='Currency',
         required=False, default=default_currency)
+
+    equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
+                                   store=True, related="planning_id.equipment_id")
+    category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
+                                  string="Category", related="planning_id.category_id", store=True)
 
 
     @api.multi
