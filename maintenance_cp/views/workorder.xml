@@ -45,6 +45,7 @@
                                <field name="end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="effectiveness" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
                                <!--<field name="planning_id" attrs="{'readonly':[('type_maintenance', '=', 'preventive')]}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>-->
+                                <field name="category_id" invisible="1"/>
                            </group>
 
                        </group>
