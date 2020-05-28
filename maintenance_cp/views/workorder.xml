@@ -270,7 +270,7 @@
             <field name="arch" type="xml">
                 <gantt_custom
                        start_date="start_date"
-                       date_end="planned_end_date" string="Tasks" group_by="specialist_id"/>
+                       end_date="planned_end_date" string="Tasks" group_by="specialist_id"/>
             </field>
         </record>
 

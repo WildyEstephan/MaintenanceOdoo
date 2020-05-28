@@ -296,6 +296,7 @@ class DescriptionMaintenance(models.Model):
 
     start_date = fields.Datetime(string="Start Date", required=False, default=datetime.today())
     end_date = fields.Datetime(string="End Date", required=False, )
+    date_end = fields.Datetime(string="End Date", required=False, )
     planned_end_date = fields.Datetime(string="Planned End Date", required=False, )
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
     end_hours = fields.Float(string="End Hours", required=False, )
