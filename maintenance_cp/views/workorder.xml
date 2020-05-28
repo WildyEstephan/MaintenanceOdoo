@@ -47,6 +47,8 @@
                                <!--<field name="planning_id" attrs="{'readonly':[('type_maintenance', '=', 'preventive')]}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>-->
                                 <field name="category_id" invisible="1"/>
                                 <field name="id" invisible="1"/>
+                               <field name="currency_id" invisible="1"/>
+                               <field name="total_cost" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                            </group>
 
                        </group>
@@ -59,6 +61,9 @@
                                        <field name="product_id"/>
                                        <field name="name"/>
                                        <field name="product_qty"/>
+                                       <field name="estimated_cost"/>
+                                       <field name="total" widget="monetary" readonly="1"/>
+                                       <field name="currency_id" invisible="1"/>
                                        <field name="vendor_id"/>
                                        <field name="state" readonly="1"/>
                                    </tree>
@@ -70,6 +75,8 @@
                                        <field name="name"/>
                                        <field name="vendor_id"/>
                                        <field name="estimated_cost"/>
+                                       <field name="total" widget="monetary" readonly="1"/>
+                                       <field name="currency_id" invisible="1"/>
                                    </tree>
                                </field>
                            </page>

@@ -13,6 +13,10 @@ class WorkOrder(models.Model):
     _description = 'Equipment Work Order'
     _order = "name desc"
 
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
+
     name = fields.Char(string="Sequence", required=False, )
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    required=True, )
@@ -84,6 +88,33 @@ class WorkOrder(models.Model):
     is_checked = fields.Boolean(string="Task checked", )
 
     # planning_id = fields.Many2one(comodel_name="maintenance.planning", string="Planning", required=False, )
+
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+    total_cost = fields.Float(
+        string='Total Cost',
+        required=False, compute='_compute_total_cost')
+
+    @api.multi
+    @api.depends('description_ids', 'parts_ids', 'service_ids')
+    def _compute_total_cost(self):
+        cost_task = 0.0
+        cost_part = 0.0
+        cost_service = 0.0
+
+        for task in self.description_ids:
+            cost_task = cost_task + task.workforce_cost
+
+        for part in self.parts_ids:
+            cost_part = cost_part + part.total
+
+        for service in self.service_ids:
+            cost_service = cost_service + service.total
+
+        self.total_cost = cost_part + cost_task + cost_service
 
     def delete_task_parts(self):
 
@@ -226,6 +257,10 @@ class PlannedParts(models.Model):
     _name = 'maintenance.cp.planned.parts'
     _description = 'Planned Parts'
 
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
+
     name = fields.Char(string="Description", required=True, )
     workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder",
                                    string="Work Order", required=False, )
@@ -233,6 +268,9 @@ class PlannedParts(models.Model):
                                  required=True, domain="[('is_part', '=', 'True')]")
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
                                required=True)
+    estimated_cost = fields.Float(
+        string='Estimated Cost',
+        required=True)
     state = fields.Selection(string="State",
                              selection=[('stock', 'On Stock'),
                                         ('unavailable', 'Unavailable'),
@@ -247,10 +285,29 @@ class PlannedParts(models.Model):
                                  default=lambda self: self.env.user.company_id.id)
     task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=False, )
 
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+    total = fields.Float(
+        string='Total',
+        required=False, compute='_compute_total')
+
+    @api.multi
+    @api.depends('estimated_cost', 'product_qty')
+    def _compute_total(self):
+        for record in self:
+            record.total = record.product_qty + record.estimated_cost
+
 class Service(models.Model):
     _name = 'maintenance.cp.service'
     _rec_name = 'name'
     _description = 'Service Maintenance'
+
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
 
     name = fields.Char(string="Description", required=True, )
     workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder", string="Work Order", required=False, )
@@ -263,6 +320,21 @@ class Service(models.Model):
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+    total = fields.Float(
+        string='Total',
+        required=False, compute='_compute_total')
+
+    @api.multi
+    @api.depends('estimated_cost', 'product_qty')
+    def _compute_total(self):
+        for record in self:
+            record.total = record.product_qty + record.estimated_cost
 
 class DescriptionMaintenance(models.Model):
     _name = 'maintenance.cp.description.task'
