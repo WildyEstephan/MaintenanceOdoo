@@ -393,7 +393,7 @@ class DescriptionMaintenance(models.Model):
 
         date_planned = day + timedelta(hours=ID.planned_end_hours)
 
-        record.planned_end_date = date_planned.strftime('%Y-%m-%d')
+        ID.planned_end_date = date_planned.strftime('%Y-%m-%d')
 
         if ID.specialist_id:
             ID.currency_id = ID.specialist_id.currency_id
