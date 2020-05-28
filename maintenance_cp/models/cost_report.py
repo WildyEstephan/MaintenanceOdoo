@@ -43,7 +43,7 @@ class ModelName (models.Model):
 
     def _select(self):
         select_str = """
-        wo.id as id, wo.workorder_id as name, wo.type_maintenance as type_maintenance, 
+        wo.id as id, wo.id as name, wo.type_maintenance as type_maintenance, 
         wo.equipment_id as equipment_id, wo.category_id as category_id, 
         wo.start_date as start_date, wo.end_date as end_date, wo.workforce_cost_total as workforce_cost_total, 
         wo.currency_id as currency_id, wo.planned_end_date as planned_end_date, 
