@@ -78,6 +78,7 @@
                                            <field name="hours" readonly="1"/>
                                            <field name="currency_id" invisible="1"/>
                                            <field name="workforce_cost" widget="monetary" readonly="1" sum="Total Cost"/>
+                                            <field name="category_id" invisible="1"/>
                                        </tree>
                                    </field>
                            </page>
