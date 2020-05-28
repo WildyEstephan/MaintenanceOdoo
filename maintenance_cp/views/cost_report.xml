@@ -22,7 +22,6 @@
             <field name="name">Cost Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">maintenance.cost.report</field>
-            <field name="view_type">pivot</field>
             <field name="view_mode">pivot</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
