@@ -413,6 +413,6 @@ class Service(models.Model):
         required=False, compute='_compute_total')
 
     @api.multi
-    @api.depends('estimated_cost', 'product_qty')
+    @api.depends('estimated_cost')
     def _compute_total(self):
         self.total = self.estimated_cost
