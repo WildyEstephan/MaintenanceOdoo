@@ -334,7 +334,7 @@ class Service(models.Model):
     @api.depends('estimated_cost', 'product_qty')
     def _compute_total(self):
         for record in self:
-            record.total = record.product_qty + record.estimated_cost
+            record.total = record.estimated_cost
 
 class DescriptionMaintenance(models.Model):
     _name = 'maintenance.cp.description.task'
