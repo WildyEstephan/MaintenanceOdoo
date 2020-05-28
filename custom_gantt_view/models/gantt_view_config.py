@@ -38,13 +38,13 @@ class GanttContents(models.Model):
         if res_ids == False:
             result = self.env[FieldsInfo['model']].search([
                 (FieldsInfo['date_start'], '!=', None),
-                (FieldsInfo['date_end'], '!=', None),
+                (FieldsInfo['end_date'], '!=', None),
             ])
         else:
             result = self.env[FieldsInfo['model']].search([
                 ('id', 'in', res_ids),
                 (FieldsInfo['date_start'], '!=', None),
-                (FieldsInfo['date_end'], '!=', None),
+                (FieldsInfo['end_date'], '!=', None),
             ])
         task_array = {}
         for rec in result:
@@ -58,7 +58,7 @@ class GanttContents(models.Model):
                     'rec_id': False,
                     'name': type_field[type_field._rec_name],
                     'start': rec[FieldsInfo['date_start']],
-                    'end': rec[FieldsInfo['date_end']],
+                    'end': rec[FieldsInfo['end_date']],
                     # 'dependencies': '',
                     'custom_class': 'bar-milestone'
                 }, {
@@ -69,7 +69,7 @@ class GanttContents(models.Model):
                     'rec_id': rec.id,
                     'name': rec[rec._rec_name],
                     'start': rec[FieldsInfo['date_start']],
-                    'end': rec[FieldsInfo['date_end']],
+                    'end': rec[FieldsInfo['end_date']],
                     'dependencies': str(type_field.id),
                     'custom_class': 'bar-milestone',
                 }]
@@ -82,15 +82,15 @@ class GanttContents(models.Model):
                     'type_id': type_field.id,
                     'name': rec[rec._rec_name],
                     'start': rec[FieldsInfo['date_start']],
-                    'end': rec[FieldsInfo['date_end']],
+                    'end': rec[FieldsInfo['end_date']],
                     'dependencies': str(type_field.id),
                     'custom_class': 'bar-milestone',
                 }
                 task_array[type_field.id].append(temp)
                 if rec[FieldsInfo['date_start']] < task_array[type_field.id][0]['start']:
                     task_array[type_field.id][0]['start'] = rec[FieldsInfo['date_start']]
-                if rec[FieldsInfo['date_end']] > task_array[type_field.id][0]['end']:
-                    task_array[type_field.id][0]['end'] = rec[FieldsInfo['date_end']]
+                if rec[FieldsInfo['end_date']] > task_array[type_field.id][0]['end']:
+                    task_array[type_field.id][0]['end'] = rec[FieldsInfo['end_date']]
 
         return [task_array, today]
 
@@ -104,6 +104,6 @@ class GanttContents(models.Model):
         child_rec = self.env[model].search([('id', '=', task['rec_id'])])
         child_rec.write({
             result['date_start']: start,
-            result['date_end']: end
+            result['end_date']: end
         })
         return
