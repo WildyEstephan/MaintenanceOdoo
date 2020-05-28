@@ -72,7 +72,7 @@
                                </field>
                            </page>
                            <page string="Tasks" name="tasks">
-                                   <field name="task_ids">
+                                   <field name="task_ids" context="{'default_category_id': category_id}">
                                        <tree editable="top">
                                            <field name="task_id"/>
                                            <field name="description"/>

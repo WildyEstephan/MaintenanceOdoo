@@ -324,7 +324,8 @@ class PlanningTask(models.Model):
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    store=True, related="planning_id.equipment_id")
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
-                                  string="Category", related="planning_id.category_id", store=True)
+                                  string="Category",)
+                                  # related="planning_id.category_id", store=True)
 
 
     @api.multi
