@@ -53,7 +53,7 @@ class ModelName (models.Model):
         return select_str
 
     def _from(self):
-        from_str = """maintenance_cp_workorder"""
+        from_str = """maintenance_cp_workorder as wo"""
         return from_str
 
     # def _group_by(self):
