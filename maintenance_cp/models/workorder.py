@@ -109,20 +109,22 @@ class WorkOrder(models.Model):
         cost_part = 0.0
         cost_service = 0.0
 
-        for task in self.description_ids:
-            cost_task = cost_task + task.workforce_cost
+        for record in self:
 
-        for part in self.parts_ids:
-            cost_part = cost_part + part.total
+            for task in record.description_ids:
+                cost_task = cost_task + task.workforce_cost
 
-        for service in self.service_ids:
-            cost_service = cost_service + service.total
+            for part in record.parts_ids:
+                cost_part = cost_part + part.total
 
-        self.cost_service = cost_service
-        self.cost_part = cost_part
-        self.cost_task = cost_task
+            for service in record.service_ids:
+                cost_service = cost_service + service.total
 
-        self.total_cost = cost_part + cost_task + cost_service
+            record.cost_service = cost_service
+            record.cost_part = cost_part
+            record.cost_task = cost_task
+
+            record.total_cost = cost_part + cost_task + cost_service
 
     def delete_task_parts(self):
 
