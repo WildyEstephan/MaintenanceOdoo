@@ -7,7 +7,11 @@ class Planning(models.Model):
     _name = 'maintenance.planning'
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
-    _description = 'Equipment Work Order'
+    _description = 'Planning Work Order'
+
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
 
     name = fields.Char(string="Sequence", required=False, )
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
@@ -66,6 +70,33 @@ class Planning(models.Model):
     task_ids = fields.One2many(comodel_name="maintenance.planning.task", inverse_name="planning_id", string="Tasks", required=False, )
 
     # workorder_ids = fields.One2many(comodel_name="maintenance.cp.workorder", inverse_name="planning_id", string="Work Orders", required=False, )
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+    total_cost = fields.Float(
+        string='Total Cost',
+        required=False)
+
+    @api.multi
+    @api.depends('task_ids', 'parts_ids', 'service_ids')
+    def _compute_total_cost(self):
+        cost_task =  0.0
+        cost_part = 0.0
+        cost_service = 0.0
+
+        for task in self.task_ids:
+            cost_task = cost_task + task.workforce_cost
+
+        for part in self.parts_ids:
+            cost_part = cost_part + part.total
+
+        for service in self.service_ids:
+            cost_service = cost_service + service.total
+
+        self.total_cost = cost_part + cost_task + cost_service
+
 
     @api.one
     @api.depends('task_ids')
@@ -267,6 +298,10 @@ class Planning(models.Model):
 class PlanningTask(models.Model):
     _name = 'maintenance.planning.task'
     _description = 'Planning Task'
+    
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
 
     sequence = fields.Integer(string="Sequence", required=False, )
 
@@ -276,6 +311,29 @@ class PlanningTask(models.Model):
     task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True, )
     hours = fields.Float(string="Hours Planned",  required=False, )
     description = fields.Char(string="Description", required=False, )
+
+    workforce_cost = fields.Float(string="Workforce Cost", required=False, compute='_compute_workforce_cost',
+                                  store=True)
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+
+    @api.multi
+    @api.depends('task_id')
+    def _compute_workforce_cost(self):
+
+        tasks = self.env['maintenance.cp.description.task'].search([('task_id', '=', self.task_id.id)])
+        cost_ave = 0.0
+        cost = 0.0
+        for task in tasks:
+            cost = cost + tasks.workforce_cost
+            
+        cost_ave = cost / len(tasks)
+
+        self.workforce_cost = cost_ave
+
 
     @api.onchange('task_id')
     def _onchange_task_id(self):
@@ -288,6 +346,10 @@ class PlannedParts(models.Model):
     _name = 'maintenance.planning.planned.parts'
     _description = 'Planned Parts'
 
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
+
     name = fields.Char(string="Description", required=True, )
     planning_id = fields.Many2one(comodel_name="maintenance.planning",
                                    string="Work Order", required=False, )
@@ -295,17 +357,38 @@ class PlannedParts(models.Model):
                                  required=True, domain="[('is_part', '=', 'True')]")
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
                                required=True)
+    estimated_cost = fields.Float(
+        string='Estimated Cost',
+        required=True)
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
     vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True,
                                 domain=[('supplier', '=', True)])
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+    total = fields.Float(
+        string='Total', 
+        required=False, compute='_compute_total')
+    
+    @api.multi
+    @api.depends('estimated_cost', 'product_qty')
+    def _compute_total(self):
+        self.total = self.product_qty + self.estimated_cost
+        
 
 class Service(models.Model):
     _name = 'maintenance.planning.service'
     _rec_name = 'name'
     _description = 'Service Maintenance'
+
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
 
     name = fields.Char(string="Description", required=True, )
     planning_id = fields.Many2one(comodel_name="maintenance.planning", string="Planning", required=False, )
@@ -319,3 +402,17 @@ class Service(models.Model):
                                  default=lambda self: self.env.user.company_id.id)
     vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True,
                                 domain=[('supplier', '=', True)])
+
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
+
+    total = fields.Float(
+        string='Total',
+        required=False, compute='_compute_total')
+
+    @api.multi
+    @api.depends('estimated_cost', 'product_qty')
+    def _compute_total(self):
+        self.total = self.product_qty + self.estimated_cost
