@@ -330,7 +330,7 @@ class PlanningTask(models.Model):
             cost_ave = 0.0
             cost = 0.0
             for task in tasks:
-                cost = cost + tasks.workforce_cost
+                cost = cost + task.workforce_cost
 
             cost_ave = cost / len(tasks)
 
