@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="assets_backend" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript"
+                    src="/custom_gantt_view/static/src/lib/gantt-master/dist/frappe-gantt.min.js" />
+            <link href="/custom_gantt_view/static/src/lib/gantt-master/dist/frappe-gantt.css"
+                  type="text/less"
+                  rel="stylesheet" />
+            <link href="/custom_gantt_view/static/src/css/style.css"
+                  type="text/less"
+                  rel="stylesheet" />
+
+            <script type="text/javascript" src='/custom_gantt_view/static/src/js/gantt_renderer.js' />
+            <script type="text/javascript" src='/custom_gantt_view/static/src/js/gantt_controller.js' />
+            <script type="text/javascript" src='/custom_gantt_view/static/src/js/gantt_custom_view.js' />
+        </xpath>
+    </template>
+</odoo>

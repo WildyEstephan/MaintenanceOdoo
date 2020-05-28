@@ -1,0 +1,19 @@
+.gantt-controll-buttons button{
+    border-radius: 0px !important;
+    text-align: center;
+    background: #cbcaca;
+    border-color: #cbcaca !important;
+    font-weight: 600;
+    transition: all 0.5s ease;
+}
+button.btn.btn-sm.btn-light.active, .gantt-controll-buttons button:hover{
+    background: #636363;
+    border-color: #636363 !important;
+}
+.reload_gantt_button {
+    margin-left: 66px !important;
+    background: #a2c5ea94 !important;
+}
+.reload_gantt_button:hover {
+    background: #569ae294 !important;
+}
