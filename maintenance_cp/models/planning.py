@@ -230,6 +230,7 @@ class Planning(models.Model):
                 {
                     'product_id': p.product_id.id,
                     'product_qty': p.product_qty,
+                    'estimated_cost': p.estimated_cost,
                     'name': p.name,
                     'workorder_id': workorder.id,
                     'vendor_id': p.vendor_id.id
@@ -243,7 +244,7 @@ class Planning(models.Model):
                     'estimated_cost': s.estimated_cost,
                     'vendor_id': s.vendor_id.id,
                     'name': 'Description',
-                    'workorder_id': workorder.id
+                    'workorder_id': workorder.id,
                 }
             )
 
