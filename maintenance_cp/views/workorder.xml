@@ -214,7 +214,8 @@
                                <field name="planned_end_hours" readonly="1"/>
                                <field name="planned_end_date" readonly="1"/>
                                <field name="time_effectiveness" readonly="1"/>
-                               <field name="workforce_cost" readonly="1"/>
+                               <field name="currency_id" invisible="1"/>
+                               <field name="workforce_cost" readonly="1" widget="monetary"/>
                            </group>
                            <group>
                                <field name="workorder_id" readonly="1"/>
@@ -224,7 +225,7 @@
                                <field name="end_hours_by_specialist" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="end_hours_by_supervisor" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="effectiveness" readonly="1"/>
-                               <field name="workforce_cost_total" readonly="1"/>
+                               <field name="workforce_cost_total" readonly="1" widget="monetary"/>
                            </group>
                         </group>
                     </sheet>

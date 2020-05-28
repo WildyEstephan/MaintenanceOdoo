@@ -270,6 +270,10 @@ class DescriptionMaintenance(models.Model):
     _rec_name = 'name'
     _description = 'Description Task Maintenance'
 
+    def default_currency(self):
+        currency = self.env.user.company_id.currency_id
+        return currency.id
+
     sequence = fields.Integer(string="Sequence", required=False, )
 
     name = fields.Char(string="Name", required=False, related='task_id.name', store=True)
@@ -314,6 +318,10 @@ class DescriptionMaintenance(models.Model):
                                   store=True)
     workforce_cost_total = fields.Float(string="Workforce Cost Total",  required=False,)
                                         # compute='_compute_workforce_cost_total', store=True)
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        required=False, default=default_currency)
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    store=True, related="workorder_id.equipment_id")
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
@@ -377,6 +385,7 @@ class DescriptionMaintenance(models.Model):
         ID.planned_end_hours = ID.task_id.planned_end_hours
 
         if ID.specialist_id:
+            ID.currency_id = ID.specialist_id.currency_id
 
             ID.user_id = ID.specialist_id.user_id
             ID.team_id = ID.specialist_id.team_id
