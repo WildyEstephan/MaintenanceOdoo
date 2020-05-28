@@ -354,6 +354,11 @@ class DescriptionMaintenance(models.Model):
     def _onchange_task_id(self):
         for record in self:
             record.planned_end_hours = self.task_id.planned_end_hours
+            day = datetime.today()
+
+            date_planned = day + timedelta(hours=self.task_id.planned_end_hours)
+
+            record.planned_end_date = date_planned.strftime('%Y-%m-%d')
 
     @api.one
     @api.depends('specialist_id')
@@ -383,6 +388,12 @@ class DescriptionMaintenance(models.Model):
         # ID.add_followers()
 
         ID.planned_end_hours = ID.task_id.planned_end_hours
+
+        day = datetime.today()
+
+        date_planned = day + timedelta(hours=ID.planned_end_hours)
+
+        record.planned_end_date = date_planned.strftime('%Y-%m-%d')
 
         if ID.specialist_id:
             ID.currency_id = ID.specialist_id.currency_id
