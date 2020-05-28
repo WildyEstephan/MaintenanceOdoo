@@ -312,8 +312,8 @@ class DescriptionMaintenance(models.Model):
                                  default=lambda self: self.env.user.company_id.id)
     workforce_cost = fields.Float(string="Workforce Cost",  required=False, compute='_compute_workforce_cost',
                                   store=True)
-    workforce_cost_total = fields.Float(string="Workforce Cost Total",  required=False,
-                                        compute='_compute_workforce_cost_total', store=True)
+    workforce_cost_total = fields.Float(string="Workforce Cost Total",  required=False,)
+                                        # compute='_compute_workforce_cost_total', store=True)
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    store=True, related="workorder_id.equipment_id")
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
@@ -356,16 +356,16 @@ class DescriptionMaintenance(models.Model):
         contract = self.specialist_id.contract_id
         # raise exceptions.UserError(_(contract.name))
 
-        horas = 30 * 60
-        self.workforce_cost = contract.wage/horas
+        # horas = 30 * 60
+        self.workforce_cost = contract.wage/160
 
-    @api.one
-    @api.depends('workforce_cost', 'end_hours')
-    def _compute_workforce_cost_total(self):
-        """
-        @api.depends() should contain all fields that will be used in the calculations.
-        """
-        self.workforce_cost_total = self.workforce_cost * self.end_hours
+    # @api.one
+    # @api.depends('workforce_cost', 'end_hours')
+    # def _compute_workforce_cost_total(self):
+    #     """
+    #     @api.depends() should contain all fields that will be used in the calculations.
+    #     """
+    #     self.workforce_cost_total = self.workforce_cost * self.end_hours
 
     @api.model
     def create(self, values):
@@ -439,6 +439,8 @@ class DescriptionMaintenance(models.Model):
         total_hours = abs(date_total.hours)
 
         self.end_hours = total_hours
+
+        self.workforce_cost_total = self.workforce_cost * self.end_hours
 
         if not task:
             self.workorder_id.end_working()
