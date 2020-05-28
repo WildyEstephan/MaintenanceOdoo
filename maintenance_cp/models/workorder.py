@@ -346,6 +346,11 @@ class DescriptionMaintenance(models.Model):
         string='Reminder End',
         related="task_id.reminder_end_id", store=True)
 
+    type_maintenance = fields.Selection(string="Type of Maintenance",
+                                        selection=[('corrective', 'Corrective'),
+                                                    ('preventive', 'Preventive'), ],
+                                        related="workorder_id.type_maintenance", store=True)
+
     @api.multi
     def check_task(self):
         self.is_checked = True
