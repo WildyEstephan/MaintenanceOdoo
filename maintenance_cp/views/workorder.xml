@@ -269,9 +269,8 @@
             <field name="model">maintenance.cp.description.task</field>
             <field name="arch" type="xml">
                 <gantt_custom
-                       date_start="start_date"
-                       date_end="planned_end_date" string="Tasks" group_by="specialist_id">
-                </gantt_custom>
+                       start_date="start_date"
+                       end_date="planned_end_date" string="Tasks" group_by="specialist_id"/>
             </field>
         </record>
 
