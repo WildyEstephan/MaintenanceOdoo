@@ -324,15 +324,17 @@ class PlanningTask(models.Model):
     @api.depends('task_id')
     def _compute_workforce_cost(self):
 
-        tasks = self.env['maintenance.cp.description.task'].search([('task_id', '=', self.task_id.id)])
-        cost_ave = 0.0
-        cost = 0.0
-        for task in tasks:
-            cost = cost + tasks.workforce_cost
-            
-        cost_ave = cost / len(tasks)
+        for record in self:
 
-        self.workforce_cost = cost_ave
+            tasks = self.env['maintenance.cp.description.task'].search([('task_id', '=', record.task_id.id)])
+            cost_ave = 0.0
+            cost = 0.0
+            for task in tasks:
+                cost = cost + tasks.workforce_cost
+
+            cost_ave = cost / len(tasks)
+
+            record.workforce_cost = cost_ave
 
 
     @api.onchange('task_id')
@@ -378,7 +380,9 @@ class PlannedParts(models.Model):
     @api.multi
     @api.depends('estimated_cost', 'product_qty')
     def _compute_total(self):
-        self.total = self.product_qty + self.estimated_cost
+
+        for record in self:
+            record.total = record.product_qty + record.estimated_cost
         
 
 class Service(models.Model):
@@ -415,4 +419,6 @@ class Service(models.Model):
     @api.multi
     @api.depends('estimated_cost', 'product_qty')
     def _compute_total(self):
-        self.total = self.product_qty + self.estimated_cost
+
+        for record in self:
+            record.total = record.product_qty + record.estimated_cost
