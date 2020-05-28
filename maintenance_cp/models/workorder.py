@@ -21,9 +21,9 @@ class WorkOrder(models.Model):
     equipment_id = fields.Many2one(comodel_name="maintenance.cp.equipment", string="Equipment",
                                    required=True, )
     category_id = fields.Many2one(comodel_name="maintenance.cp.equipment.category",
-                                  string="Category", related="equipment_id.category_id", )
+                                  string="Category", related="equipment_id.category_id", store=True)
     location_id = fields.Many2one(comodel_name="maintenance.cp.equipment.location",
-                                  string="Location", related="equipment_id.location_id", )
+                                  string="Location", related="equipment_id.location_id", store=True)
     type_maintenance = fields.Selection(string="Type of Maintenance", selection=[('corrective', 'Corrective'),
                                                    ('preventive', 'Preventive'), ],
                              required=False, default='corrective')
@@ -98,9 +98,9 @@ class WorkOrder(models.Model):
         string='Total Cost',
         required=False, compute='_compute_total_cost')
 
-    cost_service = fields.Float(string='Estimated Cost Services', required=False, compute='_compute_total_cost')
-    cost_part = fields.Float(string='Estimated Cost Parts', required=False, compute='_compute_total_cost')
-    cost_task = fields.Float(string='Estimated Cost Tasks', required=False, compute='_compute_total_cost')
+    cost_service = fields.Float(string='Estimated Cost Services', required=False, compute='_compute_total_cost', store=True)
+    cost_part = fields.Float(string='Estimated Cost Parts', required=False, compute='_compute_total_cost', store=True)
+    cost_task = fields.Float(string='Estimated Cost Tasks', required=False, compute='_compute_total_cost', store=True)
 
     @api.multi
     @api.depends('description_ids', 'parts_ids', 'service_ids')
