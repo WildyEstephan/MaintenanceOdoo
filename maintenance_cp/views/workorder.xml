@@ -264,19 +264,16 @@
             </field>
         </record>
 
-<!--        <record id="description_view_gantt" model="ir.ui.view">-->
-<!--            <field name="name">description_view_gantt</field>-->
-<!--            <field name="model">maintenance.cp.description.task</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <gantt color="user_id" date_delay="planned_hours"-->
-<!--                       date_start="start_date"-->
-<!--                       date_stop="end_start" string="Tasks">-->
-<!--                    <level object="maintenance.cp.workorder" link="workorder_id" domain="[]">-->
-<!--                        <field name="name"/>-->
-<!--                    </level>-->
-<!--                </gantt>-->
-<!--            </field>-->
-<!--        </record>-->
+        <record id="description_view_gantt" model="ir.ui.view">
+            <field name="name">description_view_gantt</field>
+            <field name="model">maintenance.cp.description.task</field>
+            <field name="arch" type="xml">
+                <gantt_custom
+                       date_start="start_date"
+                       date_end="planned_end_date" string="Tasks" group_by="specialist_id">
+                </gantt_custom>
+            </field>
+        </record>
 
 <!--        <record id="description_view_gantt_timeline" model="ir.ui.view">-->
 <!--        <field name="model">maintenance.cp.description.task</field>-->
@@ -310,7 +307,7 @@
             <field name="name">All Description Task</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">maintenance.cp.description.task</field>
-            <field name="view_mode">tree,form,timeline</field>
+            <field name="view_mode">tree,form,gantt_custom</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                 <!-- Add Text Here -->

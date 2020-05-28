@@ -294,7 +294,7 @@ class DescriptionMaintenance(models.Model):
 
     workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder", string="Work Order", required=False, store=True)
 
-    start_date = fields.Datetime(string="Start Date", required=False, )
+    start_date = fields.Datetime(string="Start Date", required=False, default=datetime.today())
     end_date = fields.Datetime(string="End Date", required=False, )
     planned_end_date = fields.Datetime(string="Planned End Date", required=False, )
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
