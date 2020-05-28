@@ -23,7 +23,7 @@
                        <group>
 
                            <group string="Planning">
-                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
+                               <field name="equipment_id" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" />
                                <field name="planned_end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <label for="frequency_exe" string="Frequency Of Execution"/>
                                 <div>
@@ -31,7 +31,7 @@
                                     <field name="frequency_time" class="oe_inline"/>
                                 </div>
 
-                               <field name="section_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
+                               <field name="section_ids" context="{'default_equipment_id': equipment_id}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
                            </group>
                            <group string="Management">
                                <field name="need_breakdown" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
