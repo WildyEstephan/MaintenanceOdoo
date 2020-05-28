@@ -38,6 +38,7 @@
         'views/planning.xml',
         'views/reminder.xml',
         'views/reporting.xml',
+        'views/cost_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
