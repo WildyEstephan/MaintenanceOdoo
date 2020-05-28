@@ -92,12 +92,15 @@
                                             <span name="Operations">Operations</span>
                                         </button>
                                        <field name="planned_end_hours" readonly="1"/>
+                                       <field name="workforce_cost" widget="monetary" readonly="1"/>
+                                       <field name="workforce_cost_total" widget="monetary" readonly="1"/>
+                                       <field name="currency_id" invisible="1"/>
                                        <field name="state" readonly="1"/>
                                        <field name="user_id" invisible="1"/>
                                        <field name="team_id" invisible="1"/>
                                        <field name="equipment_id" invisible="1"/>
-                                       <field name="workorder_id" readonly="1"/>
-                                       <field name="category_id" readonly="1"/>
+                                       <field name="workorder_id" invisible="1"/>
+                                       <field name="category_id" invisible="1"/>
                                        <field name="location_id" invisible="1"/>
                                    </tree>
                                </field>
