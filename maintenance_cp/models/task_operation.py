@@ -131,7 +131,7 @@ class Task(models.Model):
 
     name = fields.Char(string="Name of Task", required=True, )
     type_workforce_id = fields.Many2one(comodel_name="maintenance.cp.type.workforce",
-                                        string="Type of Workforce", required=False, )
+                                        string="Type of Workforce", required=True, )
 
     operation_ids = fields.One2many(comodel_name="maintenance.cp.operation",
                                     inverse_name="task_id",
