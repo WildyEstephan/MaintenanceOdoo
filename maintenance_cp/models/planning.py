@@ -8,6 +8,7 @@ class Planning(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _rec_name = 'name'
     _description = 'Planning Work Order'
+    _order = 'name desc'
 
     def default_currency(self):
         currency = self.env.user.company_id.currency_id
