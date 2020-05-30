@@ -549,7 +549,7 @@ class DescriptionMaintenance(models.Model):
 
         date_total = start_date - day
 
-        total_hours = abs(date_total.days * 24 + date_total.seconds)
+        total_hours = abs(date_total.seconds * 3600 * 60)
 
         self.end_hours = total_hours
 
