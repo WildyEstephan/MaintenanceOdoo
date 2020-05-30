@@ -451,7 +451,7 @@ class DescriptionMaintenance(models.Model):
 
             date_planned = day + timedelta(hours=self.task_id.planned_end_hours)
 
-            record.planned_end_date = date_planned.strftime('%Y-%m-%d')
+            record.planned_end_date = date_planned.strftime('%Y-%m-%d %H:%S:%M')
 
     @api.one
     @api.depends('specialist_id')
@@ -486,7 +486,7 @@ class DescriptionMaintenance(models.Model):
 
         date_planned = day + timedelta(hours=ID.planned_end_hours)
 
-        ID.planned_end_date = date_planned.strftime('%Y-%m-%d')
+        ID.planned_end_date = date_planned.strftime('%Y-%m-%d %H:%S:%M')
 
         if ID.specialist_id:
             ID.currency_id = ID.specialist_id.contract_id.currency_id
@@ -508,11 +508,11 @@ class DescriptionMaintenance(models.Model):
 
         day = datetime.today()
 
-        self.start_date = day.strftime('%Y-%m-%d')
+        self.start_date = day.strftime('%Y-%m-%d %H:%S:%M')
 
         date_planned = day + timedelta(hours=self.planned_end_hours)
 
-        self.planned_end_date = date_planned.strftime('%Y-%m-%d')
+        self.planned_end_date = date_planned.strftime('%Y-%m-%d %H:%S:%M')
 
         self.state = 'started'
 
@@ -531,7 +531,7 @@ class DescriptionMaintenance(models.Model):
     def end_working(self):
         day = datetime.today()
 
-        self.end_date = day.strftime('%Y-%m-%d')
+        self.end_date = day.strftime('%Y-%m-%d %H:%S:%M')
 
         if self.end_date > self.planned_end_date:
             self.time_effectiveness = 'mild'
@@ -547,7 +547,7 @@ class DescriptionMaintenance(models.Model):
 
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d %H:%S:%M')
 
-        date_total = relativedelta(start_date, day)
+        date_total = start_date - day
 
         total_hours = abs(date_total.hours)
 
