@@ -87,7 +87,7 @@ class Planning(models.Model):
     maintenance_date = fields.Date(string="Next Maintenance Date", required=False, )
 
     def set_maintenance_date(self):
-        start_date = datetime.strptime(self.start_date, '%y-%m-%d')
+        start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
         maintenance_date = ''
         if self.frequency_exe:
 
