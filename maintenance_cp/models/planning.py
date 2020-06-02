@@ -105,17 +105,14 @@ class Planning(models.Model):
     @api.onchange('start_date')
     def _onchange_start_date(self):
         self.set_maintenance_date()
-        return True
 
     @api.onchange('frequency_exe')
     def onchange_frequency_exe(self):
         self.set_maintenance_date()
-        return True
 
     @api.onchange('frequency_time')
     def onchange_frequency_time(self):
         self.set_maintenance_date()
-        return True
 
     @api.multi
     @api.depends('task_ids', 'parts_ids', 'service_ids')
