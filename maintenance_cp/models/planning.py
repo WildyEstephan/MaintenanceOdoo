@@ -102,10 +102,10 @@ class Planning(models.Model):
         else:
             self.maintenance_date = maintenance_date.strftime(tools.misc.DEFAULT_SERVER_DATE_FORMAT)
 
-    @api.onchange('start_date')
-    def _onchange_start_date(self):
-        self.set_maintenance_date()
-        return True
+    # @api.onchange('start_date')
+    # def _onchange_start_date(self):
+    #     self.set_maintenance_date()
+    #     return True
 
     @api.onchange('frequency_exe')
     def onchange_frequency_exe(self):
