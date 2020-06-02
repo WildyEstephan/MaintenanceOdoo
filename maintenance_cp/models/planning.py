@@ -101,7 +101,9 @@ class Planning(models.Model):
             elif self.frequency_time == 'year':
                 maintenance_date = start_date + relativedelta(years=self.frequency_exe)
         else:
-            self.maintenance_date = maintenance_date.strftime('%Y-%m-%d')
+            self.maintenance_date = start_date.strftime('%Y-%m-%d')
+
+        self.maintenance_date = maintenance_date.strftime('%Y-%m-%d')
 
     @api.onchange('start_date')
     def _onchange_start_date(self):
