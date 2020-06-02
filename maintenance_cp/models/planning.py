@@ -178,7 +178,6 @@ class Planning(models.Model):
                     else:
                         new_date = datetime.now() + relativedelta(years=rec.frequency_exe)
 
-                    rec.equipment_id.maintenance_date = rec.maintenance_date
                     rec.maintenance_date = new_date.strftime('%Y-%m-%d')
             else:
 
@@ -190,8 +189,7 @@ class Planning(models.Model):
                     new_date = datetime.now() + relativedelta(months=rec.frequency_exe)
                 else:
                     new_date = datetime.now() + relativedelta(years=rec.frequency_exe)
-                    
-                rec.equipment_id.maintenance_date = rec.maintenance_date
+
                 rec.maintenance_date = new_date.strftime('%Y-%m-%d')
 
 
@@ -236,6 +234,17 @@ class Planning(models.Model):
     def execute_maintenance(self):
 
         today = datetime.now().strftime('%Y-%m-%d')
+
+        if self.frequency_time == 'day':
+            new_date = datetime.now() + relativedelta(days=self.frequency_exe)
+        elif self.frequency_time == 'week':
+            new_date = datetime.now() + relativedelta(weeks=self.frequency_exe)
+        elif self.frequency_time == 'month':
+            new_date = datetime.now() + relativedelta(months=self.frequency_exe)
+        else:
+            new_date = datetime.now() + relativedelta(years=self.frequency_exe)
+
+        self.maintenance_date = new_date.strftime('%Y-%m-%d')
 
         self.equipment_id.maintenance_date = today
 
