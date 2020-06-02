@@ -163,42 +163,39 @@ class Planning(models.Model):
             day_man = ''
             new_date = ''
 
-            day_start_str = rec.start_date.split(' ')[0]
-            day_start = datetime.strptime(day_start_str, '%Y-%m-%d')
-
-
+            day_start = datetime.strptime(rec.start_date, '%Y-%m-%d')
 
             if rec.equipment_id.maintenance_date:
                 day_man = rec.equipment_id.maintenance_date.split(' ')[0]
 
                 if (not today_str == day_man) or (today_str < day_man):
                     if rec.frequency_time == 'day':
-                        new_date = datetime.now() + timedelta(days=rec.frequency_exe)
+                        new_date = datetime.now() + relativedelta(days=rec.frequency_exe)
                     elif rec.frequency_time == 'week':
-                        new_date = datetime.now() + timedelta(weeks=rec.frequency_exe)
+                        new_date = datetime.now() + relativedelta(weeks=rec.frequency_exe)
                     elif rec.frequency_time == 'month':
-                        new_date = datetime.now() + timedelta(days=30 * rec.frequency_exe)
+                        new_date = datetime.now() + relativedelta(months=rec.frequency_exe)
                     else:
-                        new_date = datetime.now() + timedelta(days=365 * rec.frequency_exe)
+                        new_date = datetime.now() + relativedelta(years=rec.frequency_exe)
 
-                    rec.equipment_id.maintenance_date = new_date
+                    rec.maintenance_date = new_date.strftime('%Y-%m-%d')
             else:
 
                 if rec.frequency_time == 'day':
-                    new_date = day_start + timedelta(days=rec.frequency_exe)
+                    new_date = datetime.now() + relativedelta(days=rec.frequency_exe)
                 elif rec.frequency_time == 'week':
-                    new_date = day_start + timedelta(weeks=rec.frequency_exe)
+                    new_date = datetime.now() + relativedelta(weeks=rec.frequency_exe)
                 elif rec.frequency_time == 'month':
-                    new_date = day_start + timedelta(days=30 * rec.frequency_exe)
+                    new_date = datetime.now() + relativedelta(months=rec.frequency_exe)
                 else:
-                    new_date = day_start + timedelta(days=365 * rec.frequency_exe)
+                    new_date = datetime.now() + relativedelta(years=rec.frequency_exe)
 
-                rec.equipment_id.maintenance_date = new_date
+                rec.equipment_id.maintenance_date = new_date.strftime('%Y-%m-%d')
 
 
     @api.model
     def end_all_planning(self):
-        today = datetime.now()
+        today = datetime.now().strftime('%Y-%m-%d')
 
         records = self.env['maintenance.planning'].search([('state', '=', 'started'), ('end_date', '=', today)])
 
@@ -215,9 +212,9 @@ class Planning(models.Model):
             today_str = today.strftime('%Y-%m-%d')
             day_man = ''
 
-            if rec.equipment_id.maintenance_date:
+            if rec.maintenance_date:
 
-                day_man = rec.equipment_id.maintenance_date.split(' ')[0]
+                day_man = rec.maintenance_date
 
                 if today_str == day_man:
                     rec.execute_maintenance()
@@ -225,8 +222,6 @@ class Planning(models.Model):
     @api.multi
     def end_planning(self):
         self.state = 'ended'
-
-
 
     def approve_this(self):
 
@@ -238,10 +233,9 @@ class Planning(models.Model):
     @api.multi
     def execute_maintenance(self):
 
-        today = datetime.now()
+        today = datetime.now().strftime('%Y-%m-%d')
 
-        if not self.equipment_id.maintenance_date:
-            self.equipment_id.maintenance_date = today
+        self.equipment_id.maintenance_date = today
 
         workorder = self.env['maintenance.cp.workorder'].create(
             {
