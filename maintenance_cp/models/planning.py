@@ -34,7 +34,7 @@ class Planning(models.Model):
     end_date = fields.Date(string="End Planning Date", required=False, )
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
 
-    frequency_exe = fields.Integer(string="Frequency Of Execution", required=True, )
+    frequency_exe = fields.Integer(string="Frequency Of Execution", required=True, default=1)
     frequency_time = fields.Selection(string="Frequency Time",
                                       selection=[('day', 'Days'),
                                                    ('week', 'Weeks'),
