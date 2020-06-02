@@ -165,8 +165,8 @@ class Planning(models.Model):
 
             day_start = datetime.strptime(rec.start_date, '%Y-%m-%d')
 
-            if rec.equipment_id.maintenance_date:
-                day_man = rec.equipment_id.maintenance_date.split(' ')[0]
+            if rec.maintenance_date:
+                day_man = rec.maintenance_date
 
                 if (not today_str == day_man) or (today_str < day_man):
                     if rec.frequency_time == 'day':
@@ -178,6 +178,7 @@ class Planning(models.Model):
                     else:
                         new_date = datetime.now() + relativedelta(years=rec.frequency_exe)
 
+                    rec.equipment_id.maintenance_date = rec.maintenance_date
                     rec.maintenance_date = new_date.strftime('%Y-%m-%d')
             else:
 
@@ -189,8 +190,9 @@ class Planning(models.Model):
                     new_date = datetime.now() + relativedelta(months=rec.frequency_exe)
                 else:
                     new_date = datetime.now() + relativedelta(years=rec.frequency_exe)
-
-                rec.equipment_id.maintenance_date = new_date.strftime('%Y-%m-%d')
+                    
+                rec.equipment_id.maintenance_date = rec.maintenance_date
+                rec.maintenance_date = new_date.strftime('%Y-%m-%d')
 
 
     @api.model
