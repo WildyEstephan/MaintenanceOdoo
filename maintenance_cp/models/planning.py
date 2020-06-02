@@ -30,8 +30,8 @@ class Planning(models.Model):
     # Cuando se ejecute el termino de la orden se llena el campo end_date
     # y se calcula las horas que haya durado
     # Con este calculo se llena el campo end_hours
-    start_date = fields.Date(string="Start Planning Date", required=True, )
-    end_date = fields.Date(string="End Planning Date", required=False, default=datetime.today())
+    start_date = fields.Date(string="Start Planning Date", required=True, default=datetime.today())
+    end_date = fields.Date(string="End Planning Date", required=False, )
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
 
     frequency_exe = fields.Integer(string="Frequency Of Execution", required=True, )
@@ -102,10 +102,20 @@ class Planning(models.Model):
         else:
             self.maintenance_date = maintenance_date.strftime(tools.misc.DEFAULT_SERVER_DATE_FORMAT)
 
-    # @api.onchange('start_date')
-    # def _onchange_start_date(self):
-    #     self.set_maintenance_date()
-    #     return True
+    @api.onchange('start_date')
+    def _onchange_start_date(self):
+        self.set_maintenance_date()
+        return True
+
+    @api.onchange('frequency_exe')
+    def onchange_frequency_exe(self):
+        self.set_maintenance_date()
+        return True
+
+    @api.onchange('frequency_time')
+    def onchange_frequency_time(self):
+        self.set_maintenance_date()
+        return True
 
     @api.multi
     @api.depends('task_ids', 'parts_ids', 'service_ids')
