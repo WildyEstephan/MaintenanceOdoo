@@ -2,6 +2,7 @@ from odoo import api, fields, models, tools
 from odoo.addons import decimal_precision as dp
 from datetime import datetime, timedelta
 from odoo import exceptions, _
+from dateutil.relativedelta import relativedelta
 
 # tools.misc.DEFAULT_SERVER_DATE_FORMAT
 # tools.misc.DEFAULT_SERVER_DATETIME_FORMAT
@@ -92,13 +93,13 @@ class Planning(models.Model):
         if self.frequency_exe:
 
             if self.frequency_time == 'day':
-                maintenance_date = start_date + timedelta(days=self.frequency_exe)
+                maintenance_date = start_date + relativedelta(days=self.frequency_exe)
             elif self.frequency_time == 'week':
-                maintenance_date = start_date + timedelta(weeks=self.frequency_exe)
+                maintenance_date = start_date + relativedelta(weeks=self.frequency_exe)
             elif self.frequency_time == 'month':
-                maintenance_date = start_date + timedelta(months=self.frequency_exe)
+                maintenance_date = start_date + relativedelta(months=self.frequency_exe)
             elif self.frequency_time == 'year':
-                maintenance_date = start_date + timedelta(years=self.frequency_exe)
+                maintenance_date = start_date + relativedelta(years=self.frequency_exe)
         else:
             self.maintenance_date = maintenance_date.strftime('%Y-%m-%d')
 
