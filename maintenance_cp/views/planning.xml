@@ -38,6 +38,8 @@
                                <field name="team_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="start_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+<!--                               <field name="maintenance_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>-->
+                               <field name="maintenance_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="currency_id" invisible="1"/>
                                <field name="category_id" invisible="1"/>
                                <field name="total_cost" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>

@@ -1,8 +1,10 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, tools
 from odoo.addons import decimal_precision as dp
 from datetime import datetime, timedelta
 from odoo import exceptions, _
 
+# tools.misc.DEFAULT_SERVER_DATE_FORMAT
+# tools.misc.DEFAULT_SERVER_DATETIME_FORMAT
 class Planning(models.Model):
     _name = 'maintenance.planning'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -28,8 +30,8 @@ class Planning(models.Model):
     # Cuando se ejecute el termino de la orden se llena el campo end_date
     # y se calcula las horas que haya durado
     # Con este calculo se llena el campo end_hours
-    start_date = fields.Datetime(string="Start Planning Date", required=True, )
-    end_date = fields.Datetime(string="End Planning Date", required=False, )
+    start_date = fields.Date(string="Start Planning Date", required=True, )
+    end_date = fields.Date(string="End Planning Date", required=False, default=fields.Date.today())
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
 
     frequency_exe = fields.Integer(string="Frequency Of Execution", required=True, )
@@ -81,6 +83,39 @@ class Planning(models.Model):
     total_cost = fields.Float(
         string='Total Cost',
         required=False, compute='_compute_total_cost')
+
+    maintenance_date = fields.Date(string="Next Maintenance Date", required=False, )
+
+    def set_maintenance_date(self):
+        start_date = datetime.strptime(self.start_date, '%y-%m-%d')
+        maintenance_date = ''
+        if self.frequency_exe:
+
+            if self.frequency_time == 'day':
+                maintenance_date = start_date + timedelta(days=self.frequency_exe)
+            elif self.frequency_time == 'week':
+                maintenance_date = start_date + timedelta(weeks=self.frequency_exe)
+            elif self.frequency_time == 'month':
+                maintenance_date = start_date + timedelta(months=self.frequency_exe)
+            elif self.frequency_time == 'year':
+                maintenance_date = start_date + timedelta(years=self.frequency_exe)
+        else:
+            self.maintenance_date = maintenance_date.strftime(tools.misc.DEFAULT_SERVER_DATE_FORMAT)
+
+    @api.onchange('start_date')
+    def _onchange_start_date(self):
+        self.set_maintenance_date()
+        return True
+
+    @api.onchange('frequency_exe')
+    def onchange_frequency_exe(self):
+        self.set_maintenance_date()
+        return True
+
+    @api.onchange('frequency_time')
+    def onchange_frequency_time(self):
+        self.set_maintenance_date()
+        return True
 
     @api.multi
     @api.depends('task_ids', 'parts_ids', 'service_ids')

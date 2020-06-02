@@ -85,7 +85,7 @@ class Equipment(models.Model):
                                         ],
                              required=False, default='0')
 
-    maintenance_date = fields.Datetime(string="Maintenance Date", required=False, )
+    maintenance_date = fields.Date(string="Last Maintenance", required=False, )
     active = fields.Boolean(string="Active", default=True)
     number_equipment = fields.Char(string="Number of Equipment", required=True, )
     model_equipment = fields.Char(string="Model", required=False, )
