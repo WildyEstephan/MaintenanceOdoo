@@ -31,7 +31,7 @@ class Planning(models.Model):
     # y se calcula las horas que haya durado
     # Con este calculo se llena el campo end_hours
     start_date = fields.Date(string="Start Planning Date", required=True, )
-    end_date = fields.Date(string="End Planning Date", required=False, default=fields.Date.today())
+    end_date = fields.Date(string="End Planning Date", required=False, default=datetime.today())
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
 
     frequency_exe = fields.Integer(string="Frequency Of Execution", required=True, )
