@@ -450,7 +450,7 @@ class DescriptionMaintenance(models.Model):
             record.planned_end_hours = self.task_id.planned_end_hours
             day = datetime.today()
 
-            date_planned = day + timedelta(hours=self.task_id.planned_end_hours)
+            date_planned = day + timedelta(hours=int(self.task_id.planned_end_hours))
 
             record.planned_end_date = date_planned.strftime('%Y-%m-%d %H:%S:%M')
 
@@ -485,7 +485,7 @@ class DescriptionMaintenance(models.Model):
 
         day = datetime.today()
 
-        date_planned = day + timedelta(hours=ID.planned_end_hours)
+        date_planned = day + timedelta(hours=int(ID.planned_end_hours))
 
         ID.planned_end_date = date_planned.strftime('%Y-%m-%d %H:%S:%M')
 
