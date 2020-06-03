@@ -33,7 +33,6 @@
                                <field name="type_maintenance" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="planned_end_date" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
-                               <field name="time_effectiveness" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="section_ids" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
                            </group>
                            <group string="Management">
@@ -43,10 +42,23 @@
                                <field name="start_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_hours" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
-                               <field name="effectiveness" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
                                <!--<field name="planning_id" attrs="{'readonly':[('type_maintenance', '=', 'preventive')]}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>-->
                                 <field name="category_id" invisible="1"/>
                                 <field name="id" invisible="1"/>
+                               </group>
+
+                           <group string="Reporting">
+                               <field name="time_effectiveness" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="effectiveness" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
+                               <field name="end_hours_by_specialist" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
+                               <field name="end_hours_by_supervisor" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
+                               <field name="diff_check" invisible="1"/>
+                               <field name="end_hours_diff" string="Hour Exceeded" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"
+                                      attrs="{'invisible': [('diff_check', '!=', 'exceeded')]}"/>
+                               <field name="end_hours_diff" string="Hour Saved" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"
+                                      attrs="{'invisible': [('diff_check', '!=', 'saved')]}"/>
+                           </group>
+                           <group string="Costs">
                                <field name="currency_id" invisible="1"/>
                                <field name="cost_service" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="cost_part" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
@@ -241,9 +253,9 @@
                                <field name="end_hours_by_specialist" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="diff_check" invisible="1"/>
                                <field name="end_hours_diff" string="Hour Exceeded"
-                                      attrs="{'invisible': [('diff_check', '!=', 'exceeded')]}"/>
+                                      attrs="{'invisible': [('diff_check', '!=', 'exceeded')]}" readonly="1"/>
                                <field name="end_hours_diff" string="Hour Saved"
-                                      attrs="{'invisible': [('diff_check', '!=', 'saved')]}"/>
+                                      attrs="{'invisible': [('diff_check', '!=', 'saved')]}" readonly="1"/>
                                <field name="end_hours_by_supervisor" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="effectiveness" readonly="1"/>
                                <field name="workforce_cost_total" readonly="1" widget="monetary"/>

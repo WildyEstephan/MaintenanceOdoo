@@ -102,6 +102,48 @@ class WorkOrder(models.Model):
     cost_part = fields.Float(string='Estimated Cost Parts', required=False, compute='_compute_total_cost', store=True)
     cost_task = fields.Float(string='Estimated Cost Tasks', required=False, compute='_compute_total_cost', store=True)
 
+    end_hours_by_specialist = fields.Float(string="End Hours By Specialist", compute='_compute_total_hours', )
+    end_hours_by_supervisor = fields.Float(string="End Hours By Supervisor", compute='_compute_total_hours', )
+    end_hours_diff = fields.Float(string="End Hours Diff", compute='_compute_total_hours', )
+    diff_check = fields.Selection(
+        string='Diff Check',
+        selection=[('exceeded', 'Exceeded'),
+                   ('ontime', 'On Time'),
+                   ('saved', 'Saved'), ],
+        compute='_compute_total_hours', )
+
+    @api.multi
+    @api.depends('description_ids')
+    def _compute_total_hours(self):
+        end_hours_by_specialist = 0.0
+        end_hours_by_supervisor = 0.0
+        end_hours_diff = 0.0
+        diff_check = ''
+
+        # end_hours_by_specialist
+        # end_hours_by_supervisor
+        # end_hours_diff
+        # diff_check
+
+        for rec in self:
+            for task in rec.description_ids:
+                if task.is_checked:
+                    end_hours_by_supervisor = end_hours_by_supervisor + end_hours_by_supervisor
+
+                end_hours_by_specialist = end_hours_by_specialist + task.end_hours_by_specialist
+
+                if task.state == 'ended':
+                    end_hours_diff = end_hours_diff + task.end_hours_diff
+
+                if rec.planned_end_hours > rec.end_hours_diff:
+                    rec.diff_check = 'saved'
+                elif rec.planned_end_hours < rec.end_hours_diff:
+                    rec.diff_check = 'exceeded'
+                else:
+                    rec.diff_check = 'ontime'
+
+
+
     @api.multi
     @api.depends('description_ids', 'parts_ids', 'service_ids')
     def _compute_total_cost(self):
