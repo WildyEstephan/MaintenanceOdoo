@@ -129,12 +129,19 @@ class WorkOrder(models.Model):
                 if task.state == 'ended':
                     end_hours_diff = end_hours_diff + task.end_hours_diff
 
-                if rec.planned_end_hours > rec.end_hours_diff:
-                    rec.diff_check = 'saved'
-                elif rec.planned_end_hours < rec.end_hours_diff:
-                    rec.diff_check = 'exceeded'
-                else:
-                    rec.diff_check = 'ontime'
+            rec.end_hours_by_supervisor = end_hours_by_supervisor
+            rec.end_hours_by_specialist = end_hours_by_specialist
+            rec.end_hours_diff = end_hours_diff
+
+            if rec.planned_end_hours > rec.end_hours_diff:
+                rec.diff_check = 'saved'
+            elif rec.planned_end_hours < rec.end_hours_diff:
+                rec.diff_check = 'exceeded'
+            else:
+                rec.diff_check = 'ontime'
+
+
+
 
     @api.multi
     @api.depends('description_ids', 'parts_ids', 'service_ids')
