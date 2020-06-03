@@ -239,7 +239,7 @@
                                <field name="end_date" readonly="1"/>
                                <field name="end_hours" readonly="1"/>
                                <field name="end_hours_by_specialist" attrs="{'readonly': [('is_checked', '=', True)]}"/>
-                               <field name="end_hours_diff" invisible="1"/>
+                               <field name="diff_check" invisible="1"/>
                                <field name="end_hours_diff" string="Hour Exceeded"
                                       attrs="{'invisible': [('diff_check', '!=', 'exceeded')]}"/>
                                <field name="end_hours_diff" string="Hour Saved"
