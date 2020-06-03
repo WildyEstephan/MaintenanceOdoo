@@ -47,7 +47,7 @@
                                 <field name="id" invisible="1"/>
                                </group>
 
-                           <group string="Reporting">
+                           <group string="Reporting" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                <field name="time_effectiveness" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="effectiveness" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
                                <field name="end_hours_by_specialist" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"/>
@@ -58,7 +58,7 @@
                                <field name="end_hours_diff" string="Hour Saved" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" readonly="1"
                                       attrs="{'invisible': [('diff_check', '!=', 'saved')]}"/>
                            </group>
-                           <group string="Costs">
+                           <group string="Costs" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                <field name="currency_id" invisible="1"/>
                                <field name="cost_service" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="cost_part" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
