@@ -385,7 +385,7 @@ class DescriptionMaintenance(models.Model):
     # date_end = fields.Datetime(string="End Date", required=False, )
     planned_end_date = fields.Datetime(string="Planned End Date", required=False, )
     planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
-    end_hours = fields.Float(string="End Hours", required=False, )
+    end_hours = fields.Float(string="End Hours By System", required=False, )
 
     time_effectiveness = fields.Selection(string="Time Effectiveness", selection=[('mild', 'Mild'), ('normal', 'Normal'), ('optimum', 'Optimum'),
                                                    ], required=False, )
@@ -418,6 +418,7 @@ class DescriptionMaintenance(models.Model):
                                   string="Location", related="workorder_id.location_id", store=True)
     end_hours_by_specialist = fields.Float(string="End Hours By Specialist", required=False, )
     end_hours_by_supervisor = fields.Float(string="End Hours By Supervisor", required=False, )
+    end_hours_diff = fields.Float(string="End Hours Diff", required=False, )
     is_checked = fields.Boolean(string="Checked By Supervisor", )
 
     next_notification = fields.Datetime(
@@ -552,6 +553,7 @@ class DescriptionMaintenance(models.Model):
         total_hours = abs(date_total.total_seconds() / 3600)
 
         self.end_hours = total_hours
+        self.end_hours_diff = abs(self.planned_end_hours - total_hours)
 
         if total_hours == 0:
             self.workforce_cost_total = self.workforce_cost
