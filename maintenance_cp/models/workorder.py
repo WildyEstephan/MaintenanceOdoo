@@ -118,12 +118,6 @@ class WorkOrder(models.Model):
         end_hours_by_specialist = 0.0
         end_hours_by_supervisor = 0.0
         end_hours_diff = 0.0
-        diff_check = ''
-
-        # end_hours_by_specialist
-        # end_hours_by_supervisor
-        # end_hours_diff
-        # diff_check
 
         for rec in self:
             for task in rec.description_ids:
@@ -141,8 +135,6 @@ class WorkOrder(models.Model):
                     rec.diff_check = 'exceeded'
                 else:
                     rec.diff_check = 'ontime'
-
-
 
     @api.multi
     @api.depends('description_ids', 'parts_ids', 'service_ids')
