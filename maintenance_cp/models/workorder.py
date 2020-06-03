@@ -419,6 +419,13 @@ class DescriptionMaintenance(models.Model):
     end_hours_by_specialist = fields.Float(string="End Hours By Specialist", required=False, )
     end_hours_by_supervisor = fields.Float(string="End Hours By Supervisor", required=False, )
     end_hours_diff = fields.Float(string="End Hours Diff", required=False, )
+    diff_check = fields.Selection(
+        string='Diff Check',
+        selection=[('exceeded', 'Exceeded'),
+                   ('ontime', 'On Time'),
+                   ('saved', 'Saved'), ],
+        required=False, )
+
     is_checked = fields.Boolean(string="Checked By Supervisor", )
 
     next_notification = fields.Datetime(
@@ -554,6 +561,13 @@ class DescriptionMaintenance(models.Model):
 
         self.end_hours = total_hours
         self.end_hours_diff = abs(self.planned_end_hours - total_hours)
+
+        if self.planned_end_hours > self.end_hours_diff:
+            self.diff_check = 'saved'
+        elif self.planned_end_hours < self.end_hours_diff:
+            self.diff_check = 'exceeded'
+        else:
+            self.diff_check = 'ontime'
 
         if total_hours == 0:
             self.workforce_cost_total = self.workforce_cost
