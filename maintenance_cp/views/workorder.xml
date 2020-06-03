@@ -241,9 +241,9 @@
                                <field name="end_hours_by_specialist" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="end_hours_diff" invisible="1"/>
                                <field name="end_hours_diff" string="Hour Exceeded"
-                                      attrs="{'invisible': ['|', ('end_hours_diff', '&lt;', end_hours), ('end_hours_diff', '=', 0.0)]}"/>
+                                      attrs="{'invisible': [('diff_check', '!=', 'exceeded')]}"/>
                                <field name="end_hours_diff" string="Hour Saved"
-                                      attrs="{'invisible': ['|', ('end_hours_diff', '&gt;', end_hours), ('end_hours_diff', '=', 0.0)]}"/>
+                                      attrs="{'invisible': [('diff_check', '!=', 'saved')]}"/>
                                <field name="end_hours_by_supervisor" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('is_checked', '=', True)]}"/>
                                <field name="effectiveness" readonly="1"/>
                                <field name="workforce_cost_total" readonly="1" widget="monetary"/>
