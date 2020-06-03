@@ -511,7 +511,7 @@ class DescriptionMaintenance(models.Model):
 
         self.start_date = day.strftime('%Y-%m-%d %H:%S:%M')
 
-        date_planned = day + timedelta(hours=self.planned_end_hours)
+        date_planned = day + timedelta(hours=int(self.planned_end_hours))
 
         self.planned_end_date = date_planned.strftime('%Y-%m-%d %H:%S:%M')
 
