@@ -489,7 +489,7 @@ class DescriptionMaintenance(models.Model):
 
     @api.multi
     def check_task(self):
-        self.is_checked = True
+        self.write({'is_checked' : True})
 
 
     @api.onchange('task_id')
