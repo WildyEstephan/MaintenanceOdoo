@@ -121,13 +121,11 @@ class WorkOrder(models.Model):
 
         for rec in self:
             for task in rec.description_ids:
-                if task.is_checked == True:
-                    end_hours_by_supervisor = end_hours_by_supervisor + end_hours_by_supervisor
+                end_hours_by_supervisor = end_hours_by_supervisor + end_hours_by_supervisor
 
                 end_hours_by_specialist = end_hours_by_specialist + task.end_hours_by_specialist
 
-                if task.state == 'ended':
-                    end_hours_diff = end_hours_diff + task.end_hours_diff
+                end_hours_diff = end_hours_diff + task.end_hours_diff
 
             rec.end_hours_by_supervisor = end_hours_by_supervisor
             rec.end_hours_by_specialist = end_hours_by_specialist
