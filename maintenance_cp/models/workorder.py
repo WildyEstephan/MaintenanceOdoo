@@ -121,7 +121,7 @@ class WorkOrder(models.Model):
 
         for rec in self:
             for task in rec.description_ids:
-                if task.is_checked:
+                if task.is_checked == True:
                     end_hours_by_supervisor = end_hours_by_supervisor + end_hours_by_supervisor
 
                 end_hours_by_specialist = end_hours_by_specialist + task.end_hours_by_specialist
