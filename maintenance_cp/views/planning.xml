@@ -8,7 +8,7 @@
            <field name="arch" type="xml">
                <form string="Planning">
                    <header>
-                       <button id="exe" name="execute_maintenance" string="Execute Planning" class="oe_highlight" states="approved,started,ended" type="object"/>
+                       <button name="execute_maintenance" string="Execute Planning" class="oe_highlight" states="approved,started,ended" type="object"/>
                        <button name="approve_this" string="Approve" class="oe_highlight" states="draft" type="object"/>
                        <button name="cancel_work" string="Cancel" states="approved,started,ended" type="object"/>
                        <field name="state" widget="statusbar" statusbar_visible="draft,approved,started,ended"/>
@@ -92,15 +92,7 @@
                    </div>
 
                    <script>
-                       var fewSeconds = 5;
-                        $('#exe').click(function(){
-                            // Ajax request
-                            var btn = $(this);
-                            btn.prop('disabled', true);
-                            setTimeout(function(){
-                                btn.prop('disabled', false);
-                            }, fewSeconds*1000);
-                        });
+                    jQuery('header button:first').click(function() { alert('hello'); });
                     </script>
                </form>
            </field>
