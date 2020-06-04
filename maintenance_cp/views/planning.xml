@@ -85,13 +85,8 @@
                                    </field>
                            </page>
                        </notebook>
-                   </sheet>
-                   <div class="oe_chatter">
-                       <field name="message_follower_ids" widget="mail_followers"/>
-                       <field name="message_ids" widget="mail_thread"/>
-                   </div>
 
-                   <script>
+                       <script>
                     var fewSeconds = 5;
                         $('#exe').click(function(){
                             // Ajax request
@@ -102,6 +97,14 @@
                             }, fewSeconds*1000);
                         });
                     </script>
+
+                   </sheet>
+                   <div class="oe_chatter">
+                       <field name="message_follower_ids" widget="mail_followers"/>
+                       <field name="message_ids" widget="mail_thread"/>
+                   </div>
+
+
                </form>
            </field>
        </record>
