@@ -30,7 +30,7 @@ class ModelName (models.Model):
     cost_task = fields.Float(string='Estimated Cost Tasks', required=False,)
     real_cost_service = fields.Float(string='Real Cost Services', required=False, default=0.0)
     real_cost_part = fields.Float(string='Real Cost Parts', required=False, default=0.0)
-    real_cost_task = fields.Float(string='real Cost Tasks', required=False, default=0.0)
+    real_cost_task = fields.Float(string='Real Cost Tasks', required=False, default=0.0)
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,)
