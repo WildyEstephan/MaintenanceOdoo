@@ -15,6 +15,7 @@
                     <field name="cost_part" type="measure"/>
                     <field name="real_cost_part" type="measure"/>
                     <field name="real_cost_task" type="measure"/>
+                    <field name="cost_task" type="measure"/>
                     <field name="planned_end_hours" type="measure"/>
                     <field name="end_hours" type="measure"/>
                 </pivot>

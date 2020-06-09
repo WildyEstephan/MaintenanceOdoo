@@ -51,7 +51,9 @@ class ModelName (models.Model):
         wo.start_date as start_date, wo.end_date as end_date, 
         wo.currency_id as currency_id, wo.planned_end_date as planned_end_date, 
         wo.planned_end_hours as planned_end_hours, wo.end_hours as end_hours, 
-        wo.cost_service as cost_service, wo.cost_part as cost_part, wo.cost_task as cost_task, 
+        wo.cost_service as cost_service, wo.cost_service as real_cost_service, 
+        wo.cost_part as cost_part, wo.cost_part as real_cost_part, 
+        wo.cost_task as cost_task, wo.cost_task as real_cost_task,
         wo.state as state, wo.company_id as company_id"""
         return select_str
 
