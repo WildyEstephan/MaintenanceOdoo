@@ -13,6 +13,7 @@
                     <field name="cost_service" type="measure"/>
                     <field name="cost_part" type="measure"/>
                     <field name="cost_task" type="measure"/>
+                    <field name="end_hours" type="measure"/>
                 </pivot>
             </field>
         </record>
