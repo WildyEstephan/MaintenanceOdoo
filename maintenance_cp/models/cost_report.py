@@ -23,11 +23,14 @@ class ModelName (models.Model):
         string='Currency',
         required=False, )
     planned_end_date = fields.Datetime(string="Planned End Date", required=False, )
-    planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
+    planned_end_hours = fields.Float(string="Planned End Hours", required=False, )
     end_hours = fields.Float(string="End Hours", required=False, )
     cost_service = fields.Float(string='Estimated Cost Services', required=False, )
     cost_part = fields.Float(string='Estimated Cost Parts', required=False, )
     cost_task = fields.Float(string='Estimated Cost Tasks', required=False,)
+    real_cost_service = fields.Float(string='Real Cost Services', required=False, default=0.0)
+    real_cost_part = fields.Float(string='Real Cost Parts', required=False, default=0.0)
+    real_cost_task = fields.Float(string='real Cost Tasks', required=False, default=0.0)
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,)
