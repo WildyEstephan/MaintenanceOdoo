@@ -7,6 +7,8 @@
             <field name="model">maintenance.cost.report</field>
             <field name="arch" type="xml">
                 <pivot string="Cost Report">
+                    <field name="type_maintenance" type="row"/>
+                    <field name="category_id" type="row"/>
                     <field name="equipment_id" type="row"/>
                     <field name="cost_service" type="measure"/>
                     <field name="cost_part" type="measure"/>
