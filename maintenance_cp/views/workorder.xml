@@ -274,7 +274,7 @@
             <field name="name">maintenance_cp_description_task_tree_view</field>
             <field name="model">maintenance.cp.description.task</field>
             <field name="arch" type="xml">
-                <tree string="Tasks for Specialist">
+                <tree string="Tasks for Specialist" default_order="workorder_id">
                     <field name="name"/>
                     <field name="specialist_id"/>
                     <field name="workorder_id"/>
