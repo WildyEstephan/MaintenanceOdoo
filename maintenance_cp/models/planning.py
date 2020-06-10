@@ -412,7 +412,7 @@ class PlannedParts(models.Model):
     planning_id = fields.Many2one(comodel_name="maintenance.planning",
                                    string="Work Order", required=False, )
     product_id = fields.Many2one(comodel_name="product.product", string="Product",
-                                 required=True, domain="[('is_part', '=', 'True')]")
+                                 required=True, domain="['|', ('is_part', '=', 'True'), ('is_workforce', '=', 'True')]")
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
                                required=True)
     estimated_cost = fields.Float(
