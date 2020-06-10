@@ -53,7 +53,7 @@ class WorkOrder(models.Model):
 
         self.sudo().create_picking()
         self.sudo().create_requisition_by_parts()
-        self.sudo().create_requisition_by_service()
+        # self.sudo().create_requisition_by_service()
 
     @api.multi
     def create_picking(self):
@@ -64,24 +64,25 @@ class WorkOrder(models.Model):
             order_lines = []
             for rec in record.parts_ids:
                 qty = 0.0
+                if not rec.product_id.type == 'service':
 
-                if rec.qty_remaining <= 0:
-                    qty = rec.product_qty
-                else:
-                    qty = rec.product_id.qty_available
+                    if rec.qty_remaining <= 0:
+                        qty = rec.product_qty
+                    else:
+                        qty = rec.product_id.qty_available
 
 
-                if rec.state == 'stock':
-                    order_lines.append(
-                        (0, 0,
-                         {
-                             'product_id': rec.product_id.id,
-                             'product_uom_qty': qty,
-                             'name': record.name,
-                             'product_uom': rec.product_id.uom_id.id,
-                             'planned_parts_id': rec.id,
-                         }
-                         ))
+                    if rec.state == 'stock':
+                        order_lines.append(
+                            (0, 0,
+                             {
+                                 'product_id': rec.product_id.id,
+                                 'product_uom_qty': qty,
+                                 'name': record.name,
+                                 'product_uom': rec.product_id.uom_id.id,
+                                 'planned_parts_id': rec.id,
+                             }
+                             ))
 
             if order_lines:
                 sp_types = self.env['stock.picking.type'].search([
@@ -110,7 +111,7 @@ class WorkOrder(models.Model):
             order_lines = []
             for rec in record.parts_ids:
 
-                if rec.qty_remaining > 0:
+                if (rec.qty_remaining > 0) or (rec.product_id.type == 'service'):
                     order_lines.append(
                         (0, 0,
                          {
@@ -185,8 +186,9 @@ class PlannedParts(models.Model):
 
         for record in self:
 
-            record.state = 'stock'
-            record.qty_remaining = record.product_qty - record.product_id.qty_available
+            if not record.product_id.type == 'service':
+                record.state = 'stock'
+                record.qty_remaining = record.product_qty - record.product_id.qty_available
 
 class Requisition(models.Model):
     _inherit = 'requisition'
