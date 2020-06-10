@@ -61,16 +61,16 @@
                                    </tree>
                                </field>
 
-                               <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
-                                   <tree editable="top">
-                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                                       <field name="name"/>
-                                       <field name="estimated_cost"/>
-                                       <field name="vendor_id"/>
-                                       <field name="currency_id" invisible="1"/>
-                                       <field name="total" widget="monetary" readonly="1" sum="Total Cost"/>
-                                   </tree>
-                               </field>
+<!--                               <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">-->
+<!--                                   <tree editable="top">-->
+<!--                                       <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>-->
+<!--                                       <field name="name"/>-->
+<!--                                       <field name="estimated_cost"/>-->
+<!--                                       <field name="vendor_id"/>-->
+<!--                                       <field name="currency_id" invisible="1"/>-->
+<!--                                       <field name="total" widget="monetary" readonly="1" sum="Total Cost"/>-->
+<!--                                   </tree>-->
+<!--                               </field>-->
                            </page>
                            <page string="Tasks" name="tasks">
                                    <field name="task_ids" context="{'default_category_id': category_id}">

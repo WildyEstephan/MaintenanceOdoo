@@ -130,10 +130,10 @@ class Planning(models.Model):
                 cost_task = cost_task + task.workforce_cost
 
             for part in record.parts_ids:
-                cost_part = cost_part + part.total
-
-            for service in record.service_ids:
-                cost_service = cost_service + service.total
+                if not part.product_id.type == 'service':
+                    cost_part = cost_part + part.total
+                else:
+                    cost_service = cost_service + part.total
 
             record.total_cost = cost_part + cost_task + cost_service
 
