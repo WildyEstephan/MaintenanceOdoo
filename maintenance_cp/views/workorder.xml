@@ -84,16 +84,16 @@
                                    </tree>
                                </field>
 
-                               <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
-                                   <tree editable="top">
-                                       <field name="product_id"/>
-                                       <field name="name"/>
-                                       <field name="vendor_id"/>
-                                       <field name="estimated_cost"/>
-                                       <field name="total" widget="monetary" readonly="1"/>
-                                       <field name="currency_id" invisible="1"/>
-                                   </tree>
-                               </field>
+<!--                               <field name="service_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">-->
+<!--                                   <tree editable="top">-->
+<!--                                       <field name="product_id"/>-->
+<!--                                       <field name="name"/>-->
+<!--                                       <field name="vendor_id"/>-->
+<!--                                       <field name="estimated_cost"/>-->
+<!--                                       <field name="total" widget="monetary" readonly="1"/>-->
+<!--                                       <field name="currency_id" invisible="1"/>-->
+<!--                                   </tree>-->
+<!--                               </field>-->
                            </page>
                            <page string="Description Maintenance">
                                <field name="description_ids" context="{'default_category_id': category_id}">

@@ -144,7 +144,7 @@ class WorkOrder(models.Model):
 
 
     @api.multi
-    @api.depends('description_ids', 'parts_ids', 'service_ids')
+    @api.depends('description_ids', 'parts_ids')
     def _compute_total_cost(self):
         cost_task = 0.0
         cost_part = 0.0
@@ -156,10 +156,10 @@ class WorkOrder(models.Model):
                 cost_task = cost_task + task.workforce_cost
 
             for part in record.parts_ids:
-                cost_part = cost_part + part.total
-
-            for service in record.service_ids:
-                cost_service = cost_service + service.total
+                if not part.product_id.type == 'service':
+                    cost_part = cost_part + part.total
+                else:
+                    cost_service = cost_service + part.total
 
             record.cost_service = cost_service
             record.cost_part = cost_part
