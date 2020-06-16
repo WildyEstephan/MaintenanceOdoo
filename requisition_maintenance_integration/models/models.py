@@ -68,7 +68,7 @@ class WorkOrder(models.Model):
 
                     if not rec.product_id.qty_available == 0 or not rec.product_id.qty_available < 0:
 
-                        if rec.qty_remaining <= 0:
+                        if rec.qty_remaining < 0:
                             qty = rec.product_qty
                         else:
                             qty = rec.product_id.qty_available
@@ -117,7 +117,7 @@ class WorkOrder(models.Model):
                         (0, 0,
                          {
                              'product_id': rec.product_id.id,
-                             'quantity': rec.qty_remaining,
+                             'quantity': rec.qty_remaining or 1,
                              'name': record.name,
                              'unit_measurement': rec.product_id.uom_id.id,
                              'planned_parts_id': rec.id,
