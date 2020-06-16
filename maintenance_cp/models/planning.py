@@ -261,7 +261,7 @@ class Planning(models.Model):
                 # 'planned_end_hours': self.planned_end_hours,
                 'state': 'send',
                 'planning_id': self.id,
-                'section_ids': (6, 0, sections)
+                # 'section_ids': (6, 0, sections)
             }
         )
 
