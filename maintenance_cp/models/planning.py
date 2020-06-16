@@ -256,7 +256,8 @@ class Planning(models.Model):
                 'need_breakdown': self.need_breakdown,
                 # 'planned_end_hours': self.planned_end_hours,
                 'state': 'send',
-                'planning_id': self.id
+                'planning_id': self.id,
+                'section_ids': self.section_ids.ids
             }
         )
 
