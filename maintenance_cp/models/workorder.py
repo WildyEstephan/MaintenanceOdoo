@@ -647,9 +647,9 @@ class DescriptionMaintenance(models.Model):
         ID = super(DescriptionMaintenance, self).write(values)
 
         if 'end_hours_by_supervisor' in values:
-            self.set_workforce_cost(ID.end_hours_by_supervisor)
+            self.set_workforce_cost(values['end_hours_by_supervisor'])
         if 'end_hours_by_specialist' in values:
-            self.set_workforce_cost(ID.end_hours_by_specialist)
+            self.set_workforce_cost(values['end_hours_by_specialist'])
 
         return ID
 
