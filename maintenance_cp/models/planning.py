@@ -353,8 +353,12 @@ class PlanningTask(models.Model):
 
     planning_id = fields.Many2one(comodel_name="maintenance.planning",
                                    string="Planning", required=False, )
+    type_workforce_id = fields.Many2one(comodel_name="maintenance.cp.type.workforce",
+                                        string="Type of Workforce", required=True, store=True)
 
-    task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task", required=True, domain="[('category_id', '=', category_id)]")
+    task_id = fields.Many2one(comodel_name="maintenance.cp.task", string="Task",
+                              required=True,
+                              domain="[('type_workforce_id', '=', type_workforce_id), ('category_id', '=', category_id)]")
     hours = fields.Float(string="Hours Planned",  required=False, )
     description = fields.Char(string="Description", required=False, )
 

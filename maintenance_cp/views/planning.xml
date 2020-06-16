@@ -75,6 +75,7 @@
                            <page string="Tasks" name="tasks">
                                    <field name="task_ids" context="{'default_category_id': category_id}">
                                        <tree editable="top">
+                                           <field name="type_workforce_id"/>
                                            <field name="task_id"/>
                                            <field name="description"/>
                                            <field name="hours" readonly="1"/>
