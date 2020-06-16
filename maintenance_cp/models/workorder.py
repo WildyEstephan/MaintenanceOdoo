@@ -635,11 +635,11 @@ class DescriptionMaintenance(models.Model):
 
     @api.onchange('end_hours_by_supervisor')
     def _onchange_end_hours_by_supervisor(self):
-        self.set_workforce_cost()
+        self.set_workforce_cost(self.end_hours_by_supervisor)
 
     @api.onchange('end_hours_by_specialist')
     def _onchange_end_hours_by_specialist(self):
-        self.set_workforce_cost()
+        self.set_workforce_cost(self.end_hours_by_specialist)
 
 
     def set_workforce_cost(self, total_hours):
