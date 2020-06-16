@@ -309,7 +309,8 @@ class Planning(models.Model):
                     'task_id': t.task_id.id,
                     'sequence': t.sequence,
                     'workorder_id':workorder.id,
-                    'planned_end_hours': t.hours
+                    'planned_end_hours': t.hours,
+                    'category_id': t.task_id.category_id.id
                 }
             )
             # description
