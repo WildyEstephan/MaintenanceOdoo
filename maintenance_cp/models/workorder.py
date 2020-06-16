@@ -633,6 +633,15 @@ class DescriptionMaintenance(models.Model):
 
         self.message_post(message, subtype='mail.mt_note')
 
+    @api.onchange('end_hours_by_supervisor')
+    def _onchange_end_hours_by_supervisor(self):
+        self.set_workforce_cost()
+
+    @api.onchange('end_hours_by_specialist')
+    def _onchange_end_hours_by_specialist(self):
+        self.set_workforce_cost()
+
+
     def set_workforce_cost(self, total_hours):
 
         if total_hours == 0:
