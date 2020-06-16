@@ -248,6 +248,10 @@ class Planning(models.Model):
 
         self.equipment_id.maintenance_date = today
 
+        sections = []
+        for s in self.section_ids.ids:
+            sections.append(s.id)
+
         workorder = self.env['maintenance.cp.workorder'].create(
             {
                 'equipment_id': self.equipment_id.id,
@@ -257,7 +261,7 @@ class Planning(models.Model):
                 # 'planned_end_hours': self.planned_end_hours,
                 'state': 'send',
                 'planning_id': self.id,
-                'section_ids': (6, 0, self.section_ids.ids)
+                'section_ids': (6, 0, sections)
             }
         )
 
