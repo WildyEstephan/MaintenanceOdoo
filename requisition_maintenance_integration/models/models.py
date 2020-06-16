@@ -71,7 +71,8 @@ class WorkOrder(models.Model):
                         if rec.qty_remaining <= 0:
                             qty = rec.product_qty
                         else:
-                            qty = rec.product_id.qty_available
+                            continue
+                            # qty = rec.product_id.qty_available
 
                         if rec.state == 'stock':
                             order_lines.append(
