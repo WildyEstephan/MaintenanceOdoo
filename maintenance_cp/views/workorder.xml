@@ -10,7 +10,7 @@
                    <header>
                        <button name="send_request" string="Send" class="oe_highlight" states="request" type="object"/>
                        <button name="check_task_parts" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Check Tasks" class="oe_highlight" states="send" type="object"/>
-                       <button name="approve_this" string="Approve" groups="maintenance_cp.maintenance_cp_manager" class="oe_highlight" states="send" type="object"/>
+                       <button name="approve_this" string="Approve"  groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" class="oe_highlight" states="send" type="object"/>
                        <button name="start_working" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Star Working" class="oe_highlight" states="approved" type="object"/>
                        <button name="end_working" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="End Working" class="oe_highlight" states="started" type="object"/>
                        <button name="cancel_work" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" string="Cancel" states="send,approved,started,ended" type="object"/>
@@ -60,10 +60,10 @@
                            </group>
                            <group string="Costs" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                <field name="currency_id" invisible="1"/>
-                               <field name="cost_service" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
-                               <field name="cost_part" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
-                               <field name="cost_task" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
-                               <field name="total_cost" widget="monetary" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="cost_service" widget="monetary" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="cost_part" widget="monetary" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="cost_task" widget="monetary" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                               <field name="total_cost" widget="monetary" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                            </group>
 
                        </group>
@@ -107,8 +107,8 @@
                                             <span name="Operations">Operations</span>
                                         </button>
                                        <field name="planned_end_hours" readonly="1"/>
-                                       <field name="workforce_cost" widget="monetary" readonly="1"/>
-                                       <field name="workforce_cost_total" widget="monetary" readonly="1"/>
+                                       <field name="workforce_cost" widget="monetary" readonly="1" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+                                       <field name="workforce_cost_total" widget="monetary" readonly="1" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                        <field name="currency_id" invisible="1"/>
                                        <field name="state" readonly="1"/>
                                        <field name="user_id" invisible="1"/>

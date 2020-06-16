@@ -610,10 +610,12 @@ class DescriptionMaintenance(models.Model):
         else:
             self.diff_check = 'ontime'
 
-        if total_hours == 0:
-            self.workforce_cost_total = self.workforce_cost
-        else:
-            self.workforce_cost_total = self.workforce_cost * self.end_hours
+        self.set_workforce_cost(total_hours)
+
+        # if total_hours == 0:
+        #     self.workforce_cost_total = self.workforce_cost
+        # else:
+        #     self.workforce_cost_total = self.workforce_cost * self.end_hours
 
         if not task:
             self.workorder_id.end_working()
@@ -630,6 +632,18 @@ class DescriptionMaintenance(models.Model):
         self.workorder_id.message_post(message, subtype='mail.mt_note')
 
         self.message_post(message, subtype='mail.mt_note')
+
+    def set_workforce_cost(self, total_hours):
+
+        if total_hours == 0:
+            self.workforce_cost_total = self.workforce_cost
+        else:
+            if self.end_hours_by_supervisor:
+                self.workforce_cost_total = self.workforce_cost * self.end_hours_by_supervisor
+            elif self.end_hours_by_specialist:
+                self.workforce_cost_total = self.workforce_cost * self.end_hours_by_specialist
+            else:
+                self.workforce_cost_total = self.workforce_cost * self.end_hours
 
 
     def cancel_work(self):
