@@ -249,7 +249,7 @@ class Planning(models.Model):
         self.equipment_id.maintenance_date = today
 
         sections = []
-        for s in self.section_ids.ids:
+        for s in self.section_ids:
             sections.append(s.id)
 
         workorder = self.env['maintenance.cp.workorder'].create(
