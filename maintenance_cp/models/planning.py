@@ -425,8 +425,8 @@ class PlannedParts(models.Model):
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
                                required=True)
     estimated_cost = fields.Float(
-        string='Estimated Cost',
-        required=True)
+        string='Estimated Unit Cost',
+        required=False)
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",
                                  required=False,
