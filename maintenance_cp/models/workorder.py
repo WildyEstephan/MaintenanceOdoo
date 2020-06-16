@@ -641,6 +641,18 @@ class DescriptionMaintenance(models.Model):
     def _onchange_end_hours_by_specialist(self):
         self.set_workforce_cost(self.end_hours_by_specialist)
 
+    @api.multi
+    def write(self, values):
+        # Add code here
+        ID = super(DescriptionMaintenance, self).write(values)
+
+        if 'end_hours_by_supervisor' in values:
+            self.set_workforce_cost(ID.end_hours_by_supervisor)
+        if 'end_hours_by_specialist' in values:
+            self.set_workforce_cost(ID.end_hours_by_specialist)
+
+        return ID
+
 
     def set_workforce_cost(self, total_hours):
 
