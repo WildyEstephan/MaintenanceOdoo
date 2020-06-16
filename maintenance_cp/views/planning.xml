@@ -54,7 +54,7 @@
                                        <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="name"/>
                                        <field name="product_qty"/>
-                                       <field name="estimated_cost"/>
+                                       <field name="estimated_cost" required="0"/>
                                        <field name="vendor_id"/>
                                        <field name="currency_id" invisible="1"/>
                                        <field name="total" widget="monetary" readonly="1" sum="Total Cost"/>
