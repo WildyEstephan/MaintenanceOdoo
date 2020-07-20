@@ -24,7 +24,7 @@
     # always loaded
     'data': [
         'data/groups_security.xml',
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/ir_cron.xml',
         'data/template.xml',
@@ -38,7 +38,7 @@
         'views/planning.xml',
         'views/reminder.xml',
         'views/reporting.xml',
-        # 'views/cost_report.xml',
+        'views/cost_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
