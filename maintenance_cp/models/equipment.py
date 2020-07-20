@@ -4,7 +4,7 @@ import re
 from odoo import api, fields, models, tools, _
 from odoo.exceptions import ValidationError
 from odoo.osv import expression
-
+from datetime import datetime, timedelta
 from odoo.addons import decimal_precision as dp
 
 from odoo.tools import float_compare, pycompat
@@ -62,7 +62,7 @@ class Measure(models.Model):
         required=False)
     date = fields.Date(
         string='Date',
-        required=True)
+        required=True, default=datetime.today())
     value1 = fields.Float(
         string='Value 1',
         required=True)
@@ -71,32 +71,60 @@ class Measure(models.Model):
         required=True)
     total = fields.Float(
         string='Total',
-        required=False, )
-    type = fields.Selection(
+        required=False, compute='_compute_total', store=True)
+    type_metric = fields.Selection(
         string='Type',
         selection=[('odometer', 'Odometer'),
                    ('horometry', 'Horometry'), ],
-        required=False, default='odometer')
+        required=False,)
+
+    @api.model
+    def default_get(self, fields_list):
+        res = super(Measure, self).default_get(fields_list)
+
+        if self.env.context.get('active_id'):
+            equipment = self.env['maintenance.cp.equipment'].search([('id', '=', self.env.context['active_id'])],
+                                                                    limit=1)
+            final_value = 0.0
+            if equipment.metric_type == 'odometer':
+                try:
+                    final_value = equipment.metrics_ids[0].value2
+                except IndexError:
+                    final_value = 0.0
+            elif equipment.metric_type == 'horometry':
+                try:
+                    final_value = equipment.metrics_horo_ids[0].value2
+                except IndexError:
+                    final_value = 0.0
+
+            res['type_metric'] = equipment.metric_type
+
+            res['equipment_id'] = equipment.id
+            res['value1'] = final_value
+        # raise ValidationError((res['type_metric']))
+        return res
+
 
     @api.multi
-    @api.depends('equipment_id', 'date', 'value1', 'value2', 'type')
+    @api.depends('equipment_id', 'date', 'value1', 'value2', 'type_metric')
     def _compute_total(self):
 
         for rec in self:
-            if rec.type == 'odometer':
-                end_odometer = self.env['maintenance.measure'].search([('type', '=', 'odometer'),
+            if rec.type_metric == 'odometer':
+                end_odometer = self.env['maintenance.measure'].search([('type_metric', '=', 'odometer'),
                                                                        ('equipment_id', '=', rec.equipment_id.id)],
                                                                       limit=1)
-                total = rec.value1 - rec.value2
+                # raise ValidationError((end_odometer))
+                total = rec.value2 - rec.value1
 
                 rec.total = end_odometer.total + total
 
-            elif rec.type == 'horometry':
-                end_horometry = self.env['maintenance.measure'].search([('type', '=', 'horometry'),
+            elif rec.type_metric == 'horometry':
+                end_horometry = self.env['maintenance.measure'].search([('type_metric', '=', 'horometry'),
                                                                        ('equipment_id', '=', rec.equipment_id.id)],
                                                                       limit=1)
 
-                total = rec.value1 - rec.value2
+                total = rec.value2 - rec.value1
 
                 rec.total = end_horometry.total + total
 
@@ -181,12 +209,12 @@ class Equipment(models.Model):
         comodel_name='maintenance.measure',
         inverse_name='equipment_id',
         string='Metrics',
-        required=False, domain=[('type', '=', 'odometer'), ])
+        required=False, domain=[('type_metric', '=', 'odometer'), ])
     metrics_horo_ids = fields.One2many(
         comodel_name='maintenance.measure',
         inverse_name='equipment_id',
         string='Metrics',
-        required=False, domain=[('type', '=', 'horometry' ), ])
+        required=False, domain=[('type_metric', '=', 'horometry' ), ])
 
     def add_metric(self):
 

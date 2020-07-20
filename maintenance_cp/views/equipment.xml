@@ -128,15 +128,19 @@
             <field name="arch" type="xml">
                 <form string="Metrics">
                     <sheet>
-                        <field name="equipment_id"/>
+                        <field name="equipment_id" invisible="1"/>
+                        <field name="type_metric" invisible="1"/>
                         <group>
                             <group>
                                 <field name="date"/>
-                                <field name="type"/>
                             </group>
                             <group>
-                                <field name="value1"/>
-                                <field name="value2"/>
+                                <field name="value1" string="Initial Kilometers" attrs="{'invisible': [('type_metric', '=', 'horometry')]}" readonly="1"/>
+                                <field name="value1" string="Initial Hours" attrs="{'invisible': [('type_metric', '=', 'odometer')]}" readonly="1"/>
+
+                                <field name="value2" string="Final Kilometers" attrs="{'invisible': [('type_metric', '=', 'horometry')]}"/>
+                                <field name="value2" string="Final Hours" attrs="{'invisible': [('type_metric', '=', 'odometer')]}"/>
+
                             </group>
 
                         </group>
@@ -151,7 +155,7 @@
             <field name="res_model">maintenance.measure</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
-            <field name="context">{'default_equipment_id': active_id,'default_type': 'active_id.type'}</field>
+<!--            <field name="context">{'default_equipment_id': active_id,'default_type': 'active_id.type'}</field>-->
 
         </record>
 
@@ -176,6 +180,7 @@
                                     groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                     <field string="Planning" name="planning_count" widget="statinfo" />
                             </button>
+                            <field name="id" invisible="1"/>
                             <button name="%(maintenance_cp.metrics_action)d"
                                     type="action"
                                     class="oe_stat_button"
@@ -238,22 +243,23 @@
                             </page>
                             <page name="metrics" string="Metrics">
                                 <field name="metrics_ids" attrs="{'invisible': [('metric_type', '=', 'horometry')]}"
-                                       context="{'type': 'odometer'}">
+                                       context="{'default_type_metric': 'odometer'}" readonly="1">
                                     <tree editable="top" open="false">
                                         <field name="date"/>
                                         <field name="value1" string="Initial Kilometers"/>
                                         <field name="value2" string="Final Kilometers"/>
                                         <field name="total" readonly="1" string="Total Kilometers"/>
-                                        <field name="type"/>
+                                        <field name="type_metric"/>
                                     </tree>
                                 </field>
                                 <field name="metrics_horo_ids" attrs="{'invisible': [('metric_type', '=', 'odometer')]}"
-                                       context="{'type': 'horometry'}">
+                                       context="{'default_type_metric': 'horometry'}" readonly="1">
                                     <tree editable="top" open="false">
                                         <field name="date"/>
                                         <field name="value1" string="Initial Hours"/>
                                         <field name="value2" string="Final Hours"/>
                                         <field name="total" readonly="1" string="Total Hours"/>
+                                        <field name="type_metric" readonly="1" />
                                     </tree>
                                 </field>
                             </page>
