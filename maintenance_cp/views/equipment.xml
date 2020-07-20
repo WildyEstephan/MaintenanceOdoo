@@ -177,7 +177,7 @@
                             <button name="add_metric"
                                     type="object"
                                     class="oe_stat_button"
-                                    icon="fa-sort-numeric-up"
+                                    icon="fa-tachometer-alt"
                                     groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                     <span>Metrics</span>
                             </button>

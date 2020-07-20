@@ -201,8 +201,7 @@ class Equipment(models.Model):
                 'type': 'ir.actions.act_window',
                 'view_mode': 'form',
                 'res_model': 'maintenance.measure',
-                'views': [(view.id, 'form')],
-                'view_id': view.id,
+                'views': 'form',
                 'target': 'new',
                 'context': conx,
             }
@@ -217,8 +216,7 @@ class Equipment(models.Model):
                 'type': 'ir.actions.act_window',
                 'view_mode': 'form',
                 'res_model': 'maintenance.measure',
-                'views': [(view.id, 'form')],
-                'view_id': view.id,
+                'views': 'form',
                 'target': 'new',
                 'context': conx,
             }
