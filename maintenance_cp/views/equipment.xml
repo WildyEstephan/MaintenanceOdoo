@@ -151,6 +151,8 @@
             <field name="res_model">maintenance.measure</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
+            <field name="context">{'default_equipment_id': active_id,'default_type': 'active_id.type'}</field>
+
         </record>
 
         <record id="maintenance_cp_equipment_form_view" model="ir.ui.view">
@@ -174,10 +176,10 @@
                                     groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                     <field string="Planning" name="planning_count" widget="statinfo" />
                             </button>
-                            <button name="add_metric"
-                                    type="object"
+                            <button name="%(maintenance_cp.metrics_action)d"
+                                    type="action"
                                     class="oe_stat_button"
-                                    icon="tachometer-alt"
+                                    icon="fa-truck"
                                     groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                     <span>Metrics</span>
                             </button>
@@ -245,7 +247,7 @@
                                         <field name="type"/>
                                     </tree>
                                 </field>
-                                <field name="metrics_ids" attrs="{'invisible': [('metric_type', '=', 'odometer')]}"
+                                <field name="metrics_horo_ids" attrs="{'invisible': [('metric_type', '=', 'odometer')]}"
                                        context="{'type': 'horometry'}">
                                     <tree editable="top" open="false">
                                         <field name="date"/>

@@ -181,7 +181,12 @@ class Equipment(models.Model):
         comodel_name='maintenance.measure',
         inverse_name='equipment_id',
         string='Metrics',
-        required=False)
+        required=False, domain=[('type', '=', 'odometer'), ])
+    metrics_horo_ids = fields.One2many(
+        comodel_name='maintenance.measure',
+        inverse_name='equipment_id',
+        string='Metrics',
+        required=False, domain=[('type', '=', 'horometry' ), ])
 
     def add_metric(self):
 
