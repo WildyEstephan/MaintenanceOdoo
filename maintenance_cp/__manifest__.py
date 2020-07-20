@@ -24,7 +24,7 @@
     # always loaded
     'data': [
         'data/groups_security.xml',
-        'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv',
         'data/sequence.xml',
         'data/ir_cron.xml',
         'data/template.xml',
