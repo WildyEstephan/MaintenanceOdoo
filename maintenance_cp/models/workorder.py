@@ -40,7 +40,7 @@ class WorkOrder(models.Model):
     start_date = fields.Datetime(string="Start Date", required=False, )
     end_date = fields.Datetime(string="End Date", required=False, )
     planned_end_date = fields.Datetime(string="Planned End Date", required=False, )
-    planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours')
+    planned_end_hours = fields.Float(string="Planned End Hours", required=False, compute='_compute_planned_end_hours', store=True)
     end_hours = fields.Float(string="End Hours",  required=False, )
 
     time_effectiveness = fields.Selection(string="Time Effectiveness",
