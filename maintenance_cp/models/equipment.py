@@ -51,6 +51,55 @@ class Location(models.Model):
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
 
+class Measure(models.Model):
+    _name = 'maintenance.measure'
+    _description = 'Measure'
+    _order = 'date desc'
+
+    equipment_id = fields.Many2one(
+        comodel_name='maintenance.cp.equipment',
+        string='Equipment',
+        required=False)
+    date = fields.Date(
+        string='Date',
+        required=True)
+    value1 = fields.Float(
+        string='Value 1',
+        required=True)
+    value2 = fields.Float(
+        string='Value 2',
+        required=True)
+    total = fields.Float(
+        string='Total',
+        required=False, )
+    type = fields.Selection(
+        string='Type',
+        selection=[('odometer', 'Odometer'),
+                   ('horometry', 'Horometry'), ],
+        required=False, default='odometer')
+
+    @api.multi
+    @api.depends('equipment_id', 'date', 'value1', 'value2', 'type')
+    def _compute_total(self):
+
+        for rec in self:
+            if rec.type == 'odometer':
+                end_odometer = self.env['maintenance.measure'].search([('type', '=', 'odometer'),
+                                                                       ('equipment_id', '=', rec.equipment_id.id)],
+                                                                      limit=1)
+                total = rec.value1 - rec.value2
+
+                rec.total = end_odometer.total + total
+
+            elif rec.type == 'horometry':
+                end_horometry = self.env['maintenance.measure'].search([('type', '=', 'horometry'),
+                                                                       ('equipment_id', '=', rec.equipment_id.id)],
+                                                                      limit=1)
+
+                total = rec.value1 - rec.value2
+
+                rec.total = end_horometry.total + total
+
 
 # Crear equipos conectados con activos
 class Equipment(models.Model):
@@ -123,6 +172,58 @@ class Equipment(models.Model):
     planning_ids = fields.One2many(comodel_name="maintenance.planning",
                                     inverse_name="equipment_id", string="Maintenances", required=False, )
     planning_count = fields.Integer(string="Receptions Count", compute='_compute_planning_count', )
+    metric_type = fields.Selection(
+        string='Metric Type',
+        selection=[('odometer', 'Odometer'),
+                   ('horometry', 'Horometry'), ],
+        required=True, default='odometer')
+    metrics_ids = fields.One2many(
+        comodel_name='maintenance.measure',
+        inverse_name='equipment_id',
+        string='Metrics',
+        required=False)
+
+    def add_metric(self):
+
+        view = self.env.ref('maintenance_cp.metrics_action')
+        # wiz = self.env['stock.immediate.transfer'].create({'pick_ids': [(4, self.id)]})
+
+        action = {}
+
+        if self.metric_type == 'odometer':
+            conx = {
+                'equipment_id': self.id,
+                'type': 'odometer'
+            }
+
+            action = {
+                'name': _('Odometer'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'maintenance.measure',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'context': conx,
+            }
+        elif self.metric_type == 'horometry':
+            conx = {
+                'equipment_id': self.id,
+                'type': 'horometry'
+            }
+
+            action = {
+                'name': _('Horometry'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'maintenance.measure',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'context': conx,
+            }
+
+        return action
 
     @api.one
     @api.depends('workorder_count')

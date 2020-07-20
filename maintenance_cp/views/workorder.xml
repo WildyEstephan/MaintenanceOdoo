@@ -37,7 +37,9 @@
                            </group>
                            <group string="Management">
                                <field name="need_breakdown" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="company_id" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
                                <field name="team_id" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
+                               <field name="create_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="start_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician"/>
                                <field name="start_date" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
                                <field name="end_date" readonly="1" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
@@ -139,7 +141,9 @@
                     <field name="create_uid" string="Requester"/>
                     <field name="equipment_id"/>
                     <field name="type_maintenance"/>
+                    <field name="create_date"/>
                     <field name="planned_end_date"/>
+                    <field name="company_id"/>
                 </tree>
             </field>
         </record>

@@ -122,6 +122,37 @@
         <!-- This Menu Item must have a parent and an action -->
         <menuitem id="equipment_category_categ" name="Equipment Category" parent="maintenance_equipment_cp_setting" action="equipment_category_action_view" sequence="5"/>
 
+        <record id="metrics_view_form" model="ir.ui.view">
+            <field name="name">metrics_view_form</field>
+            <field name="model">maintenance.measure</field>
+            <field name="arch" type="xml">
+                <form string="Metrics">
+                    <sheet>
+                        <field name="equipment_id"/>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="type"/>
+                            </group>
+                            <group>
+                                <field name="value1"/>
+                                <field name="value2"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="metrics_action" model="ir.actions.act_window">
+            <field name="name">Metrics</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.measure</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
         <record id="maintenance_cp_equipment_form_view" model="ir.ui.view">
             <field name="name">maintenance_cp_equipment_form_view</field>
             <field name="model">maintenance.cp.equipment</field>
@@ -143,6 +174,13 @@
                                     groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                                     <field string="Planning" name="planning_count" widget="statinfo" />
                             </button>
+                            <button name="add_metric"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-sort-numeric-up"
+                                    groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                                    <span>Metrics</span>
+                            </button>
                         </div>
                         <field name="image_medium" widget="image" class="oe_avatar"/>
                         <div class="oe_title">
@@ -162,6 +200,7 @@
                             <group>
                                 <field name="team_id"/>
                                 <field name="asset_id"/>
+                                <field name="metric_type"/>
                                 <field name="company_id" readonly="1"/>
                                 <field name="active"/>
                             </group>
@@ -192,6 +231,27 @@
                                     <tree editable="top">
                                         <field name="name"/>
                                         <field name="is_general"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="metrics" string="Metrics">
+                                <field name="metrics_ids" attrs="{'invisible': [('metric_type', '=', 'horometry')]}"
+                                       context="{'type': 'odometer'}">
+                                    <tree editable="top" open="false">
+                                        <field name="date"/>
+                                        <field name="value1" string="Initial Kilometers"/>
+                                        <field name="value2" string="Final Kilometers"/>
+                                        <field name="total" readonly="1" string="Total Kilometers"/>
+                                        <field name="type"/>
+                                    </tree>
+                                </field>
+                                <field name="metrics_ids" attrs="{'invisible': [('metric_type', '=', 'odometer')]}"
+                                       context="{'type': 'horometry'}">
+                                    <tree editable="top" open="false">
+                                        <field name="date"/>
+                                        <field name="value1" string="Initial Hours"/>
+                                        <field name="value2" string="Final Hours"/>
+                                        <field name="total" readonly="1" string="Total Hours"/>
                                     </tree>
                                 </field>
                             </page>
