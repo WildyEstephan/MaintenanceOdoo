@@ -51,5 +51,27 @@ for reminder in reminders:
             <field name="numbercall">-1</field>
         </record>
 
+        <record id="ir_cron_data_checklist_update_date" model="ir.cron">
+            <field name="name">Checklist Update Date</field>
+            <field name="model_id" ref="model_checklist_template"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.update_check_date()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
+       <record id="ir_cron_data_checklist__execute_planning" model="ir.cron">
+            <field name="name">Maintenance Execute Planning</field>
+            <field name="model_id" ref="model_checklist_template"/>
+            <field name="type">ir.actions.server</field>
+            <field name="state">code</field>
+            <field name="code">model.execute_all_planning()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+
     </data>
 </odoo>

@@ -50,6 +50,15 @@ class Location(models.Model):
                                  string="Company",
                                  required=False,
                                  default=lambda self: self.env.user.company_id.id)
+    sublocations = fields.One2many(
+        comodel_name='maintenance.cp.equipment.location',
+        inverse_name='parent_id',
+        string='Sublocations',
+        required=False)
+    parent_id = fields.Many2one(
+        comodel_name='maintenance.cp.equipment.location',
+        string='Parent',
+        required=False)
 
 class Measure(models.Model):
     _name = 'maintenance.measure'
@@ -127,7 +136,6 @@ class Measure(models.Model):
                 total = rec.value2 - rec.value1
 
                 rec.total = end_horometry.total + total
-
 
 # Crear equipos conectados con activos
 class Equipment(models.Model):
@@ -215,6 +223,10 @@ class Equipment(models.Model):
         inverse_name='equipment_id',
         string='Metrics',
         required=False, domain=[('type_metric', '=', 'horometry' ), ])
+    specialist_id = fields.Many2one(
+        comodel_name='hr.employee',
+        string='Specialist',
+        required=False)
 
     def add_metric(self):
 
@@ -311,3 +323,80 @@ class Equipment(models.Model):
             value = value.encode('ascii')
         image = tools.image_resize_image_big(value)
         self.image_variant = image
+
+class MeasureWizard(models.TransientModel):
+    _name = 'maintenance.measure.wizard'
+    _description = 'Measure'
+    _order = 'date desc'
+
+    equipment_id = fields.Many2one(
+        comodel_name='maintenance.cp.equipment',
+        string='Equipment',
+        required=False)
+    date = fields.Date(
+        string='Date',
+        required=True, default=datetime.today())
+    value1 = fields.Float(
+        string='Value 1',
+        required=True)
+    value2 = fields.Float(
+        string='Value 2',
+        required=True)
+    type_metric = fields.Selection(
+        string='Type',
+        selection=[('odometer', 'Odometer'),
+                   ('horometry', 'Horometry'), ],
+        required=False,)
+    checklist = fields.Many2one(
+        comodel_name='maintenance.checklist',
+        string='Checklist',
+        required=False)
+
+    def process(self):
+
+        self.env['maintenance.measure'].create({
+        'equipment_id' : self.equipment_id.id,
+        'value1': self.value1,
+        'value2': self.value2,
+        'type_metric': self.type_metric,
+        })
+
+        self.checklist.done = True
+
+    @api.model
+    def default_get(self, fields_list):
+
+        res = super(MeasureWizard, self).default_get(fields_list)
+
+        checklist = self.env['maintenance.checklist'].search([('id', '=', self.env.context['active_id'])],
+                                                                limit=1)
+
+        # raise ValidationError((checklist.equipment_id.name))
+
+        equipment = self.env['maintenance.cp.equipment'].search([('id', '=', checklist.equipment_id.id)],
+                                                                limit=1)
+
+
+        final_value = 0.0
+        if equipment.metric_type == 'odometer':
+            try:
+                final_value = equipment.metrics_ids[0].value2
+                # res['type_metric'] = 'odometer'
+            except IndexError:
+                final_value = 0.0
+        elif equipment.metric_type == 'horometry':
+            try:
+                final_value = equipment.metrics_horo_ids[0].value2
+                # res['type_metric'] = 'horometry'
+            except IndexError:
+                final_value = 0.0
+
+        res['type_metric'] = equipment.metric_type
+
+        res['equipment_id'] = equipment.id
+        res['checklist'] = checklist.id
+
+        # raise ValidationError((res['equipment_id']))
+        res['value1'] = final_value
+        # raise ValidationError((res))
+        return res

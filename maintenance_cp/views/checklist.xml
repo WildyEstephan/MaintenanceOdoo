@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="checklist_item_view_tree" model="ir.ui.view">
+            <field name="name">checklist_item_view_tree</field>
+            <field name="model">checklist.item</field>
+            <field name="arch" type="xml">
+                <tree string="Checklist Item" editable="top">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="checklist_item_action" model="ir.actions.act_window">
+            <field name="name">Checklist Item</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">checklist.item</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="checklist_item_categ" name="Checklist Item" parent="maintenance_equipment_cp_setting" action="checklist_item_action" sequence="300"/>
+
+       <record id="checklist_template_view_form" model="ir.ui.view">
+           <field name="name">checklist_template_view_form</field>
+           <field name="model">checklist.template</field>
+           <field name="arch" type="xml">
+               <form string="Checklist Template">
+                   <header>
+                       <button name="create_checklist" string="Create Checklist"
+                               class="oe_highlight" type="object"/>
+                   </header>
+                   <sheet>
+                       <div class="oe_title">
+                               <label for="name" class="oe_edit_only"/>
+                               <h1>
+                                   <field name="name" readonly="1"/>
+                               </h1>
+                           </div>
+                       <group>
+
+                           <group>
+                               <field name="equipment_id"/>
+                               <label for="frequency_exe" string="Frequency Of Execution"/>
+                                <div>
+                                    <field name="frequency_exe" class="oe_inline"/>
+                                    <field name="frequency_time" class="oe_inline"/>
+                                </div>
+                               <field name="next_check"/>
+                           </group>
+                       </group>
+
+                       <notebook>
+                           <page string="Check Lines">
+                               <field name="check_lines">
+                                   <tree editable="top">
+                                       <field name="item_id" />
+                                       <field name="name"/>
+                                       <field name="metrics"/>
+                                       <field name="equipment_id" invisible="1"/>
+                                   </tree>
+                               </field>
+                           </page>
+                       </notebook>
+                   </sheet>
+               </form>
+           </field>
+       </record>
+
+        <record id="checklist_template_view_tree" model="ir.ui.view">
+            <field name="name">checklist_template_view_tree</field>
+            <field name="model">checklist.template</field>
+            <field name="arch" type="xml">
+                <tree string="Checklist Template">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="checklist_template_action" model="ir.actions.act_window">
+            <field name="name">Checklist Template</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">checklist.template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="checklist_template_categ" name="Checklist Template" parent="planning_categ"
+                  action="checklist_template_action" sequence="300" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+        <record id="maintenance_checklist_view_tree" model="ir.ui.view">
+            <field name="name">_view_tree</field>
+            <field name="model">maintenance.checklist</field>
+            <field name="arch" type="xml">
+                <tree string="Checklists" create="false">
+                    <field name="item_id" readonly="1"/>
+                    <field name="name" readonly="1"/>
+                    <field name="equipment_id" readonly="1"/>
+                    <field name="maintenance_require" />
+                    <field name="sumary" />
+                    <button name="done_this" type="object" string="Done" attrs="{'invisible': [('done', '=', True)]}"/>
+                    <field name="date" readonly="1"/>
+                    <field name="done" readonly="1"/>
+                    <field name="user_id" readonly="1"/>
+                    <field name="metrics" invisible="1"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <record id="maintenance_checklist_action" model="ir.actions.act_window">
+            <field name="name">Checklist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.checklist</field>
+            <field name="domain">[('user_id', '=', uid), ('done', '=', False)]</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <record id="maintenance_all_checklist_action" model="ir.actions.act_window">
+            <field name="name">Checklist</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintenance.checklist</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                <!-- Add Text Here -->
+              </p><p>
+                <!-- More details about what a user can do with this object will be OK -->
+              </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_checklist_categ" name="My Checklists" parent="maintenance_corrective_categ"
+                  action="maintenance_checklist_action" sequence="300"/>
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem id="maintenance_all_checklist_categ" name="All Checklist" parent="workorder_categ"
+                  action="maintenance_all_checklist_action" sequence="300" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
+
+    </data>
+</odoo>

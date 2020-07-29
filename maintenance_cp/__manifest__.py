@@ -19,7 +19,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['mail', 'account_invoicing', 'stock', 'hr', 'account_asset'],
+    'depends': ['mail', 'account_invoicing', 'stock', 'hr', 'account_asset', 'hr_contract', 'custom_gantt_view'],
 
     # always loaded
     'data': [
@@ -39,6 +39,7 @@
         'views/reminder.xml',
         'views/reporting.xml',
         'views/cost_report.xml',
+        'views/checklist.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
