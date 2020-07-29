@@ -1,0 +1,69 @@
+<odoo>
+  <data>
+
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_picking_form_inherit_requisition_stock_integration" model="ir.ui.view">
+        <field name="name">view_picking_form_inherit_requisition_integration</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='origin']" position="after">
+                <!-- Add your fields or attributes here -->
+              <field name="workorder_id"/>
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_stock_picking_stock_maintenance_tree">
+            <field name="context">{"default_workorder_id_id":active_id}</field>
+            <field name="domain">[('workorder_id','=',active_id)]</field>
+            <field name="name">Picking</field>
+            <field name="res_model">stock.picking</field>
+            <!--<field name="view_id" ref="purchase_order_line_tree"/>-->
+        </record>
+
+    <record model="ir.actions.act_window" id="action_requisition_stock_maintenance_tree">
+            <field name="context">{"default_workorder_id_id":active_id}</field>
+            <field name="domain">[('workorder_id','=',active_id)]</field>
+            <field name="name">Requisitions</field>
+            <field name="res_model">requisition</field>
+            <!--<field name="view_id" ref="purchase_order_line_tree"/>-->
+        </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="workorder_form_view_inherit_requisition_stock_integration" model="ir.ui.view">
+        <field name="name">workorder_form_view_inherit_requisition_integration</field>
+        <field name="model">maintenance.cp.workorder</field>
+        <field name="inherit_id" ref="maintenance_cp.workorder_form_view"/>
+        <field name="arch" type="xml">
+
+          <xpath expr="//div[@name='workorder_button_box']" position="inside">
+            <!-- Add your fields or attributes here -->
+            <button name="%(requisition_stock_integration.action_stock_picking_stock_maintenance_tree)d"
+                    type="action"
+                    class="oe_stat_button"
+                    icon="fa-truck"
+                    groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                    <!--<field string="Picking" name="picking_count" widget="statinfo" />-->
+                <span>Picking</span>
+            </button>
+
+            <button name="%(requisition_stock_integration.action_requisition_stock_maintenance_tree)d"
+                    type="action"
+                    class="oe_stat_button"
+                    icon="fa-shopping-cart"
+                    groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
+                    <!--<field string="Requisition" name="requisition_count" widget="statinfo"/>-->
+                <span>Requisition</span>
+            </button>
+          </xpath>
+
+        </field>
+    </record>
+
+  </data>
+</odoo>
