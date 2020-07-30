@@ -112,6 +112,13 @@ class WorkOrder(models.Model):
                    ('saved', 'Saved'), ],
         compute='_compute_total_hours', )
 
+    @api.onchange('equipment_id')
+    def _onchange_equipment_id(self):
+
+        for res in self:
+            if res.equipment_id.team_id:
+                self.team_id = res.equipment_id.team_id
+
     @api.multi
     @api.depends('description_ids')
     def _compute_total_hours(self):
