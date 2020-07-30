@@ -99,11 +99,12 @@ class WorkOrder(models.Model):
                         (0, 0,
                          {
                              'product_id': rec.product_id.id,
-                             'quantity': rec.qty_remaining or 1,
+                             'product_qty': rec.qty_remaining or 1,
                              'name': record.name,
-                             'unit_measurement': rec.product_id.uom_id.id,
+                             'product_uom_id': rec.product_id.uom_id.id,
                              'planned_parts_id': rec.id,
-                             'seller_id': rec.vendor_id.id
+                             'seller_id': rec.vendor_id.id,
+                             'price_unit': rec.estimated_cost
                          }
                          ))
 
@@ -111,7 +112,7 @@ class WorkOrder(models.Model):
 
                 copy_record.create({
                     'name': record.name + ' Purchase Maintenance Service',
-                    'requisition_line_ids': order_lines,
+                    'line_ids': order_lines,
                     'company_id': record.company_id.id,
                     'workorder_id': record.id
                 })

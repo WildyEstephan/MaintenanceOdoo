@@ -30,7 +30,7 @@
             <field name="context">{"default_workorder_id_id":active_id}</field>
             <field name="domain">[('workorder_id','=',active_id)]</field>
             <field name="name">Requisitions</field>
-            <field name="res_model">requisition</field>
+            <field name="res_model">purchase.requisition</field>
             <!--<field name="view_id" ref="purchase_order_line_tree"/>-->
         </record>
 
@@ -64,6 +64,20 @@
 
         </field>
     </record>
+
+      <record id="view_purchase_requisition_form_maintenance" model="ir.ui.view">
+          <field name="name">view_purchase_requisition_form_maintenance</field>
+          <field name="model">purchase.requisition</field>
+          <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+          <field name="arch" type="xml">
+
+              <xpath expr="//field[@name='user_id']" position="before">
+                  <!-- Add new fields here -->
+                  <field name="workorder_id" invisible="1"/>
+              </xpath>
+
+          </field>
+      </record>
 
   </data>
 </odoo>
