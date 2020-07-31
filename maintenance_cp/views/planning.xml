@@ -30,6 +30,7 @@
                                     <field name="frequency_exe" class="oe_inline"/>
                                     <field name="frequency_time" class="oe_inline"/>
                                 </div>
+                               <field name="type_operation" attrs="{'readonly':[('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}"/>
 
                                <field name="section_ids" context="{'default_equipment_id': equipment_id}" groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" widget="many2many_tags"/>
                            </group>

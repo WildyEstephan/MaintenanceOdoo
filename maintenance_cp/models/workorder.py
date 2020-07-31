@@ -188,6 +188,7 @@ class WorkOrder(models.Model):
                     {
                         'product_id': part.product_id.id,
                         'product_qty': part.product_qty,
+                        'estimated_cost': part.estimated_cost,
                         'name': part.name,
                         'workorder_id': self.id,
                         'vendor_id': part.vendor_id.id,
@@ -328,14 +329,14 @@ class PlannedParts(models.Model):
                                required=True)
     estimated_cost = fields.Float(
         string='Estimated Unit Cost',
-        required=False)
+        required=True)
     state = fields.Selection(string="State",
                              selection=[('stock', 'On Stock'),
                                         ('unavailable', 'Unavailable'),
                                         ('available', 'Available'),
                                         ],
                              required=False, )
-    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True,
+    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=False,
                                 domain=[('supplier', '=', True)])
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",

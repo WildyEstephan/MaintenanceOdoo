@@ -116,7 +116,10 @@ class PlannedPartsTask(models.Model):
                                  required=True, domain="[('is_part', '=', 'True')]")
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
                                required=True)
-    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=True,
+    estimated_cost = fields.Float(
+        string='Estimated Unit Cost',
+        required=True)
+    vendor_id = fields.Many2one(comodel_name="res.partner", string="Suggested Vendor", required=False,
                                 domain=[('supplier', '=', True)])
     company_id = fields.Many2one(comodel_name="res.company",
                                  string="Company",

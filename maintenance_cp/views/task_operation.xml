@@ -135,6 +135,7 @@
                                        <field name="product_id" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                        <field name="name"/>
                                        <field name="product_qty"/>
+                                       <field name="estimated_cost"/>
                                        <field name="vendor_id"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
                                    </tree>
                                </field>

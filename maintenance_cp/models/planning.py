@@ -86,6 +86,12 @@ class Planning(models.Model):
         required=False, compute='_compute_total_cost')
 
     maintenance_date = fields.Date(string="Next Maintenance Date", required=False, )
+    type_operation = fields.Selection(
+        string='Type Operation',
+        selection=[('preventive', 'Preventive'),
+                   ('predictive', 'Predictive'), ],
+        required=True, )
+
 
     def set_maintenance_date(self):
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
@@ -251,11 +257,17 @@ class Planning(models.Model):
         # sections = []
         # for s in self.section_ids.ids:
         #     sections.append(s.id)
+        type_operation = ''
+
+        if self.type_operation == 'preventive':
+            type_operation = 'preventive'
+        elif self.type_operation == 'predictive':
+            type_operation = 'predictive'
 
         workorder = self.env['maintenance.cp.workorder'].create(
             {
                 'equipment_id': self.equipment_id.id,
-                'type_maintenance': 'preventive',
+                'type_maintenance': type_operation,
                 'description_problem': "Maintenance Preventive",
                 'need_breakdown': self.need_breakdown,
                 # 'planned_end_hours': self.planned_end_hours,
