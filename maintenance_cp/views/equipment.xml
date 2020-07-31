@@ -200,7 +200,7 @@
                         </group>
                     </sheet>
                     <footer>
-                        <button name="process" type="object" string="Confirm"/>
+                        <button name="process" type="object" string="Confirm" class="oe_highlight"/>
                     </footer>
                 </form>
             </field>
@@ -303,7 +303,7 @@
                                         <field name="date"/>
                                         <field name="value1" string="Initial Kilometers"/>
                                         <field name="value2" string="Final Kilometers"/>
-                                        <field name="total" readonly="1" string="Total Kilometers"/>
+                                        <field name="total" readonly="1" string="SubTotal Kilometers" sum="Total"/>
                                         <field name="type_metric"/>
                                     </tree>
                                 </field>
@@ -313,8 +313,8 @@
                                         <field name="date"/>
                                         <field name="value1" string="Initial Hours"/>
                                         <field name="value2" string="Final Hours"/>
-                                        <field name="total" readonly="1" string="Total Hours"/>
-                                        <field name="type_metric" readonly="1" />
+                                        <field name="total" readonly="1" string="SubTotal Hours" sum="Total"/>
+                                        <field name="type_metric" readonly="1" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>

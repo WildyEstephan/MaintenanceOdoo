@@ -152,7 +152,7 @@ class Checklist(models.Model):
         required=True, )
     date = fields.Date(
         string='Date', 
-        required=False)
+        required=False, default=datetime.now())
     done = fields.Boolean(
         string='Done', 
         required=False)
@@ -171,22 +171,60 @@ class Checklist(models.Model):
         required=False)
 
     def done_this(self):
-        self.date = datetime.now()
+        # self.date = datetime.now()
 
         if self.metrics:
             action = self.env.ref('maintenance_cp.measure_wizard_action')
             result = action.read()[0]
-            # result['res_id'] = self.id
-
-            # result['context'] = {
-            #     'default_equipment_id': self.equipment_id.id,
-            #     'default_checklist': self.id,
-            #     'equipment_id': self.equipment_id.id,
-            #     'checklist': self.id,
-            # }
-
-            # raise exceptions.UserError((result['context']))
-
+            return result
+        else:
+            action = self.env.ref('maintenance_cp.checklist_wizard_action')
+            result = action.read()[0]
             return result
 
-        self.done = True
+        # self.done = True
+
+class ChecklistWizard(models.TransientModel):
+    _name = 'checklist.wizard'
+    _description = 'Checklist Wizard'
+
+    checklist_id = fields.Many2one(
+        comodel_name='maintenance.checklist',
+        string='Checklist',
+        required=False)
+    maintenance_require = fields.Boolean(
+        string='Maintenance Require',
+        required=False)
+    sumary = fields.Text(
+        string="Summary",
+        required=False)
+
+    def process(self):
+
+        if self.maintenance_require:
+
+            workorder = self.env['maintenance.cp.workorder'].sudo().create(
+                {
+                    'equipment_id': self.checklist_id.equipment_id.id,
+                    'type_maintenance': 'corrective',
+                    'description_problem': "Maintenance Corrective From Checklist: " + self.sumary,
+                }
+            )
+
+        self.checklist_id.done = True
+        self.checklist_id.maintenance_require = self.maintenance_require
+        self.checklist_id.sumary = self.sumary
+
+    @api.model
+    def default_get(self, fields_list):
+
+        res = super(ChecklistWizard, self).default_get(fields_list)
+
+        checklist = self.env['maintenance.checklist'].search([('id', '=', self.env.context['active_id'])],
+                                                             limit=1)
+        # raise ValidationError((checklist.equipment_id.name))
+
+        res['checklist_id'] = checklist.id
+
+        return res
+

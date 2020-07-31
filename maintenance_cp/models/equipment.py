@@ -63,7 +63,7 @@ class Location(models.Model):
 class Measure(models.Model):
     _name = 'maintenance.measure'
     _description = 'Measure'
-    _order = 'date desc'
+    _order = 'id desc, date desc'
 
     equipment_id = fields.Many2one(
         comodel_name='maintenance.cp.equipment',

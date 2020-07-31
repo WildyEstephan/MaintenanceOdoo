@@ -137,5 +137,35 @@
         <menuitem id="maintenance_all_checklist_categ" name="All Checklist" parent="workorder_categ"
                   action="maintenance_all_checklist_action" sequence="300" groups="maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager"/>
 
+        <record id="checklist_wizard_view_form" model="ir.ui.view">
+            <field name="name">checklist_view_form</field>
+            <field name="model">checklist.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Checklist">
+                    <sheet>
+                        <field name="checklist_id" invisible="1"/>
+                        <group>
+                            <group>
+                                <field name="maintenance_require"/>
+                            </group>
+                            <group>
+                                <field name="sumary" attrs="{'required': [('maintenance_require', '=', True)]}"/>
+                            </group>
+
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="process" type="object" string="Confirm" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="checklist_wizard_action"
+                    name="Checklist"
+                    src_model="maintenance.checklist"
+                    res_model="checklist.wizard"
+                    view_mode="form" target="new"
+        />
     </data>
 </odoo>
