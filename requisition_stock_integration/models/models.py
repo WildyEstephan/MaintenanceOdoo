@@ -47,25 +47,25 @@ class WorkOrder(models.Model):
                 qty = 0.0
                 if not rec.product_id.type == 'service':
 
-                    if not rec.product_id.qty_available == 0 or not rec.product_id.qty_available < 0:
-
-                        if rec.qty_remaining <= 0:
-                            qty = rec.product_qty
-                        else:
-                            continue
-                            # qty = rec.product_id.qty_available
-
-                        if rec.state == 'stock':
-                            order_lines.append(
-                                (0, 0,
-                                 {
-                                     'product_id': rec.product_id.id,
-                                     'product_uom_qty': qty,
-                                     'name': record.name,
-                                     'product_uom': rec.product_id.uom_id.id,
-                                     'planned_parts_id': rec.id,
-                                 }
-                                 ))
+                    # if not rec.product_id.qty_available == 0 or not rec.product_id.qty_available < 0:
+                    #
+                    #     if rec.qty_remaining <= 0:
+                    #         qty = rec.product_qty
+                    #     else:
+                    #         continue
+                    #         # qty = rec.product_id.qty_available
+                    #
+                    #     if rec.state == 'stock':
+                    order_lines.append(
+                        (0, 0,
+                         {
+                             'product_id': rec.product_id.id,
+                             'product_uom_qty': rec.product_qty,
+                             'name': record.name,
+                             'product_uom': rec.product_id.uom_id.id,
+                             'planned_parts_id': rec.id,
+                         }
+                         ))
 
             if order_lines:
                 sp_types = self.env['stock.picking.type'].search([
