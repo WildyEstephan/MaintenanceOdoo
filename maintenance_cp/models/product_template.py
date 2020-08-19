@@ -15,3 +15,9 @@ class ProductTemplate(models.Model):
 
     # Check para saber si es una mano de obra
     is_workforce = fields.Boolean(string="Is Workforce",  )
+
+    equipment_id = fields.Many2one(
+        comodel_name='maintenance.cp.equipment',
+        string='Equipment',
+        required=False)
+

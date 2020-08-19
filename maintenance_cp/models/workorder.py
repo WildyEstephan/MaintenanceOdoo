@@ -324,7 +324,8 @@ class PlannedParts(models.Model):
     workorder_id = fields.Many2one(comodel_name="maintenance.cp.workorder",
                                    string="Work Order", required=False, )
     product_id = fields.Many2one(comodel_name="product.product", string="Product",
-                                 required=True, domain="['|', ('is_part', '=', 'True'), ('is_workforce', '=', 'True')]")
+                                 required=True,
+                                 domain="['|', ('is_part', '=', 'True'), ('is_workforce', '=', 'True'), '|', ('equipment_id', '=', equipment_id), ('equipment_id', '=', False)]")
     product_qty = fields.Float(string='Quantity', digits=dp.get_precision('Product Unit of Measure'),
                                required=True)
     estimated_cost = fields.Float(
@@ -352,6 +353,10 @@ class PlannedParts(models.Model):
     total = fields.Float(
         string='Total',
         required=False, compute='_compute_total')
+    equipment_id = fields.Many2one(
+        comodel_name='maintenance.cp.equipment',
+        string='Equipment',
+        required=False)
 
     @api.multi
     @api.depends('estimated_cost', 'product_qty')

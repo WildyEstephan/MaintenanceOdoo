@@ -227,6 +227,11 @@ class Equipment(models.Model):
         comodel_name='hr.employee',
         string='Specialist',
         required=False)
+    product_ids = fields.One2many(
+        comodel_name='product.template',
+        inverse_name='equipment_id',
+        string='Products',
+        required=False)
 
     def add_metric(self):
 

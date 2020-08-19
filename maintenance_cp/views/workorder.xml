@@ -73,7 +73,7 @@
                        <field name="description_problem" attrs="{'readonly':[('state', 'in', ('send', 'approved', 'started', 'ended', 'cancel'))]}"/>
                        <notebook groups="maintenance_cp.maintenance_cp_technician,maintenance_cp.maintenance_cp_supervisor,maintenance_cp.maintenance_cp_manager">
                            <page string="Parts/Services Needed">
-                               <field name="parts_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}">
+                               <field name="parts_ids" attrs="{'readonly': [('state', 'in', ('approved', 'started', 'ended', 'cancel'))]}" context="{'default_equipment_id': equipment_id}">
                                    <tree editable="top">
                                        <field name="product_id"/>
                                        <field name="name"/>
@@ -81,6 +81,7 @@
                                        <field name="estimated_cost"/>
                                        <field name="total" widget="monetary" readonly="1"/>
                                        <field name="currency_id" invisible="1"/>
+                                       <field name="equipment_id" invisible="1"/>
                                        <field name="vendor_id"/>
                                        <field name="state" readonly="1"/>
                                    </tree>

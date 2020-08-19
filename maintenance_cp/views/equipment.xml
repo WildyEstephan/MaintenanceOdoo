@@ -318,6 +318,13 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page name="products" string="Products">
+                                <field name="product_ids">
+                                    <tree delete="false">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
