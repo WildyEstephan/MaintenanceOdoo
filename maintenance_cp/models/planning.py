@@ -92,6 +92,10 @@ class Planning(models.Model):
                    ('predictive', 'Predictive'), ],
         required=True, )
 
+    def cancel_work(self):
+
+        self.state = 'draft'
+
 
     def set_maintenance_date(self):
         start_date = datetime.strptime(self.start_date, '%Y-%m-%d')
