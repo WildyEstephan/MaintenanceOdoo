@@ -12,7 +12,7 @@ class txtPopulaPayslip(models.Model):
     company_id = fields.Many2one(comodel_name="res.company", string="Company",
                                  required=False, readonly=True, default=lambda self: self.env.user.company_id.id)
     payslip_run_id = fields.Many2one(comodel_name="hr.payslip.run", string="Lote de Nomina", required=True,
-                                     domain="[('state', '=', 'close')]")
+                                     domain="[('state', '=', 'review')]")
     report = fields.Binary(string="Reporte", readonly=True)
     report_name = fields.Char(string="Nombre de Reporte", readonly=True, )
     effective_date = fields.Date(string="Fecha Efectiva", required=True,
@@ -57,17 +57,12 @@ class txtPopulaPayslip(models.Model):
 
     def get_total(self):
 
-        rule_code = 'NET'
-
-        if self.currency_id.name == 'USD':
-            rule_code = 'NETUSD'
-
         total = 0.00
         lines  = 0
 
         for payslip in self.payslip_run_id.slip_ids:
             for line in payslip.line_ids:
-                if line.code == rule_code:
+                if line.code == 'NET':
                     if payslip.employee_id.bank_account_id:
 
                         if payslip.employee_id.bank_account_id.currency_id == self.currency_id:
@@ -82,13 +77,11 @@ class txtPopulaPayslip(models.Model):
         return str(lines).zfill(11) + str('%.2f' % total).replace('.', '').zfill(13)
 
     def get_lines(self):
-        rule_code = 'NET'
 
         currency = '214'
 
         if self.currency_id.name == 'USD':
             currency = '840'
-            rule_code = 'NETUSD'
 
         lines = []
 
@@ -97,7 +90,7 @@ class txtPopulaPayslip(models.Model):
         for payslip in self.payslip_run_id.slip_ids:
 
             for line in payslip.line_ids:
-                if line.code == rule_code:
+                if line.code == 'NET':
                     cadena = 'N' + self.company_id.vat.ljust(15, ' ') + str(self.sequence).zfill(7)
                     if payslip.employee_id.bank_account_id and payslip.employee_id.identification_id:
 
