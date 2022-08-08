@@ -71,9 +71,8 @@
 
     <!-- This Menu Item must have a parent and an action -->
     <menuitem id="txt_popular_payslip_categ" name="TXT Popular"
-              parent="hr_payslip_reporting.hr_payslip_reporting_action_categ_item"
-              action="txt_popular_payslip_action" sequence="5"
-              groups="payroll_do_txt_file.group_bpd_payslip_run_extract"/>
+              parent="hr_payroll.menu_hr_payroll_configuration"
+              action="txt_popular_payslip_action" sequence="0"/>
 
       <!-- Inherit Form View to Modify it -->
 
