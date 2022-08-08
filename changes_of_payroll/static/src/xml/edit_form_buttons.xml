@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+        <!--List View-->
+    <t t-extend="ListView.buttons">
+        <t t-jquery=".o_list_button_add" t-operation="replace">
+            <button type="button" class="btn btn-primary btn-sm o_list_button_add" accesskey="c">
+
+                <!--Replace the Create button and specify the model-->
+                <t t-if="widget.modelName == 'changes.payroll'">     New     </t>
+
+                <!--This ensures that other modules Create button is not overwritten-->
+                <t t-if="widget.modelName != 'changes.payroll'">Create</t>
+
+            </button>
+        </t>
+    </t>
+
+    <!--Form View-->
+    <t t-extend="FormView.buttons">
+        <t t-jquery=".o_form_button_create" t-operation="replace">
+            <button t-if="widget.is_action_enabled('create')" type="button"
+                    class="btn btn-default btn-sm o_form_button_create" accesskey="c">
+
+                <!--Replace the Create button and specify the model-->
+                <t t-if="widget.modelName == 'changes.payroll'">        New      </t>
+
+                <!--This ensures that other modules Create button is not overwritten-->
+                <t t-if="widget.modelName != 'changes.payroll'">Create</t>
+
+            </button>
+        </t>
+    </t>
+
+    <!-- this will hide Create button for model 'consolidate.change.report' -->
+    <t t-extend="FormView.buttons">
+        <t  t-jquery="button.o_form_button_create" t-operation="attributes">
+            <attribute name="t-if">widget.modelName != 'consolidate.change.report'</attribute>
+        </t>
+    </t>
+            <!-- this will hide IMPORT button for model  'changes.payroll' -->
+<t t-extend="ImportView.import_button">
+    <t  t-jquery="button.o_button_import" t-operation="attributes">
+        <attribute name="t-if">widget.modelName != 'changes.payroll'</attribute>
+    </t>
+</t>
+
+</templates>

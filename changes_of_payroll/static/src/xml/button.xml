@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+<!--Form View-->
+    <t t-extend="FormView.buttons">
+
+        <!-- this will hide SAVE button for model  'hr.payslip.employees' -->
+        <t t-jquery="button.o_form_button_save" t-operation="attributes">
+            <attribute name="t-if">widget.modelName != 'hr.payslip.employees'</attribute>
+        </t>
+
+        <!-- this will hide DISCARD button for model  'hr.payslip.employees' -->
+        <t t-jquery="button.o_form_button_cancel" t-operation="attributes">
+            <attribute name="t-if">widget.modelName != 'hr.payslip.employees'</attribute>
+        </t>
+
+    </t>
+    <!-- this will hide IMPORT button for model  'hr.payslip.employees' -->
+<!--    <t t-extend="ImportView.import_button">-->
+<!--        <t t-jquery="button.o_button_import" t-operation="attributes">-->
+<!--            <attribute name="t-if">widget.modelName != 'hr.payslip.run'</attribute>-->
+<!--        </t>-->
+<!--    </t>-->
+</templates>
