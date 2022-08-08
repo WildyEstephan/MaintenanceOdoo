@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Changes Of Payroll",
+    'name': "txt_popular_payslip",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -10,8 +10,8 @@
         Long description of module's purpose
     """,
 
-    'author': "Wildy Estephan",
-    'website': "http://www.wildyestephan.org",
+    'author': "My Company",
+    'website': "http://www.yourcompany.com",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
@@ -20,15 +20,13 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr_payroll', 'hr_custom_fields', 'project'],
+    'depends': ['base'],
 
     # always loaded
     'data': [
-        'views/templates.xml',
-        'security/rules.xml',
-        'security/ir.model.access.csv',
-        'security/user_group.xml',
+        # 'security/ir.model.access.csv',
         'views/views.xml',
+        'views/templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

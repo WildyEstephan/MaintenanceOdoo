@@ -1,0 +1,83 @@
+<odoo>
+  <data>
+
+    <record id="txt_popular_payslip_form" model="ir.ui.view">
+        <field name="name">txt_popular_payslip_form</field>
+        <field name="model">txt.popular.payslip</field>
+        <field name="arch" type="xml">
+            <form string="TXT Popular">
+              <header>
+                  <button name="create_report" string="Generate" class="oe_highlight" type="object"/>
+              </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="company_id"/>
+                        <field name="email"/>
+                        <field name="payslip_run_id"/>
+                        <field name="effective_date"/>
+                        <field name="currency_id"/>
+                        <field name="report" widget="binary" filename="report_name" readonly="1"/>
+                    </group>
+                    <field name="lines_ids">
+                        <tree create="false" edit="false">
+                            <field name="no_line"/>
+                            <field name="name"/>
+                            <field name="identification_id"/>
+                            <field name="email_employee"/>
+                            <field name="account_bank"/>
+                            <field name="amount"/>
+                        </tree>
+
+                        <form create="false" edit="false">
+                            <field name="no_line"/>
+                            <field name="name"/>
+                            <field name="identification_id"/>
+                            <field name="email_employee"/>
+                            <field name="account_bank"/>
+                            <field name="amount"/>
+                        </form>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+      <record id="txt_popular_payslip_tree" model="ir.ui.view">
+          <field name="name">txt_popular_payslip_tree</field>
+          <field name="model">txt.popular.payslip</field>
+          <field name="arch" type="xml">
+              <tree string="">
+                  <field name="name"/>
+                  <field name="report" widget="binary" filename="report_name"/>
+                  <field name="report_name" invisible="1"/>
+              </tree>
+          </field>
+      </record>
+
+    <record id="txt_popular_payslip_action" model="ir.actions.act_window">
+        <field name="name">TXT Popular</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">txt.popular.payslip</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            <!-- Add Text Here -->
+          </p><p>
+            <!-- More details about what a user can do with this object will be OK -->
+          </p>
+        </field>
+    </record>
+
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="txt_popular_payslip_categ" name="TXT Popular"
+              parent="hr_payslip_reporting.hr_payslip_reporting_action_categ_item"
+              action="txt_popular_payslip_action" sequence="5"
+              groups="payroll_do_txt_file.group_bpd_payslip_run_extract"/>
+
+      <!-- Inherit Form View to Modify it -->
+
+
+
+  </data>
+</odoo>

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef32120d-ddc9-4195-8a5a-816402a3146b" name="Default" comment="" />
+    <list default="true" id="ef32120d-ddc9-4195-8a5a-816402a3146b" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/changes_of_payroll/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/changes_of_payroll/__manifest__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hr_custom_fields/__manifest__.py" beforeDir="false" afterPath="$PROJECT_DIR$/hr_custom_fields/__manifest__.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+
+        <record id="seq_bpd_payslip" model="ir.sequence">
+        <field name="name">BPD Payslip</field>
+        <field name="code">bpd.payslip</field>
+        <field name="padding">7</field>
+        <field name="company_id" eval="False"/>
+    </record>
+
+    </data>
+</odoo>
