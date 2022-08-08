@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_contract_salary,hr.contract.salary,hr_custom_fields.model_hr_contract_salary,hr_payroll.group_hr_payroll_user,1,1,1,1

@@ -2,95 +2,80 @@
   <data>
 
     <record id="changes_of_payroll_form" model="ir.ui.view">
-        <field name="name">One-Time Form</field>
+        <field name="name">Changes Of Payroll Form</field>
         <field name="model">changes.payroll</field>
         <field name="arch" type="xml">
-            <form string="One-time Changes Entry">
+            <form string="Changes of Payroll Month">
                 <header>
 
+                    <button name="draft_this" type="object" string="Draft This"
+                            groups="base.group_system" class="oe_highlight"/>
+
+                    <button name="approve_this" type="object" string="Validate"
+                            groups="changes_of_payroll.changes_of_payroll_group_manager"
+                            states="draft" class="oe_highlight"/>
+
+                    <button name="review_this" type="object" string="Reviewed"
+                            groups="account.group_account_manager" states="validated" class="oe_highlight"/>
+
+                    <button name="close_this" type="object" string="Close"
+                            groups="security_groups.group_director" states="review" class="oe_highlight"/>
+
                     <button name="draft_this" type="object" string="Cancel"
-                            groups="changes_of_payroll.changes_of_payroll_group_manager,changes_of_payroll.changes_of_payroll_group_user"
-                            states="validated,close" class="oe_highlight"/>
+                            groups="changes_of_payroll.changes_of_payroll_group_manager" states="validated" class="oe_highlight"/>
 
                     <button name="genetare_lines" type="object" string="Generate Lines"
                             groups="changes_of_payroll.changes_of_payroll_group_user"
                             class="oe_highlight"
                     attrs="{'invisible': ['|', ('state', '!=', 'draft'), ]}"/>
-
-                    <button name="approve_this" type="object" string="Submit"
-                            groups="changes_of_payroll.changes_of_payroll_group_manager,changes_of_payroll.changes_of_payroll_group_user"
-                            states="draft" class="oe_highlight" />
-
-                    <field name="state" widget="statusbar" statusbar_visible="draft,validated"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,review,close"/>
                 </header>
                 <sheet>
                     <h1>
-                        <div class="oe_title">
-                            <h1>
-                                <field name="name" readonly="1"/>
-                            </h1>
-                        </div>
-                          <field name="name" attrs="{'readonly': [ ('state', 'not in', ['draft'])]}" invisible="1"/>
+                          <field name="name" attrs="{'readonly': [ ('state', 'not in', ['draft'])]}"/>
                     </h1>
                     <group class="group-top">
                       <group class="group-left">
-                          <button name="generate_template" string="Generate Template" class="oe_highlight" states="" type="object" groups="base.group_system"/>
+                          <button name="generate_template" string="Generate Template" class="oe_highlight" states="" type="object"/>
                         <field name="template_changes" widget="binary" filename="name_file" readonly="1"/>
-                          <field name="month" readonly="1"/>
-                          <field name="payslip_run_id" readonly="1" string="Payroll Run"/>
-                          <field name="year" readonly="1"/>
-                      </group>
-                      <group class="group-right">
                           <field name="create_date" readonly="1"/>
                         <field name="create_uid" readonly="1"/>
+                          <field name="payslip_run_id"
+                                 attrs="{'readonly': [ ('state', 'not in', ['draft'])]}"/>
+                      </group>
+                      <group class="group-right">
                         <field name="file_changes" widget="binary" filename="name_file" attrs="{'readonly': [ ('state', 'not in', ['draft'])]}"/>
-                        <field name="company_id" invisible="1"/>
-                        <field name="is_generated" invisible="1"/>
+                        <field name="company_id" readonly="1"/>
                       </group>
                       <field name="lines_ids" options="{'no_open': True}"
                              attrs="{'readonly': [ ('state', 'not in', ['draft'])]}"
                       >
-                        <tree string="Lines of One-Time Changes" editable="bottom">
-                          <field name="type_change_id" string="Description" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
+                        <tree string="Lines of Changes" editable="bottom">
+                          <field name="type_change_id" />
                           <field name="code" invisible="1"/>
                           <field name="name" invisible="1"/>
-                          <field name="employee_id" options="{'no_quick_create': True, 'no_create_edit' : True}"
-                                 attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
+                          <field name="employee_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
                           <field name="code_employee" invisible="1"/>
-                          <field name="amount" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
-<!--                          <field name="is_pension" widget="selection"/>-->
-<!--                          <field name="percent"/>-->
-<!--                          <field name="pension_percentage" attrs="{'invisible': [('is_pension', '!=', 'yes')]}"/>-->
-<!--                          <field name="pension_percentage_calc" readonly="1" attrs="{'invisible': [('is_pension', '!=', 'yes')]}"/>-->
-
-                          <field name="file_action" widget="binary" filename="name_file"
-                                 attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
-                            <field name="apply_on" attrs="{'readonly': [('type_line', '!=', 'onetime')]}" invisible="1"/>
-                            <field name="name_file" invisible="1"/>
-                            <field name="create_uid" />
-                          <field name="request_id" invisible="1"/>
+                          <field name="amount"/>
+                          <field name="apply_on"/>
+                          <field name="date"/>
                           <field name="changes_payroll_id" invisible="1"/>
                           <field name="state" invisible="1"/>
                           <field name="contract_id" invisible="1"/>
-                          <field name="type_line" invisible="1"/>
                         </tree>
                           <form>
                               <group class="group-top">
                                   <group class="group-left">
-                                      <field name="type_change_id" readonly="1" string="Description"/>
+                                      <field name="type_change_id"/>
                                       <field name="code" invisible="1"/>
                                       <field name="name" invisible="1"/>
-                                      <field name="employee_id" readonly="1"/>
+                                      <field name="employee_id"/>
                                       <field name="code_employee" invisible="1"/>
-                                      <field name="amount" readonly="1"/>
+                                      <field name="amount"/>
                                   </group>
                                   <group class="group-right">
-                                      <field name="pension_percentage" readonly="1"/>
-                                      <field name="pension_percentage_calc" readonly="1"/>
-                                      <field name="apply_on" readonly="1"/>
-                                      <field name="date" readonly="1"/>
-                                      <field name="file_action" readonly="1"/>
-                                      <field name="request_id" readonly="1"/>
+                                      <field name="apply_on"/>
+                                      <field name="date"/>
                                       <field name="changes_payroll_id" invisible="1"/>
                                       <field name="state" invisible="1"/>
                                       <field name="contract_id" invisible="1"/>
@@ -112,33 +97,31 @@
     </record>
 
     <record id="changes_of_payroll_tree" model="ir.ui.view">
-        <field name="name">One-Time Tree</field>
+        <field name="name">Changes Of Payroll Tree</field>
         <field name="model">changes.payroll</field>
         <field name="arch" type="xml">
-            <tree string="One-time Change Entry" default_order='date desc'>
+            <tree string="Changes Of Payroll">
                 <field name="name"/>
                 <field name="date"/>
-                <field name="state" string="Status"/>
-                <field name="create_uid"/>
             </tree>
         </field>
     </record>
 
       <record id="mt_state_change" model="mail.message.subtype">
-    <field name="name">One-Time approved</field>
+    <field name="name">Changes approved</field>
     <field name="res_model">changes.payroll</field>
     <field name="default" eval="True"/>
-    <field name="description">One-Time of payroll are approved</field>
+    <field name="description">Changes of payroll are approved</field>
 
       </record><record id="mt_state_change_close" model="mail.message.subtype">
-    <field name="name">One-Time close</field>
+    <field name="name">Changes close</field>
     <field name="res_model">changes.payroll</field>
     <field name="default" eval="True"/>
-    <field name="description">One-Time of payroll are close</field>
+    <field name="description">Changes of payroll are close</field>
       </record>
 
     <record id="changes_of_payroll_action" model="ir.actions.act_window">
-        <field name="name">Changes of Payroll</field>
+        <field name="name">Changes Of Payroll</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">changes.payroll</field>
         <field name="view_mode">tree,form</field>
@@ -153,16 +136,16 @@
 
 
     <!-- This Menu Item Must have a parent -->
-    <menuitem id="changes_of_payroll_categ" name="Payroll" parent="hr_payroll.menu_hr_payroll_root" sequence="1"/>
+    <menuitem id="changes_of_payroll_categ" name="Changes of payroll" parent="hr_payroll.menu_hr_payroll_root" sequence="1"/>
     <!-- This Menu Item must have a parent and an action -->
-    <menuitem id="changes_of_payroll_menu" name="One-Time Change" parent="changes_of_payroll_categ" action="changes_of_payroll_action"
+    <menuitem id="changes_of_payroll_menu" name="Changes of payroll" parent="changes_of_payroll_categ" action="changes_of_payroll_action"
               sequence="1"/>
 
     <record id="changes_payroll_type_form" model="ir.ui.view">
-        <field name="name">Concept Changes Payroll Form</field>
+        <field name="name">Changes Payroll Type Form</field>
         <field name="model">changes.payroll.type</field>
         <field name="arch" type="xml">
-            <form string="Concept Payroll">
+            <form string="Changes Payroll Type">
                 <sheet>
                     <group class="group-top">
                       <group class="group-left">
@@ -170,10 +153,8 @@
                         <field name="code"/>
                       </group>
                       <group class="group-right">
-                        <field name="company_id" readonly="1"/>
-                          <field name="allo_ded"/>
+                        <field name="company_id"/>
                         <field name="type_of"/>
-                        <field name="is_payment_distribution"/>
                       </group>
                     </group>
                 </sheet>
@@ -182,10 +163,10 @@
     </record>
 
     <record id="changes_payroll_type_tree" model="ir.ui.view">
-        <field name="name">Concept Changes Of Payroll Tree</field>
+        <field name="name">Changes Payroll Type Tree</field>
         <field name="model">changes.payroll.type</field>
         <field name="arch" type="xml">
-            <tree string="Concept Payroll">
+            <tree string="Changes Payroll Type">
                 <field name="name"/>
                 <field name="code"/>
             </tree>
@@ -193,7 +174,7 @@
     </record>
 
     <record id="changes_payroll_type_action" model="ir.actions.act_window">
-        <field name="name">Concept Changes Of Payroll</field>
+        <field name="name">Changes Payroll Type</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">changes.payroll.type</field>
         <field name="view_mode">tree,form</field>
@@ -214,120 +195,15 @@
 
             <xpath expr="//field[@name='journal_id']" position="after">
                 <!-- Add your fields or attributes here -->
-                <field name="changes_id" attrs="{'readonly':[('state','not in',['draft'])]}"
-                       string="One-Time Changes" invisible="1"/>
-
-            </xpath>
-
-            <xpath expr="//field[@name='journal_id']" position="before">
-                <!-- Add your fields or attributes here -->
-                <field name="changes_ids" readonly="1" widget="many2many_tags" string="One-Time Changes"/>
-            </xpath>
-
-            <xpath expr="//field[@name='journal_id']" position="replace">
-                <!-- Add your fields or attributes here -->
-                <field name="journal_id" groups="base.group_erp_manager"/>
-            </xpath>
-
-            <xpath expr="//button[@name='%(hr_payroll.action_hr_payslip_by_employees)d']" position="replace">
-                <!-- Add your fields or attributes here -->
-                <button name="%(hr_payroll.action_hr_payslip_by_employees)d"
-                        type="action"
-                        invisible="1"
-                        states="draft"
-                        string="Generate Payroll"
-                        class="oe_highlight"
-                        />
+                <field name="changes_id" attrs="{'readonly':[('state','not in',['draft'])]}"/>
             </xpath>
 
 
         </field>
     </record>
 
-      <record id="hr_payroll.action_hr_payslip_by_employees" model="ir.actions.act_window">
-            <field name="name">Generate Payslips</field>
-            <field name="res_model">hr.payslip.employees</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="hr_payroll.view_hr_payslip_by_employees"/>
-            <field name="target">new</field>
-            <field name="context">{'default_payslip_run_id':active_id}</field>
-        </record>
-
-      <!-- Inherit Form View to Modify it -->
-      <record id="view_hr_payslip_by_employees_inherit_changes_of_payroll" model="ir.ui.view">
-          <field name="name">view_hr_payslip_by_employees_inherit_changes_of_payroll</field>
-          <field name="model">hr.payslip.employees</field>
-          <field name="inherit_id" ref="hr_payroll.view_hr_payslip_by_employees"/>
-          <field name="arch" type="xml">
-
-              <xpath expr="//group" position="before">
-                  <!-- Add your fields or attributes here -->
-                  <group>
-                      <group>
-                          <field name="month"/>
-                          <field name="payslip_run_id" readonly="1" options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                          <field name="year"/>
-                      </group>
-                      <group>
-                          <label for="date_start" string="Period"/>
-                          <div>
-                              <field name="date_start" class="oe_inline"/>
-                              -
-                              <field name="date_end" class="oe_inline"/>
-                          </div>
-                          <button icon="fa-cogs" string="Generate" name="compute_sheet" type="object"
-                                class="oe_highlight"/>
-                      </group>
-                  </group>
-              </xpath>
-
-               <xpath expr="//button[@name='compute_sheet']" position="replace">
-              </xpath>
-
-<!--              <xpath expr="//field[@name='employee_ids']" position="attributes">-->
-<!--                  <attribute name="widget">many2many_tags</attribute>-->
-<!--                  <attribute name="options">{'no_create_edit': True, 'no_create':True}</attribute>-->
-<!--              </xpath>-->
-
-              <xpath expr="//form/group[3]" position="replace">
-                  <group colspan="4" >
-                        <separator string="Employees" colspan="4"/>
-                        <newline/>
-                        <field name="employee_ids"  nolabel="1" create="False"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}">
-                      <tree>
-                          <field name="name"/>
-                          <field name="location_id"/>
-                      </tree>
-                  </field>
-                    </group>
-
-
-              </xpath>
-
-              <xpath expr="//form" position="inside">
-                  <footer>
-                      <button name="write" type="object" string="Save" invisible="1"/>
-                      <button name="cancel" string="Cancel" special="cancel" class="oe_link"/> </footer>
-              </xpath>
-
-          </field>
-      </record>
-
-       <record id="view_hr_payslip_by_employees_tree" model="ir.ui.view">
-            <field name="name">hr_payroll_payslip_employees_tree</field>
-            <field name="model">hr.payslip.employees</field>
-            <field name="arch" type="xml">
-                <tree create="false">
-                </tree>
-            </field>
-      </record>
-
-
-
     <!-- This Menu Item must have a parent and an action -->
-    <menuitem id="changes_payroll_type_action_categ" name="Concepts Changes Of Payroll"
-              parent="hr_payroll.menu_hr_payroll_configuration"
+    <menuitem id="changes_payroll_type_action_categ" name="Changes payroll type" parent="changes_of_payroll_categ"
               action="changes_payroll_type_action" groups="base.group_system" sequence="3"/>
 
 
@@ -338,510 +214,21 @@
           <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
           <field name="arch" type="xml">
 
-              <xpath expr="//field[@name='state']" position="replace">
-                  <!-- Add your fields or attributes here -->
-                  <field name="state" widget="statusbar" readonly="1"/>
-              </xpath>
-
               <xpath expr="//page[@name='other']" position="before">
                   <!-- Add your fields or attributes here -->
-                  <page string="One-Time Changes History">
+                  <page string="Changes History">
                       <field name="changes_ids" readonly="1">
-                          <tree string="One-time Changes">
-                              <field name="type_change_id" string="Action"/>
-                              <field name="amount"/>
-                              <field name="date"/>
-                              <field name="state"/>
-                              <field name="create_uid"/>
+                          <tree string="Changes">
+                          <field name="type_change_id"/>
+                          <field name="amount"/>
+                          <field name="date"/>
                           </tree>
                       </field>
                   </page>
               </xpath>
 
-              <xpath expr="//notebook" position="after">
-                  <!-- Add your fields or attributes here -->
-                  <field name="personal_actions_ids">
-                      <tree editable="top">
-                          <field name="type_change_id"/>
-                          <field name="type_action" invisible="1"/>
-                          <field name="description_pension_id"
-                                 attrs="{'required': [('frequency', '=', 'pension')], 'readonly': ['|', ('state', '=', 'validated'), ('type_action', '!=', 'pension')]}"/>
-                          <field name="amount"/>
-                          <field name="pension_percentage"/>
-                          <field name="pension_percentage_calc" readonly="1"/>
-                          <field name="apply_on"/>
-                          <field name="frequency"/>
-                          <field name="date_from"/>
-                          <field name="date_to" attrs="{'readonly': [('frequency', '!=', 'variable')],
-                          'required': [('frequency', '=', 'variable')]}"/>
-                          <field name="state" readonly="1"/>
-                          <button name="validate_this" type="object"
-                                  groups="changes_of_payroll.changes_of_payroll_group_manager"
-                                  states="draft"
-                                  string="Validate" icon="fa-check"/>
-                          <button name="draft_this" type="object"
-                                  groups="base.group_system"
-                                  states="validated"
-                                  string="Draft This" icon="fa-times"/>
-                      </tree>
-
-                  </field>
-              </xpath>
-
-              <xpath expr="//page[@name='updates_wage']" position="replace">
-                  <!-- Add your fields or attributes here -->
-              </xpath>
-
           </field>
       </record>
-
-      <record id="hr_contract.action_hr_contract" model="ir.actions.act_window">
-            <field name="name">Contracts</field>
-            <field name="res_model">hr.contract</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('employee_id', '!=', False)]</field>
-            <field name="context">{'search_default_current':1, 'hr_contract.search_default_group_by_state': 1}</field>
-            <field name="search_view_id" ref="hr_contract.hr_contract_view_search"/>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click here to create new contracts.
-              </p>
-            </field>
-        </record>
-
-      <record id="hr_contract.act_hr_employee_2_hr_contract" model="ir.actions.act_window">
-            <field name="name">Contracts</field>
-            <field name="res_model">hr.contract</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-            <field name="context">{
-                'search_default_employee_id': [active_id],
-                'default_employee_id': active_id,
-                'hr_contract.search_default_group_by_state': 1
-            }</field>
-        </record>
-
-      <record id="changes_employee_report_form" model="ir.ui.view">
-          <field name="name">changes_employee_report_form</field>
-          <field name="model">change.payroll.request</field>
-          <field name="arch" type="xml">
-              <form string="Employee Request Form">
-                    <header>
-                      <button name="approve_this" type="object" string="Confirm" states="draft"
-                                class="oe_highlight" groups="hr.group_hr_manager"/>
-                        <button name="do_this" string="Process" class="oe_highlight" type="object" states="validate"/>
-                        <button name="draft_this" string="Cancel" class="oe_highlight" states="done"
-                                type="object" groups="base.group_system"/>
-                      <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
-                    </header>
-                  <sheet>
-
-                      <h2><field name="name" readonly="1"/></h2>
-                      <field name="create_date" readonly="1"/>
-                      <group>
-                          <field name="request_type" readonly="1"/>
-                      <field name="date" string="Process on"/>
-                      </group>
-                      <br/>
-                          <field name="employee_id" invisible="1"/>
-                          <field name="user_id" invisible="1"/>
-                        <strong style="color:#7C7BAD; font-size:18px; margin:3px 3px 3px 0px;">One-Time Request</strong>
-                          <field name="lines_ids" attrs="{'readonly': [('state', '=', 'done')]}">
-                              <tree editable="top">
-                                  <field name="type_change_id" string="Type"/>
-                                  <field name="name" string="Request Type" readonly="1"/>
-                                  <field name="date" string="Process on" />
-                                  <field name="file_action" widget="binary" filename="name_file"  string="Documentation"/>
-                                  <field name="amount" />
-                                  <field name="name_file" invisible="1"/>
-                                  <field name="user_id" invisible="1"/>
-                                  <field name="employee_id" invisible="1"/>
-                                  <field name="contract_id" invisible="1"/>
-                              </tree>
-                          </field>
-
-                        <strong style="color:#7C7BAD; font-size:18px; margin:3px 3px 3px 0px;">Payment Distribution Change Request</strong>
-                      <br/>
-                      <br/>
-                        <strong style="color:#7C7BAD; font-size:14px; margin:3px 3px 3px 0px;">Distribution changes will be considered as ongoing</strong>
-                      <br/>
-
-                      <group>
-                          <group>
-                              <div style="background:#eeeeee;margin-bottom:0px;">
-                                  <strong>Type</strong>
-                                  <strong style="width:25%;margin-left:9em;">Amount</strong>
-                                  <strong style="width:25%;margin-left:7em;">Balance</strong>
-                              </div>
-                          </group>
-                          <br/>
-                          <group>
-                          <div style="background:#efeff8;margin-top:0px;margin-bottom:0px;">
-                              <span>International Wire</span>
-                              <field name="change_amount_wire" style="width:15%;margin-left:3.8em;" attrs="{'readonly': ['|', ('state', '=', 'done'), ('balance_wire', '=', True)]}"/>
-                              <field name="balance_wire" style="margin-left:6em;" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                          </div>
-                          </group>
-                          <br/>
-                          <group>
-                          <div style="margin-top:0px;margin-bottom:0px;">
-                              <span>Bank 1</span>
-                              <field name="change_dep1_amount" style="width:15%;margin-left:8.5em;" attrs="{'readonly': ['|', ('state', '=', 'done'), ('balance_dep1', '=', True)]}"/>
-                              <field name="balance_dep1" style="margin-left:6em;" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                          </div>
-                          </group>
-                          <br/>
-                          <group>
-                            <div style="background:#efeff8;margin-top:0px;margin-bottom:0px;">
-                              <span>Bank 2</span>
-                              <field name="change_dep2_amount" style="width:15%;margin-left:8.5em;" attrs="{'readonly': ['|', ('state', '=', 'done'), ('balance_dep2', '=', True)]}"/>
-                              <field name="balance_dep2" style="margin-left:6em;" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                            </div>
-                          </group>
-                          <br/>
-                          <group>
-                          <div style="margin-top:0px;margin-bottom:0px;">
-                              <span>Cash</span>
-                              <field name="change_cash_amount" style="width:15%;margin-left:9.2em;" attrs="{'readonly': ['|', ('state', '=', 'done'), ('balance_cash', '=', True)]}"/>
-                              <field name="balance_cash" style="margin-left:6em;" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                          </div>
-                          </group>
-                          <br/>
-                          <group>
-
-                          <div style="background:#efeff8;margin-top:0px;margin-bottom:0px;">
-                              <span>Pension</span>
-                              <field name="change_pension_amount" style="width:15%;margin-left:8em;" attrs="{'readonly': ['|', ('state', '=', 'done'), ('balance_cash', '=', True)]}"/>
-                              <span>Percent?</span>
-                              <field name="pension_amount_percent" style="margin-left:2em;" attrs="{'readonly': [('state', '=', 'done')]}"/>
-                          </div>
-                          </group>
-
-                      </group>
-
-                      <field name="distribution_ids" invisible="1" attrs="{'readonly': [('state', '=', 'done')]}">
-                            <tree editable="top">
-                                <field name="distribution" required="1" string="Type"/>
-                                <field name="amount" attrs="{'required': 1, 'invisible': [('is_balance_to', '=', True)]}"/>
-                                <field name="is_balance_to"/>
-                                <field name="office_id" attrs="{'invisible': [('distribution', '!=', 'cash')], 'required': [('distribution', '=', 'cash')]}"/>
-                            </tree>
-                      </field>
-
-                  </sheet>
-
-                  <div class="oe_chatter">
-                      <field name="message_follower_ids" widget="mail_followers"/>
-                      <field name="message_ids" widget="mail_thread"/>
-                  </div>
-              </form>
-          </field>
-      </record>
-
-      <record id="changes_employee_report_tree" model="ir.ui.view">
-          <field name="name">changes_employee_report_tree</field>
-          <field name="model">change.payroll.request</field>
-          <field name="arch" type="xml">
-              <tree string="Changes Requests">
-                  <field name="name"/>
-                  <field name="request_type"/>
-                  <field name="date" string="Process on"/>
-                  <field name="user_id" invisible="1"/>
-                  <field name="request_date" string="Date Requested"/>
-                  <field name="state"/>
-              </tree>
-          </field>
-      </record>
-
-      <record id="changes_employee_report_action_view" model="ir.actions.act_window">
-            <field name="name">Employee Requests</field>
-            <field name="res_model">change.payroll.request</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain">[('user_id', '=', uid)]</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to record activities.
-              </p><p>
-                You can register and track your changes every month.
-              </p>
-            </field>
-        </record>
-
-      <record id="changes_employee_report_payroll_action_view" model="ir.actions.act_window">
-            <field name="name">Employees Requests</field>
-            <field name="res_model">change.payroll.request</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-              <p class="oe_view_nocontent_create">
-                Click to record activities.
-              </p><p>
-                You can register and track your changes every month.
-              </p>
-            </field>
-        </record>
-
-      <record id="mt_state_change_employee_request_done" model="mail.message.subtype">
-    <field name="name">Employee Request approved</field>
-    <field name="res_model">change.payroll.request</field>
-    <field name="default" eval="True"/>
-    <field name="description">Employee Request Was Done</field>
-      </record>
-
-      <!-- This Menu Item will appear in the Upper bar, That's why It needs NO parent or action -->
-      <menuitem id="changes_employee_report_root" name="Payroll Request" sequence="5"/>
-
-      <!-- This Menu Item Must have a parent -->
-      <menuitem id="changes_employee_report_categ" name="Payroll Request"
-                parent="changes_employee_report_root" sequence="5"/>
-
-      <!-- This Menu Item must have a parent and an action -->
-      <menuitem id="changes_employee_report_action_categ" name="My Payroll Requests"
-                parent="changes_employee_report_categ"
-                action="changes_employee_report_action_view" sequence="5"/>
-
-      <!-- This Menu Item must have a parent and an action -->
-      <menuitem id="changes_employee_report_payroll_action_view_categ" name="Employee Requests"
-                parent="changes_of_payroll_categ"
-                action="changes_employee_report_payroll_action_view"
-                sequence="0"/>
-
-
-      <!-- This Menu Item Must have a parent -->
-      <menuitem id="payroll_item_categ" name="Payroll Processing"
-                parent="hr_payroll.menu_hr_payroll_root"
-                sequence="2"/>
-
-      <record id="hr_payroll.action_hr_payslip_run_tree" model="ir.actions.act_window">
-        <field name="name">Payroll Run</field>
-        <field name="res_model">hr.payslip.run</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,kanban,form</field>
-        <field name="search_view_id" ref="hr_payroll.hr_payslip_run_filter"/>
-    </record>
-
-
-      <menuitem action="hr_payroll.action_view_hr_payslip_form" id="hr_payroll.menu_department_tree"
-                parent="payroll_item_categ" />
-      <menuitem action="hr_payroll.action_hr_payslip_run_tree"
-                id="hr_payroll.menu_hr_payslip_run"
-                parent="payroll_item_categ" name="Payroll Generation"/>
-
-      <record id="description_pension_form" model="ir.ui.view">
-          <field name="name">description_pension_form</field>
-          <field name="model">description.pension</field>
-          <field name="arch" type="xml">
-              <form string="Description Pension">
-                  <sheet>
-                      <group>
-                          <field name="name"/>
-                          <field name="code"/>
-                      </group>
-                  </sheet>
-              </form>
-          </field>
-      </record>
-
-      <record id="description_pension_tree" model="ir.ui.view">
-          <field name="name">description_pension_tree</field>
-          <field name="model">description.pension</field>
-          <field name="arch" type="xml">
-              <tree string="Description Pensions">
-                  <field name="name"/>
-                  <field name="code"/>
-              </tree>
-          </field>
-      </record>
-
-      <record id="description_pension_action" model="ir.actions.act_window">
-          <field name="name">Description Pension</field>
-          <field name="type">ir.actions.act_window</field>
-          <field name="res_model">description.pension</field>
-          <field name="view_mode">tree,form</field>
-          <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-              <!-- Add Text Here -->
-            </p><p>
-              <!-- More details about what a user can do with this object will be OK -->
-            </p>
-          </field>
-      </record>
-
-      <!-- This Menu Item must have a parent and an action -->
-      <menuitem id="description_pension_action_categ" name="Description Pension"
-                parent="hr.menu_human_resources_configuration"
-                action="description_pension_action"
-                sequence="10"/>
-
-
-      <record id="consolidate_change_report_form" model="ir.ui.view">
-        <field name="name">Consolidate Changes Form</field>
-        <field name="model">consolidate.change.report</field>
-        <field name="arch" type="xml">
-            <form string="Consolidation">
-                <header>
-
-                    <button name="draft_this" type="object" string="Cancel"
-                            groups="base.group_system,hr.group_hr_manager" class="oe_highlight"/>
-
-                    <button name="approve_this" type="object" string="Validate"
-                            groups="changes_of_payroll.changes_of_payroll_group_manager"
-                            states="draft" class="oe_highlight"/>
-
-                    <button name="create_changes_by_employee" type="object" string="Generate"
-                            groups="changes_of_payroll.changes_of_payroll_group_user"
-                            class="oe_highlight"
-                    attrs="{'invisible': ['|', ('state', '!=', 'draft'), ]}"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,validated"/>
-                </header>
-                <sheet>
-                    <h1>
-                          <field name="name"
-                                 string="Description"
-                                 readonly="1"/>
-                    </h1>
-                    <group class="group-top">
-                      <group class="group-left">
-                          <field name="year"  attrs="{'readonly': [ ('state', 'not in', ['draft'])]}"/>
-                          <field name="month"  attrs="{'readonly': [ ('state', 'not in', ['draft'])]}"/>
-                      </group>
-                      <group class="group-right">
-                          <field name="create_date" readonly="1"/>
-                          <field name="create_uid" readonly="1"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                          <field name="company_id" readonly="1"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                      </group>
-                      <field name="lines_ids" options="{'no_open': True}" readonly="1">
-                        <tree string="Lines of Changes" editable="bottom">
-                            <field name="type_line" string="Source"/>
-                          <field name="type_change_id" string="Description" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                          <field name="code" invisible="1"/>
-                          <field name="name" invisible="1"/>
-                          <field name="employee_id" options="{'no_quick_create': True, 'no_create_edit' : True}"
-                                 attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
-                          <field name="code_employee" invisible="1"/>
-                          <field name="amount" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
-                          <field name="percent" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
-<!--                          <field name="is_pension"/>-->
-<!--                          <field name="pension_percentage" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>-->
-<!--                          <field name="pension_percentage_calc" readonly="1" attrs="{'invisible': [('is_pension', '!=', 'yes')]}"/>-->
-                          <field name="apply_on" string="Entered by" attrs="{'readonly': [('type_line', '!=', 'onetime')]}"/>
-                          <field name="file_action" widget="binary" filename="name_file"
-                                 attrs="{'readonly': [('type_line', '!=', 'onetime')]}" string="Documentation"/>
-                            <field name="name_file" invisible="1"/>
-                          <field name="request_id" invisible="1"/>
-                          <field name="changes_payroll_id" invisible="1"/>
-                          <field name="state" invisible="1"/>
-                          <field name="contract_id" invisible="1"/>
-                        </tree>
-                          <form>
-                              <group class="group-top">
-                                  <group class="group-left">
-                                      <field name="type_change_id" readonly="1" string="Description"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                                      <field name="code" invisible="1"/>
-                                      <field name="name" invisible="1"/>
-                                      <field name="employee_id" readonly="1"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                                      <field name="code_employee" invisible="1"/>
-                                      <field name="amount" readonly="1"/>
-                                  </group>
-                                  <group class="group-right">
-                                      <field name="pension_percentage" readonly="1"/>
-                                      <field name="pension_percentage_calc" readonly="1"/>
-                                      <field name="apply_on" readonly="1"/>
-                                      <field name="date" readonly="1"/>
-                                      <field name="file_action" readonly="1"/>
-                                      <field name="request_id" readonly="1"  options="{'no_create': True, 'no_create_edit': True, 'no_open':True}"/>
-                                      <field name="changes_payroll_id" invisible="1"/>
-                                      <field name="state" invisible="1"/>
-                                      <field name="contract_id" invisible="1"/>
-                                  </group>
-                              </group>
-
-
-                          </form>
-                      </field>
-                    </group>
-                </sheet>
-                <div class="oe_chatter">
-                    <field name="message_follower_ids" widget="mail_followers"/>
-                    <field name="activity_ids" widget="mail_activity"/>
-                    <field name="message_ids" widget="mail_thread"/>
-                </div>
-            </form>
-        </field>
-    </record>
-
-    <record id="consolidate_change_report_tree" model="ir.ui.view">
-        <field name="name">Consolidate Changes Tree</field>
-        <field name="model">consolidate.change.report</field>
-        <field name="arch" type="xml">
-            <tree string="Consolidation">
-                <field name="name"/>
-                <field name="state" string="Status"/>
-                <field name="date" string="Created"/>
-            </tree>
-        </field>
-    </record>
-
-      <record id="consolidate_change_report_action" model="ir.actions.act_window">
-          <field name="name">Consolidation Report</field>
-          <field name="type">ir.actions.act_window</field>
-          <field name="res_model">consolidate.change.report</field>
-          <field name="view_mode">tree,form</field>
-          <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-              <!-- Add Text Here -->
-            </p><p>
-              <!-- More details about what a user can do with this object will be OK -->
-            </p>
-          </field>
-      </record>
-
-
-      <!-- This Menu Item must have a parent and an action -->
-      <menuitem id="consolidate_change_report_action_categ" name="Consolidation"
-                parent="changes_of_payroll_categ"
-                action="consolidate_change_report_action" sequence="50"/>
-
-      <record id="hr_payslip_run_tree_inherit_changes_of_payroll" model="ir.ui.view">
-          <field name="name">hr_payslip_run_tree_inherit_changes_of_payroll</field>
-          <field name="model">hr.payslip.run</field>
-          <field name="inherit_id" ref="hr_payroll.hr_payslip_run_tree"/>
-          <field name="arch" type="xml">
-
-              <xpath expr="//field[@name='name']" position="replace">
-                  <field name="name" string="Payroll Run"/>
-              </xpath>
-
-              <xpath expr="//field[@name='credit_note']" position="replace">
-                  <!-- Add new fields here -->
-                  <field name="credit_note" invisible="1"/>
-              </xpath>
-
-              <xpath expr="//field[@name='date_start']" position="replace">
-                  <field name="date_start" invisible="1"/>
-
-              </xpath>
-              <xpath expr="//field[@name='date_end']" position="replace">
-                  <field name="date_end" invisible="1"/>
-              </xpath>
-
-          </field>
-      </record>
-
-      <record id="hr_payroll_account_hr_payslip_run_tree_inherit_ux_employee" model="ir.ui.view">
-          <field name="name">hr_payroll_account_hr_payslip_run_tree_inherit_ux_employee</field>
-          <field name="model">hr.payslip.run</field>
-          <field name="inherit_id" ref="hr_payroll_account.hr_payslip_run_tree_inherit"/>
-          <field name="arch" type="xml">
-
-              <xpath expr="//field[@name='journal_id']" position="replace">
-                  <!-- Add new fields here -->
-                  <field name="journal_id" invisible="1"/>
-              </xpath>
-
-          </field>
-      </record>
-
 
   </data>
 </odoo>

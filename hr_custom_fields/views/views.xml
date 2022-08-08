@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_employee_form_custom_fields" model="ir.ui.view">
+        <field name="name">View Employee Form Custom Fields</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='work_location']" position="after">
+                    <field name="bank_id" widget="selection"/>
+            </xpath>
+
+            <xpath expr="//field[@name='category_ids']" position="before">
+		            <label for="code"/>
+                    <field name="code"/>
+                    <br/>
+                    <label for="names"/>
+                    <field name="names" />
+                    <br/>
+                    <label for="first_lastname"/>
+                    <field name="first_lastname"/>
+                    <br/>
+                    <label for="second_lastname"/>
+                    <field name="second_lastname"/>
+            </xpath>
+
+             <xpath expr="//field[@name='passport_id']" position="after">
+                    <field name="tss_id"/>
+             </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="hr_contract_view_form_custom_fields" model="ir.ui.view">
+        <field name="name">HR Contract View Form Custom Fields</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='information']" position="after">
+                <!-- Add your fields or attributes here -->
+                <page name="updates_wage" string="Wage History">
+                    <field name="hr_contract_salary_ids" mode="tree" readonly="1" nolabel="1" colspan="2">
+                        <tree string="HR Contract Salary" editable="top">
+                            <field name="date"/>
+                            <field name="concept"/>
+                            <field name="amount"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+            <xpath expr="//field[@name='wage']" position="replace">
+                <!-- Add your fields or attributes here -->
+                <field name="wage" nolabel="1" readonly="1"/>
+            </xpath>
+
+            <xpath expr="//div[@name='wage']" position="after">
+                <!-- Add your fields or attributes here -->
+                <label for="bonus"/>
+                    <div class="o_row" name="bonus">
+                        <field name="bonus" nolabel="1" readonly="1"/>
+                        <span>/ month</span>
+                    </div>
+            </xpath>
+
+            <xpath expr="//field[@name='schedule_pay']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="contract_year"/>
+                <field name="contract_days"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_hr_payslip_form_custom_fields" model="ir.ui.view">
+        <field name="name">View HR Payslip Form Custom Fields</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='name']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="ss_key"/>
+            </xpath>
+            
+            <xpath expr="//button[@name='action_payslip_cancel']" position="after">
+                <!-- Add your fields or attributes here -->
+                <button string="Set to Draft" name="action_payslip_draft" type="object" groups="base.group_system"/>
+            </xpath>
+
+            <xpath expr="//field[@name='contract_id']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="payment_period"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="hr_payslip_run_form_custom_fields" model="ir.ui.view">
+        <field name="name">HR Payslip Run Form Custom Fields</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='credit_note']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="payment_period" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                <field name="ss_key" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="bank_id" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+                <field name="company_id" attrs="{'readonly':[('state','not in',['draft'])]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
